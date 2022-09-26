@@ -2,7 +2,7 @@
 const {
   Model
 } = require('sequelize');
-const { userStatus, userStatusDefault } = require('../constant/userStatus.enum');
+const { userStatus, userStatusDefault } = require('../src/constant/userStatus.enum');
 
 module.exports = (sequelize, DataTypes) => {
   class Members extends Model {

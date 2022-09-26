@@ -1,6 +1,6 @@
 'use strict';
 const { Model } = require('sequelize');
-const { campaignStatusDefault, campaignStatus } = require('../constant/campaignStatus.enum');
+const { campaignStatusDefault, campaignStatus } = require('../src/constant/campaignStatus.enum');
 
 
 module.exports = (sequelize, DataTypes) => {

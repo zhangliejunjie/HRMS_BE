@@ -2,8 +2,8 @@
 const {
   Model
 } = require('sequelize');
-const { role, roleDefault } = require('../constant/role.enum');
-const { userStatus, userStatusDefault } = require('../constant/userStatus.enum');
+const { role, roleDefault } = require('../src/constant/role.enum');
+const { userStatus, userStatusDefault } = require('../src/constant/userStatus.enum');
 
 module.exports = (sequelize, DataTypes) => {
   class Staffs extends Model {
