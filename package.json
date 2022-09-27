@@ -19,14 +19,18 @@
   },
   "homepage": "https://github.com/zhangliejunjie/HRMS_BE#readme",
   "dependencies": {
+    "bcrypt": "^5.0.1",
     "body-parser": "^1.20.0",
     "cors": "^2.8.5",
     "dotenv": "^16.0.2",
     "ejs": "^3.1.8",
     "enum": "^3.0.4",
     "express": "^4.18.1",
+    "http-status": "^1.5.3",
+    "jsonwebtoken": "^8.5.1",
     "mysql2": "^2.3.3",
-    "sequelize": "^6.23.0"
+    "sequelize": "^6.23.0",
+    "uuid": "^9.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.12.10",

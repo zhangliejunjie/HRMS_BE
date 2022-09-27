@@ -2,8 +2,8 @@
 
 // const require = createRequire(import.meta.url);
 
-const { Sequelize } = require("sequelize");
 
+import { Sequelize } from "sequelize";
 // Option 3: Passing parameters separately (other dialects)
 const sequelize = new Sequelize("hrms", "root", "12072002", {
   host: "localhost",
@@ -20,4 +20,4 @@ let connectDB = async () => {
   }
 };
 
-module.exports = connectDB;
+export default connectDB;
