@@ -31,10 +31,20 @@ const getMemberById = async (memberID) => {
     })
   )?.dataValues;
 };
-
+const update = async (newObj, where) => {
+  await db.Members.update(newObj, {
+    where: where,
+  });
+};
+const showAllMember = async () => {
+  const members = await db.Members.findAll();
+  return members;
+};
 module.exports = {
   findOne,
   createNewMember,
   getMemberByEmail,
   getMemberById,
+  update,
+  showAllMember,
 };

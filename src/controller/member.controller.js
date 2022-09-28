@@ -1,6 +1,7 @@
 const httpStatus = require("http-status");
 const { ApiError } = require("../middleware/apiError");
 const { getMemberByEmail } = require("../repository/members.repository");
+const { updateMemberProfile } = require("../service/member.service");
 const memberController = {
   async profile(req, res, next) {
     try {
@@ -10,6 +11,14 @@ const memberController = {
         throw new ApiError(httpStatus.NOT_FOUND, "Member Not Found");
       }
       res.json(member);
+    } catch (error) {
+      next(error);
+    }
+  },
+  async updateProfile(req, res, next) {
+    try {
+      const updatedMember = await updateMemberProfile(req);
+      res.json(updatedMember);
     } catch (error) {
       next(error);
     }

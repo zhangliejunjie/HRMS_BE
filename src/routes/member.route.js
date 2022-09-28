@@ -2,7 +2,10 @@ const express = require("express");
 const auth = require("../middleware/auth.middleware");
 const memberController = require("../controller/member.controller");
 const router = express.Router();
-
-router.route("/profile").get(auth, memberController.profile);
+const db = require("../models");
+router
+  .route("/profile")
+  .get(auth, memberController.profile)
+  .patch(auth, memberController.updateProfile);
 
 module.exports = router;
