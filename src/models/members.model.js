@@ -1,15 +1,16 @@
 "use strict";
-import { Model } from "sequelize";
-import { userStatus, userStatusDefault } from "../constant/userStatus.enum";
+const { Model } = require("sequelize");
+const {
+  userStatus,
+  userStatusDefault,
+} = require("../constant/userStatus.enum.js");
 const { v4: uuidv4 } = require("uuid");
-export default (sequelize, DataTypes) => {
+
+module.exports = (sequelize, DataTypes) => {
   class Members extends Model {
     static associate(models) {
       // define association here
-      Members.hasMany(models.CandidateDetails, {
-        foreignKey: "Member_id",
-        sourceKey: "id",
-      });
+      Members.hasMany(models.CandidateDetails, { foreignKey: "Member_id" });
     }
   }
   Members.init(
@@ -17,7 +18,7 @@ export default (sequelize, DataTypes) => {
       id: {
         allowNull: false,
         primaryKey: true,
-        type: DataTypes.STRING(6),
+        type: DataTypes.STRING(36),
         defaultValue: DataTypes.UUIDV4,
       },
       email: {
@@ -30,7 +31,7 @@ export default (sequelize, DataTypes) => {
       },
       password: {
         allowNull: false,
-        type: DataTypes.STRING(45),
+        type: DataTypes.STRING(60),
       },
       avatar: {
         allowNull: true,
@@ -49,8 +50,11 @@ export default (sequelize, DataTypes) => {
     {
       sequelize,
       modelName: "Members",
+      createdAt: false,
+      updatedAt: false,
     }
   );
   Members.beforeCreate((user) => (user.id = uuidv4()));
+
   return Members;
 };

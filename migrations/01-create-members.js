@@ -11,7 +11,8 @@ module.exports = {
       id: {
         allowNull: false,
         primaryKey: true,
-        type: Sequelize.STRING(6),
+        type: Sequelize.STRING(36),
+        defaultValue: Sequelize.UUIDV4,
       },
       email: {
         allowNull: false,
@@ -23,7 +24,7 @@ module.exports = {
       },
       password: {
         allowNull: false,
-        type: Sequelize.STRING(45),
+        type: Sequelize.STRING(60),
       },
       avatar: {
         allowNull: true,

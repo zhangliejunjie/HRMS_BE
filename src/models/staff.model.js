@@ -1,22 +1,18 @@
 "use strict";
 const { Model } = require("sequelize");
-const { role, roleDefault } = require("../constant/role.enum");
+const { role, roleDefault } = require("../constant/role.enum.js");
 const {
   userStatus,
   userStatusDefault,
-} = require("../constant/userStatus.enum");
+} = require("../constant/userStatus.enum.js");
 
 module.exports = (sequelize, DataTypes) => {
   class Staffs extends Model {
     static associate(models) {
       // define association here
-      Staffs.hasMany(models.Interviews, {
-        foreignKey: "Interviewer_id",
-        sourceKey: "id",
-      });
+      Staffs.hasMany(models.Interviews, { foreignKey: "Interviewer_id" });
       Staffs.hasMany(models.CandidateDetails, {
         foreignKey: "CandidateDetail_id",
-        sourceKey: "id",
       });
     }
   }
@@ -53,6 +49,9 @@ module.exports = (sequelize, DataTypes) => {
     {
       sequelize,
       modelName: "Staffs",
+      timestamps: false,
+      createdAt: false,
+      updatedAt: false,
     }
   );
   return Staffs;

@@ -3,18 +3,17 @@ const { Model } = require("sequelize");
 const {
   applyStatus,
   applyStatusDefault,
-} = require("../constant/cvStatus.enum");
+} = require("../constant/cvStatus.enum.js");
 
 module.exports = (sequelize, DataTypes) => {
   class CandidateDetails extends Model {
     static associate(models) {
       // define association here
-      CandidateDetails.belongsTo(models.Members, { foreignKey: "id" });
-      CandidateDetails.belongsTo(models.Staffs, { foreignKey: "id" });
-      CandidateDetails.belongsTo(models.Jobs, { foreignKey: "id" });
+      CandidateDetails.belongsTo(models.Members, { foreignKey: "Member_id" });
+      CandidateDetails.belongsTo(models.Staffs, { foreignKey: "HRStaff_id" });
+      CandidateDetails.belongsTo(models.Jobs, { foreignKey: "Job_id" });
       CandidateDetails.hasMany(models.Interviews, {
         foreignKey: "CandidateDetail_id",
-        sourceKey: "id",
       });
     }
   }
@@ -78,6 +77,9 @@ module.exports = (sequelize, DataTypes) => {
     {
       sequelize,
       modelName: "CandidateDetails",
+      timestamps: false,
+      createdAt: false,
+      updatedAt: false,
     }
   );
   return CandidateDetails;

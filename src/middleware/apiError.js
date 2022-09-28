@@ -28,7 +28,7 @@ const convertToApiError = (err, req, res, next) => {
   }
   next(error);
 };
-exports = {
+module.exports = {
   ApiError,
   handleError,
   convertToApiError,

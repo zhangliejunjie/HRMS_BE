@@ -4,14 +4,12 @@ const findOne = async (where) => {
   return (await db.Members.findOne({ where: where }))?.dataValues;
 };
 const createNewMember = async (user) => {
-  return (
-    await db.Members.create({
-      email: user.email,
-      password: user.password,
-      fullName: user.fullName,
-      avatar: user.avatar,
-    })
-  )?.dataValues;
+  const member = await db.Members.create({
+    email: user.email,
+    fullname: user.fullname,
+    password: user.password,
+  });
+  return member?.dataValues;
 };
 
 const getMemberByEmail = async (email) => {
