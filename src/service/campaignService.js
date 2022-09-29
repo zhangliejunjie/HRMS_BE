@@ -29,7 +29,7 @@ const createNewCampaign = (data) => {
     return new Promise(async (resolve, reject) => {
         try {
             await Campaigns.create({
-                id: data.id,
+
                 title: data.title,
                 description: data.description,
                 start_date: data.start_date,

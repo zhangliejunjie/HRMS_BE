@@ -8,7 +8,8 @@ module.exports = {
       id: {
         allowNull: false,
         primaryKey: true,
-        type: Sequelize.STRING(6)
+        type: Sequelize.STRING(36),
+        defaultValue: Sequelize.UUIDV4
       },
       room: {
         allowNull: false,
@@ -37,7 +38,8 @@ module.exports = {
       },
       Interviewer_id: {
         allowNull: false,
-        type: Sequelize.STRING(6),
+        type: Sequelize.STRING(36),
+        defaultValue: Sequelize.UUIDV4,
         references: {
           model: 'Staffs',
           key: 'id'
@@ -45,7 +47,8 @@ module.exports = {
       },
       CandidateDetail_id: {
         allowNull: false,
-        type: Sequelize.STRING(6),
+        type: Sequelize.STRING(36),
+        defaultValue: Sequelize.UUIDV4,
         references: {
           model: 'CandidateDetails',
           key: 'id'

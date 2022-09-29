@@ -8,7 +8,7 @@ module.exports = {
       id: {
         allowNull: false,
         primaryKey: true,
-        type: Sequelize.STRING(6)
+        type: Sequelize.STRING(36)
       },
       email: {
         allowNull: false,
@@ -20,7 +20,7 @@ module.exports = {
       },
       password: {
         allowNull: false,
-        type: Sequelize.STRING(45)
+        type: Sequelize.STRING(60)
       },
       current_resume_url: {
         allowNull: true,
@@ -31,6 +31,11 @@ module.exports = {
         type: Sequelize.ENUM(userStatus),
         defaultValue: userStatusDefault
       },
+      avatar_url: {
+
+        type: Sequelize.TEXT,
+
+      }
     });
   },
   down: async (queryInterface, Sequelize) => {

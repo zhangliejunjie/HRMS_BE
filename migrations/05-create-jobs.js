@@ -8,7 +8,8 @@ module.exports = {
             id: {
                 allowNull: false,
                 primaryKey: true,
-                type: Sequelize.STRING(6)
+                type: Sequelize.STRING(36),
+                defaultValue: Sequelize.UUIDV4
             },
             name: {
                 allowNull: false,
@@ -45,7 +46,8 @@ module.exports = {
             },
             Category_id: {
                 allowNull: false,
-                type: Sequelize.STRING(6),
+                type: Sequelize.STRING(36),
+                defaultValue: Sequelize.UUIDV4,
                 references: {
                     model: 'Categories',
                     key: 'id'
@@ -53,7 +55,8 @@ module.exports = {
             },
             Campaign_id: {
                 allowNull: false,
-                type: Sequelize.STRING(6),
+                type: Sequelize.STRING(36),
+                defaultValue: Sequelize.UUIDV4,
                 references: {
                     model: 'Campaigns',
                     key: 'id'

@@ -2,7 +2,7 @@ import express from "express";
 import authRoute from "./auth.route.js";
 import categoryRoute from "./categories.route.js";
 import campaignRoute from "./campaigns.route.js";
-
+import jobRoute from "./jobs.route.js";
 const router = express.Router();
 
 const routesIndex = [
@@ -17,6 +17,10 @@ const routesIndex = [
   {
     path: "/",
     route: campaignRoute,
+  },
+  {
+    path: "/",
+    route: jobRoute,
   }
 ];
 

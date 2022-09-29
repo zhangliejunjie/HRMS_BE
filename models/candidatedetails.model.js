@@ -19,7 +19,8 @@ module.exports = (sequelize, DataTypes) => {
     id: {
       allowNull: false,
       primaryKey: true,
-      type: DataTypes.STRING(6)
+      type: DataTypes.STRING(36),
+      defaultValue: DataTypes.UUIDV4
     },
     identity_number: {
       allowNull: false,
@@ -48,7 +49,8 @@ module.exports = (sequelize, DataTypes) => {
     },
     Job_id: {
       allowNull: false,
-      type: DataTypes.STRING(6),
+      type: DataTypes.STRING(36),
+      defaultValue: DataTypes.UUIDV4,
       references: {
         model: 'Jobs',
         key: 'id'
@@ -56,7 +58,8 @@ module.exports = (sequelize, DataTypes) => {
     },
     HRStaff_id: {
       allowNull: false,
-      type: DataTypes.STRING(6),
+      type: DataTypes.STRING(36),
+      defaultValue: DataTypes.UUIDV4,
       references: {
         model: 'Staffs',
         key: 'id'
@@ -64,7 +67,8 @@ module.exports = (sequelize, DataTypes) => {
     },
     Member_id: {
       allowNull: false,
-      type: DataTypes.STRING(6),
+      type: DataTypes.STRING(36),
+      defaultValue: DataTypes.UUIDV4,
       references: {
         model: 'Members',
         key: 'id'
