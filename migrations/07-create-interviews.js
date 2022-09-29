@@ -1,6 +1,6 @@
 'use strict';
 
-const { interviewStatus, interviewStatusDefault } = require("../src/constant/interviewStatus.enum");
+const { interviewStatus, interviewStatusDefault } = require("../src/constant/interviewStatus.enum.js");
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {

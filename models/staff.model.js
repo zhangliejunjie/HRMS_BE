@@ -2,16 +2,16 @@
 const {
   Model
 } = require('sequelize');
-const { role, roleDefault } = require('../src/constant/role.enum');
-const { userStatus, userStatusDefault } = require('../src/constant/userStatus.enum');
+const { role, roleDefault } = require('../src/constant/role.enum.js');
+const { userStatus, userStatusDefault } = require('../src/constant/userStatus.enum.js');
 
 module.exports = (sequelize, DataTypes) => {
   class Staffs extends Model {
 
     static associate(models) {
       // define association here
-      Staffs.hasMany(models.Interviews, { foreignKey: 'Interviewer_id', sourceKey: 'id' })
-      Staffs.hasMany(models.CandidateDetails, { foreignKey: 'CandidateDetail_id', sourceKey: 'id' })
+      Staffs.hasMany(models.Interviews, { foreignKey: 'Interviewer_id' })
+      Staffs.hasMany(models.CandidateDetails, { foreignKey: 'CandidateDetail_id' })
 
     }
   };
@@ -46,6 +46,9 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'Staffs',
+    timestamps: false,
+    createdAt: false,
+    updatedAt: false
   });
   return Staffs;
 };

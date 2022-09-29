@@ -1,6 +1,6 @@
 'use strict';
 const { Model } = require('sequelize');
-const { campaignStatusDefault, campaignStatus } = require('../src/constant/campaignStatus.enum');
+const { campaignStatusDefault, campaignStatus } = require('../src/constant/campaignStatus.enum.js');
 
 
 module.exports = (sequelize, DataTypes) => {
@@ -8,7 +8,7 @@ module.exports = (sequelize, DataTypes) => {
 
     static associate(models) {
       // define association here
-      Campaigns.hasMany(Jobs, { foreignKey: 'Campaign_id', sourceKey: 'id' })
+      Campaigns.hasMany(models.Jobs, { foreignKey: 'Campaign_id' })
     }
   };
   Campaigns.init({
@@ -41,6 +41,9 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'Campaigns',
+    timestamps: false,
+    createdAt: false,
+    updatedAt: false
   });
   return Campaigns;
 };

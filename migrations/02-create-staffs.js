@@ -1,7 +1,7 @@
 'use strict';
 
-const { role, roleDefault } = require("../src/constant/role.enum");
-const { userStatus, userStatusDefault } = require("../src/constant/userStatus.enum");
+const { role, roleDefault } = require("../src/constant/role.enum.js");
+const { userStatus, userStatusDefault } = require("../src/constant/userStatus.enum.js");
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {

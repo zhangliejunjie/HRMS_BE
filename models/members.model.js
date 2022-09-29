@@ -2,14 +2,14 @@
 const {
   Model
 } = require('sequelize');
-const { userStatus, userStatusDefault } = require('../src/constant/userStatus.enum');
+const { userStatus, userStatusDefault } = require('../src/constant/userStatus.enum.js');
 
 module.exports = (sequelize, DataTypes) => {
   class Members extends Model {
 
     static associate(models) {
       // define association here
-      Members.hasMany(models.CandidateDetails, { foreignKey: 'Member_id', sourceKey: 'id' })
+      Members.hasMany(models.CandidateDetails, { foreignKey: 'Member_id' })
     }
   };
   Members.init({
@@ -42,6 +42,8 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'Members',
+    createdAt: false,
+    updatedAt: false
   });
   return Members;
 };

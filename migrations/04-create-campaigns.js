@@ -1,6 +1,6 @@
 'use strict';
 
-const { campaignStatus, campaignStatusDefault } = require("../src/constant/campaignStatus.enum");
+const { campaignStatus, campaignStatusDefault } = require("../src/constant/campaignStatus.enum.js");
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {

@@ -7,7 +7,7 @@ module.exports = (sequelize, DataTypes) => {
 
     static associate(models) {
       // define association here
-      Categories.hasMany(Jobs, { foreignKey: 'Category_id', sourceKey: 'id' })
+      Categories.hasMany(models.Jobs, { foreignKey: 'Category_id' })
     }
   };
   Categories.init({
@@ -27,6 +27,9 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'Categories',
+    timestamps: false,
+    createdAt: false,
+    updatedAt: false
   });
   return Categories;
 };

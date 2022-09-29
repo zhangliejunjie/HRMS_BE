@@ -1,6 +1,6 @@
 'use strict';
 
-const { applyStatus, applyStatusDefault } = require("../src/constant/cvStatus.enum");
+const { applyStatus, applyStatusDefault } = require("../src/constant/cvStatus.enum.js");
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {

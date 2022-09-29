@@ -2,14 +2,14 @@
 const {
   Model
 } = require('sequelize');
-const { interviewStatus, interviewStatusDefault } = require('../src/constant/interviewStatus.enum');
+const { interviewStatus, interviewStatusDefault } = require('../src/constant/interviewStatus.enum.js');
 module.exports = (sequelize, DataTypes) => {
   class Interviews extends Model {
 
     static associate(models) {
       // define association here
-      Interviews.belongsTo(models.CandidateDetails, { foreignKey: 'id' });
-      Interviews.belongsTo(models.Staffs, { foreignKey: 'id' });
+      Interviews.belongsTo(models.CandidateDetails, { foreignKey: 'CandidateDetail_id' });
+      Interviews.belongsTo(models.Staffs, { foreignKey: 'Interviewer_id' });
     }
   };
   Interviews.init({
@@ -62,6 +62,9 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'Interviews',
+    timestamps: false,
+    createdAt: false,
+    updatedAt: false
   });
   return Interviews;
 };

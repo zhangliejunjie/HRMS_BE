@@ -7,9 +7,9 @@ module.exports = (sequelize, DataTypes) => {
 
     static associate(models) {
       // define association here
-      Jobs.hasMany(models.CandidateDetails, { foreignKey: 'Job_id', sourceKey: 'id' })
-      Jobs.belongsTo(models.Categories, { foreignKey: 'id' })
-      Jobs.belongsTo(models.Campaigns, { foreignKey: 'id' })
+      Jobs.hasMany(models.CandidateDetails, { foreignKey: 'Job_id' })
+      Jobs.belongsTo(models.Categories, { foreignKey: 'Category_id' })
+      Jobs.belongsTo(models.Campaigns, { foreignKey: 'Campaign_id' })
 
     }
   };
@@ -66,6 +66,9 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'Jobs',
+    timestamps: false,
+    createdAt: false,
+    updatedAt: false
   });
   return Jobs;
 };
