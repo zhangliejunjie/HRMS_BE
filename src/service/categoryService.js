@@ -7,17 +7,13 @@ const Categories = db.Categories;
 const getAllCategory = (categoryID) => {
     return new Promise(async (resolve, reject) => {
         try {
-            let category = '';
-            if (categoryID === 'ALL') {
-                category = await Categories.findAll({
+            let category = await Categories.findAll({})
 
-                })
-            }
-            if (categoryID && categoryID !== 'ALL') {
-                category = await Categories.findOne({
-                    where: { id: categoryID }
-                })
-            }
+            // if (categoryID && categoryID !== 'ALL') {
+            //     category = await Categories.findOne({
+            //         where: { id: categoryID }
+            //     })
+            // }
             resolve(category)
         } catch (error) {
             reject(error);
@@ -55,10 +51,6 @@ const deleteCategory = (categoryID) => {
                 errMsg: "Category not found",
             })
         }
-        // if (category) {
-        //     await category.destroy();
-
-        // }
         await Categories.destroy({
             where: { id: categoryID }
         })

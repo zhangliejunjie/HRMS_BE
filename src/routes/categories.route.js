@@ -5,7 +5,7 @@ const router = express.Router();
 
 router.get('/category', handleGetAllCategory);
 router.post('/category-add', handleCreateNewCategory);
-router.put('/category-update', handleUpdateCategory);
+router.patch('/category-update', handleUpdateCategory);
 router.delete('/category-delete', handleDeleteCategory);
 
 
