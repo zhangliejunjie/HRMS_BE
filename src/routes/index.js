@@ -5,7 +5,7 @@ const router = express.Router();
 
 const routesIndex = [
   {
-    path: "/auth",
+    path: "/member-auth",
     route: authRoute,
   },
   {
