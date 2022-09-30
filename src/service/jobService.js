@@ -1,13 +1,11 @@
+import { UUIDV4 } from "sequelize";
 import db, { sequelize } from "../../models/index.js";
 const Jobs = db.Jobs;
 
 const getAllJob = () => {
     return new Promise(async (resolve, reject) => {
         try {
-            const [results, metadata] = await sequelize.query(
-                "SELECT J.name, J.salary, J.quantity, CP.title as campaign, CG.name as category, J.start_date, J.end_date FROM hrms.jobs J INNER JOIN hrms.categories CG ON J.Category_id = CG.id INNER JOIN hrms.campaigns CP ON J.Campaign_id = CP.id"
-            )
-
+            const [results, metadata] = await sequelize.query(process.env.GETALLJOB_QUERY);
             resolve(results)
         } catch (error) {
             reject(error);
@@ -15,6 +13,26 @@ const getAllJob = () => {
     })
 }
 
+// const createNewJob = (data) => {
+//     return new Promise(async (resolve, reject) => {
+//         try {
+
+//             await Jobs.create({
+//                 id: UUIDV4(),
+//                 name: data.name,
+//                 description: data.description
+//             })
+//             resolve({
+//                 errCode: 0,
+//                 message: "OK"
+//             })
+//         } catch (error) {
+//             reject(error);
+//         }
+//     })
+// }
+
 module.exports = {
     getAllJob,
+    // createNewJob,
 }

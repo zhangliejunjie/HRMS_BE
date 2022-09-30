@@ -10,7 +10,13 @@ const handleGetAllJob = async (req, res) => {
     });
 }
 
+// const handleCreateNewJob = async (req, res) => {
+//     let message = await jobService.createNewJob(req.body);
+//     return res.status(200).json(message);
+// }
+
 
 module.exports = {
     handleGetAllJob,
+    // handleCreateNewJob,
 }

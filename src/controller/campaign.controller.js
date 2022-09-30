@@ -20,8 +20,12 @@ const handleGetAllCampaign = async (req, res) => {
 }
 
 const handleCreateNewCampaign = async (req, res) => {
-    let message = await campaignService.createNewCampaign(req.body);
-    return res.status(200).json(message);
+    try {
+        let message = await campaignService.createNewCampaign(req.body);
+        return res.status(200).json(message);
+    } catch (error) {
+        return res.status(404).json({ error });
+    }
 }
 
 const handleDeleteCampaign = async (req, res) => {
@@ -33,13 +37,23 @@ const handleDeleteCampaign = async (req, res) => {
     }
     let message = await campaignService.deleteCampaign(req.body.id);
     return res.status(200).json(message);
+
+
 }
 
 
 const handleUpdateCampaign = async (req, res) => {
-    let data = req.body;
-    let message = await campaignService.updateCampaign(data);
-    return res.status(200).json(message);
+
+
+    try {
+        let data = req.body;
+        let message = await campaignService.updateCampaign(data);
+        return res.status(200).json(message);
+    } catch (error) {
+        return res.status(404).json({ error });
+
+    }
+
 }
 module.exports = {
     handleGetAllCampaign,

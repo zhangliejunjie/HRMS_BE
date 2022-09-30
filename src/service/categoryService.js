@@ -25,10 +25,8 @@ const createNewCategory = (data) => {
     return new Promise(async (resolve, reject) => {
         try {
             await Categories.create({
-                id: data.id,
                 name: data.name,
                 description: data.description
-
             })
             resolve({
                 errCode: 0,
@@ -36,6 +34,39 @@ const createNewCategory = (data) => {
             })
         } catch (error) {
             reject(error);
+        }
+    })
+}
+
+const updateCategory = (data) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            if (!data.id) {
+                resolve({
+                    errCode: 2,
+                    errMsg: "Missing required parameters"
+                })
+            }
+            let category = await Categories.findOne({
+                where: { id: data.id },
+                raw: false
+            })
+            if (category) {
+                category.name = data.name;
+                category.description = data.description;
+                await category.save();
+                resolve({
+                    errCode: 0,
+                    message: "Update category successfully!!",
+                })
+            } else {
+                resolve({
+                    errCode: 1,
+                    errMsg: "Category is not found",
+                })
+            }
+        } catch (error) {
+            reject(error)
         }
     })
 }
@@ -61,50 +92,10 @@ const deleteCategory = (categoryID) => {
     })
 }
 
-const updateCategory = (data) => {
-    return new Promise(async (resolve, reject) => {
-        try {
-            if (!data.id) {
-                resolve({
-                    errCode: 2,
-                    errMsg: "Missing required parameters"
-                })
-            }
-            let category = await Categories.findOne({
-                where: { id: data.id },
-                raw: false
-            })
-            if (category) {
-                category.name = data.name;
-                category.description = data.description;
 
-                await category.save();
-
-
-                // await Categories.save({
-                //     id: data.id,
-                //     name: data.name,
-                //     description: data.description
-                // })
-                resolve({
-                    errCode: 0,
-                    message: "Update category successfully!!",
-                })
-            } else {
-                resolve({
-                    errCode: 1,
-                    errMsg: "Category is not found",
-                })
-
-            }
-        } catch (error) {
-            reject(error)
-        }
-    })
-}
 module.exports = {
     getAllCategory,
     createNewCategory,
-    deleteCategory,
     updateCategory,
+    deleteCategory,
 }

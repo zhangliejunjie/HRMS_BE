@@ -9,7 +9,8 @@ module.exports = {
       id: {
         allowNull: false,
         primaryKey: true,
-        type: Sequelize.STRING(36)
+        type: Sequelize.STRING(36),
+        defaultValue: Sequelize.UUIDV4
       },
       email: {
         allowNull: false,
@@ -23,6 +24,10 @@ module.exports = {
         allowNull: false,
         type: Sequelize.STRING(60)
       },
+      avatar: {
+        allowNull: true,
+        type: Sequelize.TEXT,
+      },
       role: {
         allowNull: false,
         type: Sequelize.ENUM(role),
@@ -32,11 +37,8 @@ module.exports = {
         allowNull: false,
         type: Sequelize.ENUM(userStatus),
         defaultValue: userStatusDefault
-
       },
-      avatar_url: {
-        type: Sequelize.TEXT,
-      }
+      
     });
   },
   down: async (queryInterface, Sequelize) => {

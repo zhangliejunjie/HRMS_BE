@@ -23,14 +23,22 @@ const handleGetAllCategory = async (req, res) => {
 }
 
 const handleCreateNewCategory = async (req, res) => {
-    let message = await categoryService.createNewCategory(req.body);
-    return res.status(200).json(message);
+    try {
+        let message = await categoryService.createNewCategory(req.body);
+        return res.status(200).json(message);
+    } catch (error) {
+        return res.status(404).json({ error });
+    }
 }
 
 const handleUpdateCategory = async (req, res) => {
-    let data = req.body;
-    let message = await categoryService.updateCategory(data);
-    return res.status(200).json(message);
+    try {
+        let data = req.body;
+        let message = await categoryService.updateCategory(data);
+        return res.status(200).json(message);
+    } catch (error) {
+        res.status(404).json({ error });
+    }
 }
 
 const handleDeleteCategory = async (req, res) => {

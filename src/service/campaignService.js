@@ -1,5 +1,4 @@
 import db from "../../models/index.js";
-
 const Campaigns = db.Campaigns;
 
 const getAllCampaign = () => {
@@ -29,7 +28,6 @@ const createNewCampaign = (data) => {
     return new Promise(async (resolve, reject) => {
         try {
             await Campaigns.create({
-
                 title: data.title,
                 description: data.description,
                 start_date: data.start_date,
@@ -86,9 +84,6 @@ const updateCampaign = (data) => {
                 campaign.start_date = data.start_date;
                 campaign.end_date = data.end_date;
                 campaign.status = data.status;
-                // let isCheck = false;
-
-
                 await campaign.save();
                 resolve({
                     errCode: 0,
