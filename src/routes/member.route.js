@@ -7,5 +7,5 @@ router
   .route("/profile")
   .get(auth, memberController.profile)
   .patch(auth, memberController.updateProfile);
-
+router.get("/all", memberController.getAllMember);
 module.exports = router;

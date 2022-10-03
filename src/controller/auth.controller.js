@@ -17,6 +17,7 @@ const authController = {
         token,
       });
     } catch (error) {
+      console.log(error);
       next(error);
     }
   },
@@ -31,6 +32,7 @@ const authController = {
       });
     } catch (error) {
       next(error);
+      // res.send({ error: error.statusCode, message: error.message });
     }
   },
   async isauth(req, res, next) {

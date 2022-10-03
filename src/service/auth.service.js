@@ -62,7 +62,10 @@ const signInWithEmailPassword = async (email, password) => {
       throw new ApiError(httpStatus.UNAUTHORIZED, "Sorry Bad Email");
     }
     if (!(await comparePassword(password, member.password))) {
-      throw new ApiError(httpStatus.UNAUTHORIZED, "sorry bad password");
+      throw new ApiError(
+        httpStatus.UNAUTHORIZED,
+        "Tài khoản hoặc mật khẩu không chính xác"
+      );
     }
     return member;
   } catch (error) {

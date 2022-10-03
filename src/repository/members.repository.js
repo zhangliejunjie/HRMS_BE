@@ -37,8 +37,9 @@ const update = async (newObj, where) => {
   });
 };
 const showAllMember = async () => {
-  const members = await db.Members.findAll();
-  return members;
+  let memberList = [];
+  memberList = await db.Members.findAll({ raw: true });
+  return memberList;
 };
 module.exports = {
   findOne,

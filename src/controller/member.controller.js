@@ -1,6 +1,9 @@
 const httpStatus = require("http-status");
 const { ApiError } = require("../middleware/apiError");
-const { getMemberByEmail } = require("../repository/members.repository");
+const {
+  getMemberByEmail,
+  showAllMember,
+} = require("../repository/members.repository");
 const { updateMemberProfile } = require("../service/member.service");
 const memberController = {
   async profile(req, res, next) {
@@ -22,6 +25,15 @@ const memberController = {
     } catch (error) {
       next(error);
     }
+  },
+  async getAllMember(req, res) {
+    try {
+      const allMember = await showAllMember();
+      res.send(allMember);
+      if (!allMember) {
+        throw new ApiError("Member khong ton tai");
+      }
+    } catch (error) {}
   },
 };
 
