@@ -5,7 +5,7 @@ const {
   userStatus,
   userStatusDefault,
 } = require("../constant/userStatus.enum.js");
-
+const { v4: uuidv4 } = require("uuid");
 module.exports = (sequelize, DataTypes) => {
   class Staffs extends Model {
     static associate(models) {
@@ -21,7 +21,8 @@ module.exports = (sequelize, DataTypes) => {
       id: {
         allowNull: false,
         primaryKey: true,
-        type: DataTypes.STRING(6),
+        type: DataTypes.STRING(36),
+        defaultValue: DataTypes.UUIDV4,
       },
       email: {
         allowNull: false,
@@ -33,7 +34,7 @@ module.exports = (sequelize, DataTypes) => {
       },
       password: {
         allowNull: false,
-        type: DataTypes.STRING(45),
+        type: DataTypes.STRING(60),
       },
       role: {
         allowNull: false,

@@ -1,43 +1,45 @@
-'use strict';
+"use strict";
 
 const { role, roleDefault } = require("../src/constant/role.enum");
-const { userStatus, userStatusDefault } = require("../src/constant/userStatus.enum");
+const {
+  userStatus,
+  userStatusDefault,
+} = require("../src/constant/userStatus.enum");
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('Staffs', {
+    await queryInterface.createTable("Staffs", {
       id: {
         allowNull: false,
         primaryKey: true,
-        type: Sequelize.STRING(6)
+        type: Sequelize.STRING(36),
+        defaultValue: Sequelize.UUIDV4,
       },
       email: {
         allowNull: false,
-        type: Sequelize.STRING(320)
+        type: Sequelize.STRING(320),
       },
       fullname: {
         allowNull: false,
-        type: Sequelize.STRING(60)
+        type: Sequelize.STRING(60),
       },
       password: {
         allowNull: false,
-        type: Sequelize.STRING(45)
+        type: Sequelize.STRING(60),
       },
       role: {
         allowNull: false,
         type: Sequelize.ENUM(role),
-        defaultValue: roleDefault
+        defaultValue: roleDefault,
       },
       status: {
         allowNull: false,
         type: Sequelize.ENUM(userStatus),
-        defaultValue: userStatusDefault
-
-      }
-
+        defaultValue: userStatusDefault,
+      },
     });
   },
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('Staffs');
-  }
+    await queryInterface.dropTable("Staffs");
+  },
 };
