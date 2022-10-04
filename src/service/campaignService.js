@@ -39,19 +39,14 @@ const createNewCampaign = (data) => {
         });
       }
 
-      Campaigns.create({
+      const campaign = await Campaigns.create({
         title: data.title,
         description: data.description,
         start_date: data.start_date,
         end_date: data.end_date,
         status: iStatus,
-      })
-        .then((data) => console.log(data))
-        .catch((err) => console.log(err));
-      resolve({
-        errCode: 0,
-        message: "OK",
       });
+      resolve(campaign.dataValues);
     } catch (error) {
       reject(error);
     }

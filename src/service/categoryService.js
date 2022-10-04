@@ -17,14 +17,11 @@ const getAllCategory = () => {
 const createNewCategory = (data) => {
   return new Promise(async (resolve, reject) => {
     try {
-      await Categories.create({
+      const category = await Categories.create({
         name: data.name,
         description: data.description,
       });
-      resolve({
-        errCode: 0,
-        message: "OK",
-      });
+      resolve(category.dataValues);
     } catch (error) {
       reject(error);
     }
