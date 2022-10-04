@@ -1,40 +1,23 @@
-<<<<<<< HEAD
-import express from "express";
-import dotenv from "dotenv";
-import routes from "./routes/index.js";
-import connectDB from "./dbconnect.js";
-import cors from "cors";
-
-
-const app = express();
-dotenv.config();
-connectDB();
-
-//middleware
-app.use(express.json()); // thg nay cho body parser ve JSON
-app.use(express.urlencoded({ extended: true }));
-app.use(cors())
-
-=======
 const express = require("express");
-const dotenv = require("dotenv");
+
 const routes = require("./routes/index.js");
-const connectDB = require("./dbconnect");
-const cors = require("cors");
+const connectDB = require("./dbconnect.js");
+import cors from "cors";
+require("dotenv");
 const { handleError, convertToApiError } = require("./middleware/apiError");
 // const db = require("../models/index");
 const app = express();
 dotenv.config();
->>>>>>> SangTranBE
 
+//middleware
+app.use(express.json()); // thg nay cho body parser ve JSON
+app.use(express.urlencoded({ extended: true }));
 app.use(cors());
-connectDB();
 
+connectDB();
 
 //routes
 app.use("/api", routes);
-<<<<<<< HEAD
-
 
 // const db = require('../models/index');
 
@@ -44,18 +27,11 @@ app.use("/api", routes);
 //   console.log(member);
 // })();
 
-
-
-
-//ve nha lam inner join 2 bang 
+//ve nha lam inner join 2 bang
 // (async () => {
 //   const job = await db.Jobs.findAll({ raw: true });
 //   console.log(job);
 // })();
-
-
-
-
 
 //insert member into members table(database)
 // ty ve nha thu lai status de trong xem no co tu set active ko??
@@ -72,11 +48,7 @@ app.use("/api", routes);
 //   console.log(newMember);
 // })();
 
-
-
-
 //port=8000
-=======
 app.use(convertToApiError);
 app.use((err, req, res, next) => {
   handleError(err, res);
@@ -90,7 +62,6 @@ app.use((err, req, res, next) => {
 //   }
 // })
 
->>>>>>> SangTranBE
 const port = process.env.PORT || 3000;
 
 app.listen(port, () => {
