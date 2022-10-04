@@ -4,16 +4,10 @@ import db from "../../models/index.js";
 const Categories = db.Categories;
 
 
-const getAllCategory = (categoryID) => {
+const getAllCategory = () => {
     return new Promise(async (resolve, reject) => {
         try {
-            let category = await Categories.findAll({})
-
-            // if (categoryID && categoryID !== 'ALL') {
-            //     category = await Categories.findOne({
-            //         where: { id: categoryID }
-            //     })
-            // }
+            let category = await Categories.findAll()
             resolve(category)
         } catch (error) {
             reject(error);

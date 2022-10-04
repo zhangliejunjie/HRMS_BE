@@ -1,6 +1,6 @@
-import { UUIDV4 } from "sequelize";
 import db, { sequelize } from "../../models/index.js";
 const Jobs = db.Jobs;
+
 
 const getAllJob = () => {
     return new Promise(async (resolve, reject) => {
@@ -13,26 +13,34 @@ const getAllJob = () => {
     })
 }
 
-// const createNewJob = (data) => {
-//     return new Promise(async (resolve, reject) => {
-//         try {
+const createNewJob = (data) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            await Jobs.create({
+                name: data.name,
+                description: data.description,
+                salary: data.salary,
+                quantity: data.quantity,
+                start_date: data.start_date,
+                end_date: data.end_date,
+                status: data.status,
+                Category_id: data.category,
+                Campaign_id: data.campaign,
+            })
 
-//             await Jobs.create({
-//                 id: UUIDV4(),
-//                 name: data.name,
-//                 description: data.description
-//             })
-//             resolve({
-//                 errCode: 0,
-//                 message: "OK"
-//             })
-//         } catch (error) {
-//             reject(error);
-//         }
-//     })
-// }
+            // console.log(data.campaign);
+
+            resolve({
+                errCode: 0,
+                message: "OK"
+            })
+        } catch (error) {
+            reject(error);
+        }
+    })
+}
 
 module.exports = {
     getAllJob,
-    // createNewJob,
+    createNewJob,
 }

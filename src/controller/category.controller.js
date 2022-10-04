@@ -4,22 +4,8 @@ const categoryService = require('../service/categoryService.js')
 
 
 const handleGetAllCategory = async (req, res) => {
-    // let id = req.body.id; //ALL, id
-
-    // if (!id) {
-    //     return res.status(200).json({
-    //         errCode: 1,
-    //         errMsg: "Missing required parameters",
-    //         categories: []
-    //     })
-    // }
     let categories = await categoryService.getAllCategory();
-
-    return res.status(200).json({
-        errCode: 0,
-        errMsg: "OK",
-        categories
-    });
+    return res.status(200).json({ categories });
 }
 
 const handleCreateNewCategory = async (req, res) => {

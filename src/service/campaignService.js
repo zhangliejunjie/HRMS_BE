@@ -4,7 +4,7 @@ const Campaigns = db.Campaigns;
 const getAllCampaign = () => {
     return new Promise(async (resolve, reject) => {
         try {
-            let campaign = await Campaigns.findAll({});
+            let campaign = await Campaigns.findAll();
 
             // if (campaignID === 'ALL') {
             //     campaign = await Campaigns.findAll({
@@ -27,12 +27,19 @@ const getAllCampaign = () => {
 const createNewCampaign = (data) => {
     return new Promise(async (resolve, reject) => {
         try {
+            const iStatus = data.status;
+            if (!(iStatus === 'Not started' || iStatus === 'Processing' || iStatus === 'Finished')) {
+                reject({
+                    errMsg: 'wrong status'
+                });
+            }
+
             await Campaigns.create({
                 title: data.title,
                 description: data.description,
                 start_date: data.start_date,
                 end_date: data.end_date,
-                status: data.status
+                status: iStatus
             })
             resolve({
                 errCode: 0,
@@ -78,12 +85,18 @@ const updateCampaign = (data) => {
                 where: { id: data.id },
                 raw: false
             })
+            const iStatus = data.status;
+            if (!(iStatus === 'Not started' || iStatus === 'Processing' || iStatus === 'Finished')) {
+                reject({
+                    errMsg: 'wrong status'
+                });
+            }
             if (campaign) {
                 campaign.title = data.title;
                 campaign.description = data.description;
                 campaign.start_date = data.start_date;
                 campaign.end_date = data.end_date;
-                campaign.status = data.status;
+                campaign.status = iStatus;
                 await campaign.save();
                 resolve({
                     errCode: 0,

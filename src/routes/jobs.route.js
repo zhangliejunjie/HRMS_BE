@@ -6,7 +6,7 @@ import { handleGetAllJob, handleCreateNewJob } from "../controller/job.controlle
 const router = express.Router();
 
 router.get('/job', handleGetAllJob);
-// router.post('/job-add', handleCreateNewJob);
+router.post('/job-add', handleCreateNewJob);
 
 
 

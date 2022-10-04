@@ -1,22 +1,8 @@
 const campaignService = require('../service/campaignService')
 
 const handleGetAllCampaign = async (req, res) => {
-    // let id = req.body.id; //ALL, id
-
-    // if (!id) {
-    //     return res.status(200).json({
-    //         errCode: 1,
-    //         errMsg: "Missing required parameters",
-    //         campaigns: []
-    //     })
-    // }
     let campaigns = await campaignService.getAllCampaign();
-
-    return res.status(200).json({
-        errCode: 0,
-        errMsg: "OK",
-        campaigns
-    });
+    return res.status(200).json({ campaigns });
 }
 
 const handleCreateNewCampaign = async (req, res) => {
@@ -30,7 +16,7 @@ const handleCreateNewCampaign = async (req, res) => {
 
 const handleDeleteCampaign = async (req, res) => {
     if (!req.body.id) {
-        return res.status(400).json({
+        return res.status(404).json({
             errCode: 1,
             errMsg: "Missing campaign id"
         });
