@@ -1,6 +1,6 @@
 const httpStatus = require("http-status");
 import { ApiError } from "../middleware/apiError";
-import { getStaffByEmail } from "../repository/staffs.repository";
+import { getStaffByEmail, showAllStaff } from "../repository/staffs.repository";
 import { updateStaffProfile } from "../service/staff.service";
 const staffController = {
   // #TODO: xiu nua authen roi chinh parameter o getStaffByEmail()
@@ -22,6 +22,15 @@ const staffController = {
     } catch (error) {
       next(error);
     }
+  },
+  async getAllStaff(req, res) {
+    try {
+      const allStaff = await showAllStaff();
+      res.send(allStaff);
+      if (!allStaff) {
+        throw new ApiError("Staff khong ton tai");
+      }
+    } catch (error) {}
   },
 };
 
