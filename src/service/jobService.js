@@ -40,7 +40,31 @@ const createNewJob = (data) => {
     })
 }
 
+const deleteJob = (jobID) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            let job = await Jobs.findOne({
+                where: { id: jobID }
+            })
+            if (!job) {
+                resolve({
+                    errMsg: "Job not found",
+                })
+            }
+            await Jobs.destroy({
+                where: { id: jobID }
+            })
+            resolve({
+                errMsg: "Job is deleted",
+            })
+        } catch (error) {
+            reject(error)
+        }
+    })
+}
+
 module.exports = {
     getAllJob,
     createNewJob,
+    deleteJob,
 }

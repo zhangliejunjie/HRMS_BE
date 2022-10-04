@@ -15,8 +15,17 @@ const handleCreateNewJob = async (req, res) => {
     return res.status(200).json(message);
 }
 
+const handleDeleteJob = async (req, res) => {
+    if (!req.body.id) {
+        return res.status(404).json({ errMsg: 'id not found' });
+    }
+    let message = await jobService.deleteJob(req.body.id);
+    return res.status(200).json(message);
+}
+
 
 module.exports = {
     handleGetAllJob,
     handleCreateNewJob,
+    handleDeleteJob,
 }
