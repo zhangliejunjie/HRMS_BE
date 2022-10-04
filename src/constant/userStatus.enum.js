@@ -1,4 +1,4 @@
 module.exports = {
-    userStatus: ["Active", "Inactive"],
-    userStatusDefault: "Active"
-}
+  userStatus: ["Active", "Inactive"],
+  userStatusDefault: "Active",
+};

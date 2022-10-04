@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import express from "express";
 import dotenv from "dotenv";
 import routes from "./routes/index.js";
@@ -14,11 +15,25 @@ app.use(express.json()); // thg nay cho body parser ve JSON
 app.use(express.urlencoded({ extended: true }));
 app.use(cors())
 
+=======
+const express = require("express");
+const dotenv = require("dotenv");
+const routes = require("./routes/index.js");
+const connectDB = require("./dbconnect");
+const cors = require("cors");
+const { handleError, convertToApiError } = require("./middleware/apiError");
+// const db = require("../models/index");
+const app = express();
+dotenv.config();
+>>>>>>> SangTranBE
 
+app.use(cors());
+connectDB();
 
 
 //routes
 app.use("/api", routes);
+<<<<<<< HEAD
 
 
 // const db = require('../models/index');
@@ -61,6 +76,21 @@ app.use("/api", routes);
 
 
 //port=8000
+=======
+app.use(convertToApiError);
+app.use((err, req, res, next) => {
+  handleError(err, res);
+});
+// app.get('/job', async (_req, res) => {
+//   try {
+//     const job = await db.Jobs.findAll();
+//     res.send(job);
+//   } catch (err) {
+//     res.send(err);
+//   }
+// })
+
+>>>>>>> SangTranBE
 const port = process.env.PORT || 3000;
 
 app.listen(port, () => {
