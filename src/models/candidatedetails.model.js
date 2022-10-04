@@ -4,7 +4,7 @@ const {
   applyStatus,
   applyStatusDefault,
 } = require("../constant/cvStatus.enum.js");
-
+const { v4: uuidv4 } = require("uuid");
 module.exports = (sequelize, DataTypes) => {
   class CandidateDetails extends Model {
     static associate(models) {

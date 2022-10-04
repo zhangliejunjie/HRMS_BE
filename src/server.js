@@ -3,11 +3,10 @@ const express = require("express");
 const routes = require("./routes/index.js");
 const connectDB = require("./dbconnect.js");
 import cors from "cors";
-require("dotenv");
+require("dotenv").config();
 const { handleError, convertToApiError } = require("./middleware/apiError");
 // const db = require("../models/index");
 const app = express();
-dotenv.config();
 
 //middleware
 app.use(express.json()); // thg nay cho body parser ve JSON

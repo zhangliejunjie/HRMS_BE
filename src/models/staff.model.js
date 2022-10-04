@@ -55,5 +55,6 @@ module.exports = (sequelize, DataTypes) => {
       updatedAt: false,
     }
   );
+  Staffs.beforeCreate((user) => (user.id = uuidv4()));
   return Staffs;
 };

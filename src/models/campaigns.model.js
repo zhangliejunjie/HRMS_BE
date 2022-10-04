@@ -1,5 +1,6 @@
 "use strict";
 const { Model } = require("sequelize");
+const { v4: uuidv4 } = require("uuid");
 const {
   campaignStatusDefault,
   campaignStatus,
@@ -17,7 +18,8 @@ module.exports = (sequelize, DataTypes) => {
       id: {
         allowNull: false,
         primaryKey: true,
-        type: DataTypes.STRING(6),
+        type: DataTypes.STRING(36),
+        defaultValue: DataTypes.UUIDV4,
       },
       title: {
         allowNull: false,
@@ -49,5 +51,6 @@ module.exports = (sequelize, DataTypes) => {
       updatedAt: false,
     }
   );
+  Campaigns.beforeCreate((cam) => (cam.id = uuidv4()));
   return Campaigns;
 };

@@ -1,11 +1,11 @@
-const categoryRoute = require("./categories.route.js");
-const campaignRoute = require("./campaigns.route.js");
-const jobRoute = require("./jobs.route.js");
 const express = require("express");
 const authRoute = require("./auth.route.js");
 const memberRoute = require("./member.route");
 const staffRoute = require("./staff.route");
 const staffAuthRoute = require("./staffAuth.route");
+const categoryRoute = require("./categories.route.js");
+const campaignRoute = require("./campaigns.route.js");
+const jobRoute = require("./jobs.route.js");
 const router = express.Router();
 
 const routesIndex = [
@@ -14,15 +14,15 @@ const routesIndex = [
     route: authRoute,
   },
   {
-    path: "/category",
+    path: "/",
     route: categoryRoute,
   },
   {
-    path: "/campain",
+    path: "/",
     route: campaignRoute,
   },
   {
-    path: "/job",
+    path: "/",
     route: jobRoute,
   },
   {

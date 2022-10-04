@@ -1,13 +1,15 @@
 import express from "express";
 
-import { handleGetAllJob, handleCreateNewJob, handleDeleteJob } from "../controller/job.controller.js";
-
+import {
+  handleGetAllJob,
+  handleCreateNewJob,
+  handleDeleteJob,
+} from "../controller/job.controller.js";
 
 const router = express.Router();
 
-router.get('/job', handleGetAllJob);
-router.post('/job-add', handleCreateNewJob);
-router.delete('/job-delete', handleDeleteJob);
+router.get("/job", handleGetAllJob);
+router.post("/job-add", handleCreateNewJob);
+router.delete("/job-delete", handleDeleteJob);
 
-
-export default router;
+module.exports = router;
