@@ -45,6 +45,16 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
         type: DataTypes.DATEONLY,
       },
+      status: {
+        allowNull: false,
+        type: DataTypes.ENUM(jobStatus),
+        defaultValue: jobStatusDefault,
+      },
+      experience: {
+        allowNull: false,
+        type: DataTypes.ENUM(jobExperienced),
+        defaultValue: jobExperiencedDefault,
+      },
       Category_id: {
         allowNull: false,
         type: DataTypes.STRING(36),
