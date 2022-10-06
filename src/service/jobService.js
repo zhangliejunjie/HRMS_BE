@@ -17,7 +17,7 @@ const getAllJob = () => {
 const createNewJob = (data) => {
   return new Promise(async (resolve, reject) => {
     try {
-      await Jobs.create({
+      const job = await Jobs.create({
         name: data.name,
         description: data.description,
         salary: data.salary,
@@ -25,8 +25,10 @@ const createNewJob = (data) => {
         start_date: data.start_date,
         end_date: data.end_date,
         status: data.status,
-        Category_id: data.category,
-        Campaign_id: data.campaign,
+        experience: data.experience,
+        isRemote: data.isRemote,
+        Category_id: data.Category_id,
+        Campaign_id: data.Campaign_id,
       });
 
       // console.log(data.campaign);
@@ -34,6 +36,7 @@ const createNewJob = (data) => {
       resolve({
         errCode: 0,
         message: "OK",
+        job,
       });
     } catch (error) {
       reject(error);

@@ -1,4 +1,10 @@
 "use strict";
+import {
+  jobExperienced,
+  jobExperiencedDefault,
+  jobStatus,
+  jobStatusDefault,
+} from "../constant/jobStatus.enum";
 const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
   class Jobs extends Model {
@@ -54,6 +60,11 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
         type: DataTypes.ENUM(jobExperienced),
         defaultValue: jobExperiencedDefault,
+      },
+      isRemote: {
+        allowNull: false,
+        type: DataTypes.BOOLEAN,
+        defaultValue: false,
       },
       Category_id: {
         allowNull: false,
