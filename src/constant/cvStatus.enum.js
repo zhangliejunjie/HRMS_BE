@@ -1,4 +1,4 @@
 module.exports = {
-    applyStatus: ["Success", "Failed"],
-    applyStatusDefault: "Failed",
-}
+  applyStatus: ["Pending", "Approve", "Reject"],
+  applyStatusDefault: "Pending",
+};

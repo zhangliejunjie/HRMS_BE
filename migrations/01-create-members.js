@@ -39,7 +39,14 @@ module.exports = {
         type: Sequelize.ENUM(userStatus),
         defaultValue: userStatusDefault,
       },
-      // ver
+      phone: {
+        allowNull: true,
+        type: Sequelize.STRING(13),
+      },
+      address: {
+        allowNull: true,
+        type: Sequelize.TEXT,
+      },
     });
   },
   down: async (queryInterface, Sequelize) => {
