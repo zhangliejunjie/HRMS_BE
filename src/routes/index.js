@@ -6,6 +6,7 @@ const staffAuthRoute = require("./staffAuth.route");
 const categoryRoute = require("./categories.route.js");
 const campaignRoute = require("./campaigns.route.js");
 const jobRoute = require("./jobs.route.js");
+const candidateRoute = require("./candidate.route");
 const router = express.Router();
 
 const routesIndex = [
@@ -36,6 +37,10 @@ const routesIndex = [
   {
     path: "/staff-auth",
     route: staffAuthRoute,
+  },
+  {
+    path: "/candidate",
+    route: candidateRoute,
   },
 ];
 

@@ -15,7 +15,7 @@ module.exports = {
         defaultValue: Sequelize.UUIDV4,
       },
       identity_number: {
-        allowNull: false,
+        allowNull: true,
         type: Sequelize.STRING(12),
       },
       resume_url: {
@@ -33,11 +33,11 @@ module.exports = {
         defaultValue: applyStatusDefault,
       },
       dob: {
-        allowNull: false,
+        allowNull: true,
         type: Sequelize.DATEONLY,
       },
-      adress: {
-        allowNull: false,
+      address: {
+        allowNull: true,
         type: Sequelize.TEXT,
       },
       Job_id: {

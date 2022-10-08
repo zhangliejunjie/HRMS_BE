@@ -22,10 +22,11 @@ module.exports = (sequelize, DataTypes) => {
       id: {
         allowNull: false,
         primaryKey: true,
-        type: DataTypes.STRING(6),
+        type: DataTypes.STRING(36),
+        defaultValue: DataTypes.UUIDV4,
       },
       identity_number: {
-        allowNull: false,
+        allowNull: true,
         type: DataTypes.STRING(12),
       },
       resume_url: {
@@ -42,16 +43,16 @@ module.exports = (sequelize, DataTypes) => {
         defaultValue: applyStatusDefault,
       },
       dob: {
-        allowNull: false,
+        allowNull: true,
         type: DataTypes.DATEONLY,
       },
-      adress: {
-        allowNull: false,
+      address: {
+        allowNull: true,
         type: DataTypes.TEXT,
       },
       Job_id: {
         allowNull: false,
-        type: DataTypes.STRING(6),
+        type: DataTypes.STRING(36),
         references: {
           model: "Jobs",
           key: "id",
@@ -59,7 +60,7 @@ module.exports = (sequelize, DataTypes) => {
       },
       HRStaff_id: {
         allowNull: false,
-        type: DataTypes.STRING(6),
+        type: DataTypes.STRING(36),
         references: {
           model: "Staffs",
           key: "id",
@@ -67,7 +68,7 @@ module.exports = (sequelize, DataTypes) => {
       },
       Member_id: {
         allowNull: false,
-        type: DataTypes.STRING(6),
+        type: DataTypes.STRING(36),
         references: {
           model: "Members",
           key: "id",
@@ -82,5 +83,6 @@ module.exports = (sequelize, DataTypes) => {
       updatedAt: false,
     }
   );
+  CandidateDetails.beforeCreate((can) => (can.id = uuidv4()));
   return CandidateDetails;
 };
