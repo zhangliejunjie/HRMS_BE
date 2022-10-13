@@ -54,6 +54,11 @@ module.exports = {
         type: Sequelize.ENUM(jobExperienced),
         defaultValue: jobExperiencedDefault,
       },
+      isRemote: {
+        allowNull: false,
+        type: Sequelize.BOOLEAN,
+        defaultValue: false,
+      },
       Category_id: {
         allowNull: false,
         type: Sequelize.STRING(36),
