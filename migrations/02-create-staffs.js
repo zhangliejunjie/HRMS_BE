@@ -19,13 +19,17 @@ module.exports = {
         allowNull: false,
         type: Sequelize.STRING(320),
       },
+      avatar: {
+        allowNull: true,
+        type: Sequelize.TEXT,
+      },
       fullname: {
         allowNull: false,
         type: Sequelize.STRING(60),
       },
       password: {
         allowNull: false,
-        type: Sequelize.STRING(60)
+        type: Sequelize.STRING(60),
       },
       avatar: {
         allowNull: true,
