@@ -83,10 +83,30 @@ const getListCandidateByMemberID = async (req, res) => {
     throw error;
   }
 };
+const getAllCandidateByStaffID = async (req, res) => {
+  try {
+    const [results] = await sequelize.query(
+      `select c.id, c.resume_url, c.phone, c.applied_status, j.name as job_name, M.fullname as member_name, M.avatar as member_avatar from CandidateDetails c inner join Jobs J on c.Job_id = J.id inner join Staffs S on c.HRStaff_id = S.id inner join Members M on c.Member_id = M.id where S.id = ?`,
+      {
+        replacements: [`${req.body.id}`],
+      }
+    );
+    if (results.length === 0) {
+      throw new ApiError(
+        httpStatus.BAD_REQUEST,
+        "This staff dont have any request job"
+      );
+    }
+    return results;
+  } catch (error) {
+    throw error;
+  }
+};
 const candidateStatusChange = async (req, res) => {};
 module.exports = {
   createNewCandidate,
   getListCandidate,
   getListCandidateByMemberID,
   candidateStatusChange,
+  getAllCandidateByStaffID,
 };
