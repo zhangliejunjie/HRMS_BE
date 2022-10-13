@@ -11,11 +11,12 @@ const staffAuth = {
       res.header("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE");
       const staff = await createStaff(req, res);
       const token = await genAuthToken(staff);
-      res.cookie("sang", "sang dep chai");
+
       res.cookie("x-access-token", token).status(200).send({
         staff,
         token,
       });
+      console.log(staff);
     } catch (error) {
       console.log(error);
       next(error);
@@ -30,6 +31,7 @@ const staffAuth = {
         staff,
         token,
       });
+      console.log(staff);
     } catch (error) {
       next(error);
       // res.send({ error: error.statusCode, message: error.message });

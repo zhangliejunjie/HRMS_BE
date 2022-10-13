@@ -19,6 +19,10 @@ module.exports = {
         allowNull: false,
         type: Sequelize.STRING(320),
       },
+      avatar: {
+        allowNull: true,
+        type: Sequelize.TEXT,
+      },
       fullname: {
         allowNull: false,
         type: Sequelize.STRING(60),

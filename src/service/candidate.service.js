@@ -1,4 +1,5 @@
 import { ApiError } from "../middleware/apiError";
+
 import { showAllStaff } from "../repository/staffs.repository";
 import {
   createNewCandidateDetails,
@@ -62,22 +63,30 @@ const getListCandidate = async (req, res) => {
 const getListCandidateByMemberID = async (req, res) => {
   try {
     const [results] = await sequelize.query(
-      `select id, resume_url, phone, applied_status, Member_id from CandidateDetails where Member_id = ?`,
+      `select c.id, c.resume_url, c.phone, c.applied_status, j.name as job_name from CandidateDetails c inner join Jobs J on c.Job_id = J.id where c.Member_id = ?`,
       {
-        replacements: [req.id],
+        replacements: [`${req.body.id}`],
       }
     );
     // const candidateByMember = await getCandidateDetailsByMemberID(memberID);
     console.log(results);
+
+    if (results.length === 0) {
+      throw new ApiError(
+        httpStatus.BAD_REQUEST,
+        "This member dont have any request job"
+      );
+    }
     return results;
-    // if (results.length > 0) {}
     // return candidateByMember;
   } catch (error) {
     throw error;
   }
 };
+const candidateStatusChange = async (req, res) => {};
 module.exports = {
   createNewCandidate,
   getListCandidate,
   getListCandidateByMemberID,
+  candidateStatusChange,
 };
