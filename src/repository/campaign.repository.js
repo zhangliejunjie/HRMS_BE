@@ -6,8 +6,17 @@ const update = async (newObj, where) => {
         where: where,
     });
 };
+const updateStatus = async (where) => {
+    return (
 
+        await db.Campaigns.update({ status: "Finished" }, {
+            where: where,
+        }
+        )
+    )
+};
 
 module.exports = {
     update,
+    updateStatus,
 }

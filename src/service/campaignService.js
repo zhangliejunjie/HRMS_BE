@@ -1,6 +1,7 @@
 import db from "../models/index.js";
 const Campaigns = db.Campaigns;
 const { update } = require('../repository/campaign.repository')
+const campaignRepository = require("../repository/campaign.repository");
 
 
 const getAllCampaign = () => {
@@ -55,26 +56,26 @@ const createNewCampaign = (data) => {
   });
 };
 
-const deleteCampaign = (campaignID) => {
-  return new Promise(async (resolve, reject) => {
-    let campaign = await Campaigns.findOne({
-      where: { id: campaignID },
-    });
-    if (!campaign) {
-      resolve({
-        errCode: 2,
-        errMsg: "Campaign not found",
-      });
-    }
-    await Campaigns.destroy({
-      where: { id: campaignID },
-    });
-    resolve({
-      errCode: 0,
-      errMsg: "Campaign is deleted",
-    });
-  });
-};
+// const deleteCampaign = (campaignID) => {
+//   return new Promise(async (resolve, reject) => {
+//     let campaign = await Campaigns.findOne({
+//       where: { id: campaignID },
+//     });
+//     if (!campaign) {
+//       resolve({
+//         errCode: 2,
+//         errMsg: "Campaign not found",
+//       });
+//     }
+//     await Campaigns.destroy({
+//       where: { id: campaignID },
+//     });
+//     resolve({
+//       errCode: 0,
+//       errMsg: "Campaign is deleted",
+//     });
+//   });
+// };
 
 // const updateCampaign = (data) => {
 //   return new Promise(async (resolve, reject) => {
@@ -145,10 +146,33 @@ const updateCampusCampaign = async (req, res) => {
   }
 }
 
+const updateStatus = async (req, res) => {
+
+  try {
+    const id = req.params.id;
+    if (!id) {
+      return res.send("Missing required parameters")
+    }
+    let campaign = await Campaigns.findOne({
+      where: { id: id },
+      raw: false,
+    });
+    if (!campaign) {
+      return res.send("There is no campaign with id: " + id);
+    }
+    const cam = await campaignRepository.updateStatus({ id: id });
+    return cam
+  } catch (error) {
+
+  }
+
+}
+
 module.exports = {
   getAllCampaign,
   createNewCampaign,
-  deleteCampaign,
+  // deleteCampaign,
   // updateCampaign,
-  updateCampusCampaign
+  updateCampusCampaign,
+  updateStatus,
 };

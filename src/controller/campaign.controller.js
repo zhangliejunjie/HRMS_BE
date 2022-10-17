@@ -52,10 +52,25 @@ const updateCampaignStatus = async (req, res) => {
 
     }
 }
+
+const deleteCampaignV2 = async (req, res) => {
+    try {
+        const updateStatus = await campaignService.updateStatus(req, res);
+        // console.log(updateStatus);
+        if (updateStatus == 1) {
+            return res.send("Delete successfully")
+        }
+        return res.send("Delete failed");
+
+    } catch (error) {
+        return res.status(404).json({ error });
+    }
+}
 module.exports = {
     handleGetAllCampaign,
     handleCreateNewCampaign,
     handleDeleteCampaign,
     // handleUpdateCampaign,
-    updateCampaignStatus
+    updateCampaignStatus,
+    deleteCampaignV2,
 }
