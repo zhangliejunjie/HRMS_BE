@@ -54,6 +54,10 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: true,
         type: DataTypes.TEXT,
       },
+      verified_code: {
+        allowNull: true,
+        type: DataTypes.STRING(4)
+      }
     },
     {
       sequelize,

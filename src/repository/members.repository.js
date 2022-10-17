@@ -1,4 +1,6 @@
+const { QueryTypes, where } = require("sequelize");
 const db = require("../models");
+import { sequelize } from "../models/index.js";
 
 const findOne = async (where) => {
   return (await db.Members.findOne({ where: where }))?.dataValues;
@@ -8,6 +10,7 @@ const createNewMember = async (user) => {
     email: user.email,
     fullname: user.fullname,
     password: user.password,
+    verified_code: user.verified_code,
   });
   return member?.dataValues;
 };
@@ -20,6 +23,31 @@ const getMemberByEmail = async (email) => {
       },
     })
   )?.dataValues;
+};
+const getCodeByEmail = (email) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const [results, metadata] = await sequelize.query(
+        `select verified_code from members where email = '${email}'`,
+        {
+          type: QueryTypes.SELECT
+        }
+      );
+      console.log(results);
+      resolve(results);
+    } catch (error) {
+      reject(error);
+    }
+  });
+}
+const updateStatus = async (where) => {
+  return (
+
+    await db.Members.update({ status: "Active" }, {
+      where: where,
+    }
+    )
+  )
 };
 
 const getMemberById = async (memberID) => {
@@ -48,4 +76,6 @@ module.exports = {
   getMemberById,
   update,
   showAllMember,
+  updateStatus,
+  getCodeByEmail,
 };

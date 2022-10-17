@@ -26,9 +26,8 @@ const createNewJob = (data) => {
         end_date: data.end_date,
         status: data.status,
         experience: data.experience,
-        isRemote: data.isRemote,
-        Category_id: data.Category_id,
-        Campaign_id: data.Campaign_id,
+        Category_id: data.category,
+        Campaign_id: data.campaign,
       });
 
       // console.log(data.campaign);

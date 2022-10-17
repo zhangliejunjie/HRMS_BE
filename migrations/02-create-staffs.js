@@ -31,10 +31,6 @@ module.exports = {
         allowNull: false,
         type: Sequelize.STRING(60),
       },
-      avatar: {
-        allowNull: true,
-        type: Sequelize.TEXT,
-      },
       role: {
         allowNull: false,
         type: Sequelize.ENUM(role),

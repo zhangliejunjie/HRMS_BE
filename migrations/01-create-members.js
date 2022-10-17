@@ -47,6 +47,10 @@ module.exports = {
         allowNull: true,
         type: Sequelize.TEXT,
       },
+      verified_code: {
+        allowNull: true,
+        type: Sequelize.STRING(4),
+      }
     });
   },
   down: async (queryInterface, Sequelize) => {
