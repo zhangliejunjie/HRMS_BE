@@ -1,6 +1,6 @@
 import db from "../models/index.js";
 const Campaigns = db.Campaigns;
-const { update } = require('../repository/campaign.repository')
+const { update, getCampaignById } = require('../repository/campaign.repository')
 const campaignRepository = require("../repository/campaign.repository");
 
 
@@ -138,8 +138,10 @@ const updateCampusCampaign = async (req, res) => {
 
 
     if (campaign) {
-      const updateCampaign = await update(req.body, { id: req.body.id })
-      return updateCampaign;
+      await update(req.body, { id: req.body.id })
+
+      const campaign = await getCampaignById(req.body.id)
+      return res.send(campaign);
     }
   } catch (error) {
     throw error;

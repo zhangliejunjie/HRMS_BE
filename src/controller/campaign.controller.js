@@ -42,25 +42,21 @@ const handleDeleteCampaign = async (req, res) => {
 
 // }
 
-const updateCampaignStatus = async (req, res) => {
+const updateCampaignStatus = async (req, res, next) => {
     try {
         const updateStatus = await campaignService.updateCampusCampaign(req, res);
-        // console.log(updateStatus);
-        res.json("Update successfully");
+
     } catch (error) {
-        return res.status(404).json({ error });
+        next(error)
 
     }
 }
 
 const deleteCampaignV2 = async (req, res) => {
     try {
-        const updateStatus = await campaignService.updateStatus(req, res);
-        // console.log(updateStatus);
-        if (updateStatus == 1) {
-            return res.send("Delete successfully")
-        }
-        return res.send("Delete failed");
+
+        await campaignService.updateStatus(req, res);
+
 
     } catch (error) {
         return res.status(404).json({ error });
