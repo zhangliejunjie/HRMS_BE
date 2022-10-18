@@ -1,30 +1,22 @@
-import db from "../models/index.js";
-const Campaigns = db.Campaigns;
-const { update, getCampaignById } = require('../repository/campaign.repository')
+import httpStatus from "http-status";
 const campaignRepository = require("../repository/campaign.repository");
+const { ApiError } = require("../middleware/apiError");
 
 
+// lấy tất cả campaign ngoại trừ Hidden campaign(DONE)
 const getAllCampaign = () => {
   return new Promise(async (resolve, reject) => {
     try {
-      let campaign = await Campaigns.findAll();
-
-      // if (campaignID === 'ALL') {
-      //     campaign = await Campaigns.findAll({
-
-      //     })
-      // }
-      // if (campaignID && campaignID !== 'ALL') {
-      //     campaign = await Campaigns.findOne({
-      //         where: { id: campaignID }
-      //     })
-      // }
+      const where = { status: ['Not started', 'Processing', 'Finished'] }
+      let campaign = await campaignRepository.findAll(where);
       resolve(campaign);
     } catch (error) {
       reject(error);
     }
   });
 };
+
+//===============================================================================
 
 const createNewCampaign = (data) => {
   return new Promise(async (resolve, reject) => {
@@ -41,131 +33,51 @@ const createNewCampaign = (data) => {
           errMsg: "wrong status",
         });
       }
-
-      const campaign = await Campaigns.create({
-        title: data.title,
-        description: data.description,
-        start_date: data.start_date,
-        end_date: data.end_date,
-        status: iStatus,
-      });
-      resolve(campaign.dataValues);
+      const campaign = await campaignRepository.createNewCampaign(data, iStatus);
+      resolve(campaign);
     } catch (error) {
       reject(error);
     }
   });
 };
 
-// const deleteCampaign = (campaignID) => {
-//   return new Promise(async (resolve, reject) => {
-//     let campaign = await Campaigns.findOne({
-//       where: { id: campaignID },
-//     });
-//     if (!campaign) {
-//       resolve({
-//         errCode: 2,
-//         errMsg: "Campaign not found",
-//       });
-//     }
-//     await Campaigns.destroy({
-//       where: { id: campaignID },
-//     });
-//     resolve({
-//       errCode: 0,
-//       errMsg: "Campaign is deleted",
-//     });
-//   });
-// };
+//===============================================================================
 
-// const updateCampaign = (data) => {
-//   return new Promise(async (resolve, reject) => {
-//     try {
-//       if (!data.id) {
-//         resolve({
-//           errCode: 2,
-//           errMsg: "Missing required parameters",
-//         });
-//       }
-//       let campaign = await Campaigns.findOne({
-//         where: { id: data.id },
-//         raw: false,
-//       });
-//       const iStatus = data.status;
-//       if (
-//         !(
-//           iStatus === "Not started" ||
-//           iStatus === "Processing" ||
-//           iStatus === "Finished"
-//         )
-//       ) {
-//         reject({
-//           errMsg: "wrong status",
-//         });
-//       }
-//       if (campaign) {
-//         campaign.title = data.title;
-//         campaign.description = data.description;
-//         campaign.start_date = data.start_date;
-//         campaign.end_date = data.end_date;
-//         campaign.status = iStatus;
-//         await campaign.save();
-//         resolve({
-//           errCode: 0,
-//           message: "Update campaign successfully!!",
-//         });
-//       } else {
-//         resolve({
-//           errCode: 1,
-//           errMsg: "Campaign is not found",
-//         });
-//       }
-//     } catch (error) {
-//       reject(error);
-//     }
-//   });
-// };
-
-const updateCampusCampaign = async (req, res) => {
+const updateCampaign = async (req, res) => {
   try {
-    if (!req.body.id) {
-      return res.send("Missing required parameters")
+    const data = req.body
+    if (!data.id) {
+      throw new ApiError(httpStatus.BAD_REQUEST, "Missing id");
     }
-    let campaign = await Campaigns.findOne({
-      where: { id: req.body.id },
-      raw: false,
-    });
-    // console.log(campaign)
-
+    const campaign = await campaignRepository.getCampaignById(data.id);
 
     if (campaign) {
-      await update(req.body, { id: req.body.id })
-
-      const campaign = await getCampaignById(req.body.id)
-      return res.send(campaign);
+      await campaignRepository.update(data, { id: data.id })
+      return res.send("Updated campaign successfully");
     }
   } catch (error) {
     throw error;
   }
 }
 
+//===============================================================================
+
+//update campaign status to Finished = delete it
+//Delete campaign
 const updateStatus = async (req, res) => {
 
   try {
     const id = req.params.id;
-    if (!id) {
-      return res.send("Missing required parameters")
-    }
-    let campaign = await Campaigns.findOne({
-      where: { id: id },
-      raw: false,
-    });
-    if (!campaign) {
-      return res.send("There is no campaign with id: " + id);
-    }
-    const cam = await campaignRepository.updateStatus({ id: id });
-    return cam
-  } catch (error) {
 
+    let campaign = await campaignRepository.getCampaignById(id);
+    if (!campaign) {
+      throw new ApiError(httpStatus.BAD_REQUEST, "Campaign not found...");
+    }
+    await campaignRepository.updateStatus({ id: id });
+    return res.send("delete successfully");
+
+  } catch (error) {
+    throw error;
   }
 
 }
@@ -173,8 +85,6 @@ const updateStatus = async (req, res) => {
 module.exports = {
   getAllCampaign,
   createNewCampaign,
-  // deleteCampaign,
-  // updateCampaign,
-  updateCampusCampaign,
+  updateCampaign,
   updateStatus,
 };

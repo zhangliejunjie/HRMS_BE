@@ -32,33 +32,10 @@ const createNewMember = async (req, res) => {
     console.log(newMember);
     if (!newMember) {
       throw new ApiError(httpStatus.BAD_REQUEST, "Register fail");
-    } else {
-      var nodemailer = require('nodemailer');
-
-      var transporter = nodemailer.createTransport({
-        service: 'gmail',
-        auth: {
-          user: 'datttse161294@fpt.edu.vn',
-          pass: 'TanDat2002!!'
-        }
-      });
-
-      var mailOptions = {
-        from: 'datttse161294@fpt.edu.vn',
-        to: newMember.email,
-        subject: 'Code to verify account',
-        text: `your verify code is: ${newMember.verified_code}`,
-      };
-
-      transporter.sendMail(mailOptions, function (error, info) {
-        if (error) {
-          console.log(error);
-        } else {
-          console.log('Email sent: ' + info.response);
-        }
-      });
     }
-
+    //send email verify cho nguoi dung
+    //Phai bat less secure app
+    await membersRepository.sendMail(newMember)
     return newMember;
 
 

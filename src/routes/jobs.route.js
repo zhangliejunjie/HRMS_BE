@@ -4,12 +4,14 @@ import {
   handleGetAllJob,
   handleCreateNewJob,
   handleDeleteJob,
+  handleUpdateJob,
 } from "../controller/job.controller.js";
 
 const router = express.Router();
 
-router.get("/job", handleGetAllJob);
-router.post("/job-add", handleCreateNewJob);
-router.delete("/job-delete", handleDeleteJob);
+router.get("/", handleGetAllJob);
+router.post("/add", handleCreateNewJob);
+router.patch("/delete/:id", handleDeleteJob);
+router.patch("/update", handleUpdateJob);
 
 module.exports = router;

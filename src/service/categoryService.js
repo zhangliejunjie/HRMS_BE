@@ -1,12 +1,13 @@
-import { raw } from "body-parser";
-import db from "../models/index";
+const categoriesRepository = require("../repository/categories.repository");
 
-const Categories = db.Categories;
 
+// lấy tất cả category ngoại trừ Hidden category(DONE)
 const getAllCategory = () => {
   return new Promise(async (resolve, reject) => {
     try {
-      let category = await Categories.findAll();
+      const where = { status: ['Active', 'Inactive'] }
+      const category = await categoriesRepository.findAllCate(where);
+      console.log(category)
       resolve(category);
     } catch (error) {
       reject(error);
@@ -14,19 +15,20 @@ const getAllCategory = () => {
   });
 };
 
+//===============================================================================
+
 const createNewCategory = (data) => {
   return new Promise(async (resolve, reject) => {
     try {
-      const category = await Categories.create({
-        name: data.name,
-        description: data.description,
-      });
-      resolve(category.dataValues);
+      const category = await categoriesRepository.createCategory(data);
+      resolve(category?.dataValues);
     } catch (error) {
       reject(error);
     }
   });
 };
+
+//===============================================================================
 
 const updateCategory = (data) => {
   return new Promise(async (resolve, reject) => {
@@ -37,14 +39,9 @@ const updateCategory = (data) => {
           errMsg: "Missing required parameters",
         });
       }
-      let category = await Categories.findOne({
-        where: { id: data.id },
-        raw: false,
-      });
+      let category = await categoriesRepository.findOne(data.id);
       if (category) {
-        category.name = data.name;
-        category.description = data.description;
-        await category.save();
+        await categoriesRepository.update(data, { id: data.id })
         resolve({
           errCode: 0,
           message: "Update category successfully!!",
@@ -61,20 +58,18 @@ const updateCategory = (data) => {
   });
 };
 
+//===============================================================================
+
 const deleteCategory = (categoryID) => {
   return new Promise(async (resolve, reject) => {
-    let category = await Categories.findOne({
-      where: { id: categoryID },
-    });
+    let category = await categoriesRepository.findOne(categoryID);
     if (!category) {
       resolve({
         errCode: 2,
         errMsg: "Category not found",
       });
     }
-    await Categories.destroy({
-      where: { id: categoryID },
-    });
+    await categoriesRepository.updateStatus({ id: categoryID });
     resolve({
       errCode: 0,
       errMsg: "Category is deleted",
