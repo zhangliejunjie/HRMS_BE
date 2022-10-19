@@ -122,6 +122,10 @@ const updateCampaign = (data) => {
   });
 };
 
+const getCampaignDetail = (campaignId) => {
+  return new Promise(async (resolve, reject) => {});
+};
+
 module.exports = {
   getAllCampaign,
   createNewCampaign,
