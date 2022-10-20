@@ -1,3 +1,4 @@
+import { QueryTypes } from "sequelize";
 import db, { sequelize } from "../models/index.js";
 const Jobs = db.Jobs;
 
@@ -26,9 +27,8 @@ const createNewJob = (data) => {
         end_date: data.end_date,
         status: data.status,
         experience: data.experience,
-        isRemote: data.isRemote,
-        Category_id: data.Category_id,
-        Campaign_id: data.Campaign_id,
+        Category_id: data.category,
+        Campaign_id: data.campaign,
       });
 
       // console.log(data.campaign);
@@ -67,8 +67,28 @@ const deleteJob = (jobID) => {
   });
 };
 
+const getJobsByCampaignId = (campaignId) => {
+  const getJobsByCampaignIdQuery =
+    "SELECT J.id, J.name, J.description, J.salary, J.quantity, J.experience, J.isRemote, J.start_date, J.end_date FROM hrms.jobs AS J WHERE J.Campaign_id = ?";
+  return new Promise(async (resolve, reject) => {
+    try {
+      const [results, metadata] = await sequelize.query(
+        getJobsByCampaignIdQuery,
+        {
+          replacements: [campaignId],
+          type: QueryTypes.SELECT,
+        }
+      );
+      resolve(results);
+    } catch (error) {
+      reject(error);
+    }
+  });
+};
+
 module.exports = {
   getAllJob,
   createNewJob,
   deleteJob,
+  getJobsByCampaignId,
 };

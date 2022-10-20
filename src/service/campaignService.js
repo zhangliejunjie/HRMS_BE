@@ -122,9 +122,29 @@ const updateCampaign = (data) => {
   });
 };
 
+const getCampaignById = (campaignId) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      let campaign = await Campaigns.findOne({
+        where: { id: campaignId },
+      });
+      if (!campaign) {
+        resolve({
+          errCode: 2,
+          errMsg: "Campaign not found",
+        });
+      }
+      resolve(campaign);
+    } catch (error) {
+      reject(error);
+    }
+  });
+};
+
 module.exports = {
   getAllCampaign,
   createNewCampaign,
   deleteCampaign,
   updateCampaign,
+  getCampaignById,
 };
