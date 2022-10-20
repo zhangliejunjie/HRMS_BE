@@ -1,1 +1,4 @@
 node_modules
+database.json
+config/config.json
+src/dbconnect.js
