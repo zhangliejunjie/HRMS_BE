@@ -29,9 +29,20 @@ const deleteCampaignV2 = async (req, res, next) => {
     next(error);
   }
 };
+
+const handleGetCampaignById = async (req, res, next) => {
+  try {
+    const data = req.body;
+    let campaign = await campaignService.getCampaignById(data.id);
+    return res.json({ campaign });
+  } catch (error) {
+    next(error);
+  }
+};
 module.exports = {
   handleGetAllCampaign,
   handleCreateNewCampaign,
   updateCampaign,
   deleteCampaignV2,
+  handleGetCampaignById,
 };

@@ -1,7 +1,7 @@
 import { QueryTypes } from "sequelize";
 import db, { sequelize } from "../models/index.js";
 const Jobs = db.Jobs;
-const jobRepository = require("../repository/jobs.repository")
+const jobRepository = require("../repository/jobs.repository");
 const getAllJob = () => {
   return new Promise(async (resolve, reject) => {
     try {
@@ -42,7 +42,7 @@ const deleteJob = (jobID) => {
           errMsg: "Job not found",
         });
       }
-      await jobRepository.updateStatus({ id: jobID })
+      await jobRepository.updateStatus({ id: jobID });
 
       resolve({
         errCode: 0,
@@ -54,7 +54,6 @@ const deleteJob = (jobID) => {
   });
 };
 
-<<<<<<< HEAD
 const getJobsByCampaignId = (campaignId) => {
   const getJobsByCampaignIdQuery =
     "SELECT J.id, J.name, J.description, J.salary, J.quantity, J.experience, J.isRemote, J.start_date, J.end_date FROM hrms.jobs AS J WHERE J.Campaign_id = ?";
@@ -73,28 +72,23 @@ const getJobsByCampaignId = (campaignId) => {
     }
   });
 };
-=======
 const updateJob = async (data) => {
   try {
     const job = await jobRepository.getJobsById(data.id);
     console.log(job);
 
     if (job) {
-      await jobRepository.update(data, { id: data.id })
+      await jobRepository.update(data, { id: data.id });
     }
   } catch (error) {
     throw error;
   }
-}
->>>>>>> origin/dat
+};
 
 module.exports = {
   getAllJob,
   createNewJob,
   deleteJob,
-<<<<<<< HEAD
   getJobsByCampaignId,
-=======
   updateJob,
->>>>>>> origin/dat
 };
