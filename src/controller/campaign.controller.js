@@ -1,49 +1,48 @@
-const campaignService = require('../service/campaignService')
+const campaignService = require("../service/campaignService");
 
 const handleGetAllCampaign = async (req, res) => {
-    let campaigns = await campaignService.getAllCampaign();
-    return res.status(200).json({ campaigns });
-}
+  let campaigns = await campaignService.getAllCampaign();
+  return res.json({ campaigns });
+};
 
-const handleCreateNewCampaign = async (req, res) => {
-    try {
-        let message = await campaignService.createNewCampaign(req.body);
-        return res.status(200).json(message);
-    } catch (error) {
-        return res.status(404).json({ error });
-    }
-}
-
-const handleDeleteCampaign = async (req, res) => {
-    if (!req.body.id) {
-        return res.status(404).json({
-            errCode: 1,
-            errMsg: "Missing campaign id"
-        });
-    }
-    let message = await campaignService.deleteCampaign(req.body.id);
+const handleCreateNewCampaign = async (req, res, next) => {
+  try {
+    let message = await campaignService.createNewCampaign(req.body);
     return res.status(200).json(message);
+  } catch (error) {
+    next(error);
+  }
+};
 
+const updateCampaign = async (req, res, next) => {
+  try {
+    await campaignService.updateCampaign(req, res);
+  } catch (error) {
+    next(error);
+  }
+};
 
-}
+const deleteCampaignV2 = async (req, res, next) => {
+  try {
+    await campaignService.updateStatus(req, res);
+  } catch (error) {
+    next(error);
+  }
+};
 
-
-const handleUpdateCampaign = async (req, res) => {
-
-
-    try {
-        let data = req.body;
-        let message = await campaignService.updateCampaign(data);
-        return res.status(200).json(message);
-    } catch (error) {
-        return res.status(404).json({ error });
-
-    }
-
-}
+const handleGetCampaignById = async (req, res, next) => {
+  try {
+    const data = req.body;
+    let campaign = await campaignService.getCampaignById(data.id);
+    return res.json({ campaign });
+  } catch (error) {
+    next(error);
+  }
+};
 module.exports = {
-    handleGetAllCampaign,
-    handleCreateNewCampaign,
-    handleDeleteCampaign,
-    handleUpdateCampaign
-}
+  handleGetAllCampaign,
+  handleCreateNewCampaign,
+  updateCampaign,
+  deleteCampaignV2,
+  handleGetCampaignById,
+};

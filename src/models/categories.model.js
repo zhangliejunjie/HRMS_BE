@@ -1,5 +1,6 @@
 "use strict";
 const { Model } = require("sequelize");
+const { categoryStatus, categoryStatusDefault } = require("../constant/categoryStatus.enum");
 module.exports = (sequelize, DataTypes) => {
   class Categories extends Model {
     static associate(models) {
@@ -22,6 +23,11 @@ module.exports = (sequelize, DataTypes) => {
       description: {
         allowNull: false,
         type: DataTypes.TEXT,
+      },
+      status: {
+        allowNull: false,
+        type: DataTypes.ENUM(categoryStatus),
+        defaultValue: categoryStatusDefault
       },
     },
     {

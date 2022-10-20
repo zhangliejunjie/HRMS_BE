@@ -8,4 +8,6 @@ router
   .patch(candidateController.changeCandidateStatus);
 router.get("/all", candidateController.getAllCandidate);
 router.post("/memberID", candidateController.getCandidateByMember);
+router.post("/staffID", candidateController.getCandidateByStaff);
+router.patch("/changeStatus", candidateController.changeCandidateStatus);
 module.exports = router;

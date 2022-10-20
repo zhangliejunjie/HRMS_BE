@@ -8,6 +8,7 @@ const createNewCandidateDetails = async (obj) => {
   //   id: "b32c8efc-381c-4ff8-b82e-ea3b38a50298",
   //   ...obj,
   // };
+  console.log(obj)
   const candidate = await db.CandidateDetails.create({
     ...obj,
   });

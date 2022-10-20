@@ -1,4 +1,7 @@
 'use strict';
+
+const { categoryStatus, categoryStatusDefault } = require("../src/constant/categoryStatus.enum");
+
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     await queryInterface.createTable('Categories', {
@@ -15,6 +18,11 @@ module.exports = {
       description: {
         allowNull: false,
         type: Sequelize.TEXT
+      },
+      status: {
+        allowNull: false,
+        type: Sequelize.ENUM(categoryStatus),
+        defaultValue: categoryStatusDefault
       }
     });
   },

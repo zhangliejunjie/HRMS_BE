@@ -3,10 +3,11 @@ const authRoute = require("./auth.route.js");
 const memberRoute = require("./member.route");
 const staffRoute = require("./staff.route");
 const staffAuthRoute = require("./staffAuth.route");
-const categoryRoute = require("./categories.route.js");
-const campaignRoute = require("./campaigns.route.js");
+const categoryRoute = require("./categories.route");
+const campaignRoute = require("./campaigns.route");
 const jobRoute = require("./jobs.route.js");
 const candidateRoute = require("./candidate.route");
+const interviewRoute = require("./interview.route");
 const router = express.Router();
 
 const routesIndex = [
@@ -15,15 +16,15 @@ const routesIndex = [
     route: authRoute,
   },
   {
-    path: "/",
+    path: "/category",
     route: categoryRoute,
   },
   {
-    path: "/",
+    path: "/campaign",
     route: campaignRoute,
   },
   {
-    path: "/",
+    path: "/job",
     route: jobRoute,
   },
   {
@@ -41,6 +42,10 @@ const routesIndex = [
   {
     path: "/candidate",
     route: candidateRoute,
+  },
+  {
+    path: "/interview",
+    route: interviewRoute,
   },
 ];
 

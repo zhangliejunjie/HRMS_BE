@@ -7,9 +7,9 @@ import {
 } from "../controller/category.controller.js";
 const router = express.Router();
 
-router.get("/category", handleGetAllCategory);
-router.post("/category-add", handleCreateNewCategory);
-router.patch("/category-update", handleUpdateCategory);
-router.delete("/category-delete", handleDeleteCategory);
+router.get("/", handleGetAllCategory);
+router.post("/add", handleCreateNewCategory);
+router.patch("/update", handleUpdateCategory);
+router.patch("/delete/:id", handleDeleteCategory);
 
 module.exports = router;

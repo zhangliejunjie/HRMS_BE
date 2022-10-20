@@ -1,31 +1,58 @@
-const jobService = require("../service/jobService.js")
+const jobService = require("../service/jobService.js");
 
-const handleGetAllJob = async (req, res) => {
+const handleGetAllJob = async (req, res, next) => {
+  try {
     let jobs = await jobService.getAllJob();
+    return res.json({ jobs });
+  } catch (error) {
+    next(error);
+  }
+};
 
-    return res.status(200).json({
-        errCode: 0,
-        errMsg: "OK",
-        jobs
+const handleCreateNewJob = async (req, res, next) => {
+  try {
+    let job = await jobService.createNewJob(req.body);
+    return res.json({ job });
+  } catch (error) {
+    next(error);
+  }
+};
+
+const handleDeleteJob = async (req, res, next) => {
+  try {
+    const deleJob = await jobService.deleteJob(req.params.id);
+    return res.json({ deleJob });
+  } catch (error) {
+    next(error);
+  }
+};
+const handleUpdateJob = async (req, res, next) => {
+  try {
+    const data = req.body;
+    const updateJob = await jobService.updateJob(data);
+    return res.json({
+      msg: "Job updated",
+      updateJob,
     });
-}
+  } catch (error) {
+    next(error);
+  }
+};
 
-const handleCreateNewJob = async (req, res) => {
-    let message = await jobService.createNewJob(req.body);
-    return res.status(200).json(message);
-}
-
-const handleDeleteJob = async (req, res) => {
-    if (!req.body.id) {
-        return res.status(404).json({ errMsg: 'id not found' });
-    }
-    let message = await jobService.deleteJob(req.body.id);
-    return res.status(200).json(message);
-}
-
+const handleGetJobsByCampaignId = async (req, res, next) => {
+  try {
+    const data = req.body;
+    const jobs = await jobService.getJobsByCampaignId(data.campaignId);
+    return res.json({ jobs });
+  } catch (error) {
+    next(error);
+  }
+};
 
 module.exports = {
-    handleGetAllJob,
-    handleCreateNewJob,
-    handleDeleteJob,
-}
+  handleGetAllJob,
+  handleCreateNewJob,
+  handleDeleteJob,
+  handleUpdateJob,
+  handleGetJobsByCampaignId,
+};

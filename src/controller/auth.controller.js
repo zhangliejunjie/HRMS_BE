@@ -2,6 +2,7 @@ import {
   createNewMember,
   genAuthToken,
   signInWithEmailPassword,
+  veriCode,
 } from "../service/auth.service";
 const authController = {
   async register(req, res, next) {
@@ -18,6 +19,17 @@ const authController = {
       });
     } catch (error) {
       console.log(error);
+      next(error);
+    }
+  },
+  async verifyCode(req, res, next) {
+    try {
+      const ve = await veriCode(req, res);
+      if (ve == 1) {
+        return res.send("Verify code successfully")
+      }
+      return res.send("Verify code failed")
+    } catch (error) {
       next(error);
     }
   },

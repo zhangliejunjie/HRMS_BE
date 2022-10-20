@@ -2,10 +2,8 @@ require("dotenv").config();
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const httpStatus = require("http-status");
-
 const { ApiError } = require("../middleware/apiError");
 const membersRepository = require("../repository/members.repository");
-
 const hashPassword = async (password) => {
   const salt = await bcrypt.genSalt(10);
   const hashedPass = await bcrypt.hash(password, salt);
@@ -22,21 +20,46 @@ const createNewMember = async (req, res) => {
       throw new ApiError(httpStatus.BAD_REQUEST, "Email already taken");
     }
     const hashPass = await hashPassword(member.password);
+
     const newMember = await membersRepository.createNewMember({
       email: member.email,
       fullname: member.fullname,
       password: hashPass,
       avatar: null,
+      verified_code: Math.floor(1000 + Math.random() * 9000),
     });
+
     console.log(newMember);
     if (!newMember) {
       throw new ApiError(httpStatus.BAD_REQUEST, "Register fail");
     }
+    //send email verify cho nguoi dung
+    //Phai bat less secure app
+    await membersRepository.sendMail(newMember)
     return newMember;
+
+
   } catch (error) {
     throw error;
   }
 };
+const veriCode = async (req, res) => {
+  try {
+    const memberEmail = req.body.email
+    console.log(memberEmail);
+    let getCode = await membersRepository.getCodeByEmail(memberEmail);
+    console.log(getCode.verified_code);
+    if (!(getCode.verified_code == req.body.verified_code)) {
+      throw new ApiError(httpStatus.UNAUTHORIZED, "Invalid code");
+    }
+    const icode = await membersRepository.updateStatus({ email: memberEmail });
+
+    return icode;
+  } catch (error) {
+    throw error;
+  }
+}
+
 const genAuthToken = async (user) => {
   const userObj = {
     sub: user.id,
@@ -77,4 +100,5 @@ module.exports = {
   createNewMember,
   genAuthToken,
   signInWithEmailPassword,
+  veriCode,
 };

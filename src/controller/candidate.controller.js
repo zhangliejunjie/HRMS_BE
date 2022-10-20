@@ -4,6 +4,7 @@ import {
   getListCandidate,
   getListCandidateByMemberID,
   candidateStatusChange,
+  getAllCandidateByStaffID,
 } from "../service/candidate.service";
 
 const candidateController = {
@@ -33,13 +34,15 @@ const candidateController = {
   },
   async getCandidateByStaff(req, res, next) {
     try {
+      const candidateList = await getAllCandidateByStaffID(req, res);
+      res.send(candidateList);
     } catch (error) {
       next(error);
     }
   },
   async changeCandidateStatus(req, res, next) {
     try {
-      const candidateChange = await candidateStatusChange();
+      const candidateChange = await candidateStatusChange(req);
       res.send(candidateChange);
     } catch (error) {
       next(error);

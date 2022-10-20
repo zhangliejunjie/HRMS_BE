@@ -19,7 +19,7 @@ const createNewCandidate = async (req, res) => {
       );
     }
     const { member, job_id, ...rest } = req.body;
-
+    let myResumeURL = req.body.my_resume_url;
     const candidateList = await getListCandidate();
     if (candidateList.length > 0) {
       candidateList.forEach((candidate) => {
@@ -31,8 +31,11 @@ const createNewCandidate = async (req, res) => {
         }
       });
     }
+    if (!myResumeURL) {
+      myResumeURL = member.current_resume_url;
+    }
     const candidateDetailData = {
-      resume_url: member.current_resume_url,
+      resume_url: myResumeURL,
       phone: member.phone,
       Job_id: job_id,
       HRStaff_id: getRandomStaff.id,
@@ -45,8 +48,10 @@ const createNewCandidate = async (req, res) => {
     if (!candidateDetail) {
       throw new ApiError(httpStatus.BAD_REQUEST, "ERROR cant create candidate");
     }
+    console.log(candidateDetail);
     return candidateDetail;
   } catch (error) {
+    console.log(error);
     throw error;
   }
 };
@@ -83,10 +88,47 @@ const getListCandidateByMemberID = async (req, res) => {
     throw error;
   }
 };
-const candidateStatusChange = async (req, res) => {};
+const getAllCandidateByStaffID = async (req, res) => {
+  try {
+    const [results] = await sequelize.query(
+      `select c.id, c.resume_url, c.phone, c.applied_status, j.name as job_name, M.fullname as member_name, M.avatar as member_avatar from CandidateDetails c inner join Jobs J on c.Job_id = J.id inner join Staffs S on c.HRStaff_id = S.id inner join Members M on c.Member_id = M.id where S.id = ?`,
+      {
+        replacements: [`${req.body.id}`],
+      }
+    );
+    if (results.length === 0) {
+      throw new ApiError(
+        httpStatus.BAD_REQUEST,
+        "This staff dont have any request job"
+      );
+    }
+    return results;
+  } catch (error) {
+    throw error;
+  }
+};
+
+const candidateStatusChange = async (req, res) => {
+  try {
+    const [results] = await sequelize.query(
+      `update CandidateDetails set applied_status = ? where id = ?`,
+      {
+        replacements: [`${req.body.status}`, `${req.body.id}`],
+      }
+    );
+    if (results.length === 0) {
+      throw new ApiError(httpStatus.BAD_REQUEST, "Error with applied status");
+    }
+    console.log(results);
+    return results;
+  } catch (error) {
+    throw error;
+  }
+};
 module.exports = {
   createNewCandidate,
   getListCandidate,
   getListCandidateByMemberID,
   candidateStatusChange,
+  getAllCandidateByStaffID,
 };

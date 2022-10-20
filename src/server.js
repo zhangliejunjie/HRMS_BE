@@ -7,11 +7,10 @@ require("dotenv").config();
 const { handleError, convertToApiError } = require("./middleware/apiError");
 // const db = require("../models/index");
 const app = express();
-
+app.use(cors());
 //middleware
 app.use(express.json()); // thg nay cho body parser ve JSON
 app.use(express.urlencoded({ extended: true }));
-app.use(cors());
 
 connectDB();
 
