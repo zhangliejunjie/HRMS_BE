@@ -2,17 +2,16 @@ import express from "express";
 import {
   handleGetAllCampaign,
   handleCreateNewCampaign,
-  handleDeleteCampaign,
-  handleUpdateCampaign,
-  handleGetCampaignById,
+  updateCampaign,
+  deleteCampaignV2,
 } from "../controller/campaign.controller";
 
 const router = express.Router();
 
-router.get("/campaign", handleGetAllCampaign);
-router.post("/campaign-add", handleCreateNewCampaign);
-router.delete("/campaign-delete", handleDeleteCampaign);
-router.patch("/campaign-update", handleUpdateCampaign);
-router.post("/campaign-by-id", handleGetCampaignById);
+router.get("/", handleGetAllCampaign);
+router.post("/add", handleCreateNewCampaign);
+router.patch("/update", updateCampaign);
+//delete nhung ma la update status == 'Finished'
+router.patch("/delete/:id", deleteCampaignV2);
 
 module.exports = router;

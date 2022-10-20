@@ -2,59 +2,36 @@ const campaignService = require("../service/campaignService");
 
 const handleGetAllCampaign = async (req, res) => {
   let campaigns = await campaignService.getAllCampaign();
-  return res.status(200).json({ campaigns });
+  return res.json({ campaigns });
 };
 
-const handleCreateNewCampaign = async (req, res) => {
+const handleCreateNewCampaign = async (req, res, next) => {
   try {
     let message = await campaignService.createNewCampaign(req.body);
     return res.status(200).json(message);
   } catch (error) {
-    return res.status(404).json({ error });
+    next(error);
   }
 };
 
-const handleDeleteCampaign = async (req, res) => {
-  if (!req.body.id) {
-    return res.status(404).json({
-      errCode: 1,
-      errMsg: "Missing campaign id",
-    });
-  }
-  let message = await campaignService.deleteCampaign(req.body.id);
-  return res.status(200).json(message);
-};
-
-const handleUpdateCampaign = async (req, res) => {
+const updateCampaign = async (req, res, next) => {
   try {
-    let data = req.body;
-    let message = await campaignService.updateCampaign(data);
-    return res.status(200).json(message);
+    await campaignService.updateCampaign(req, res);
   } catch (error) {
-    return res.status(404).json({ error });
+    next(error);
   }
 };
 
-const handleGetCampaignById = async (req, res) => {
+const deleteCampaignV2 = async (req, res, next) => {
   try {
-    console.log(req.body);
-    if (!req.body.id) {
-      return res.status(404).json({
-        errCode: 1,
-        errMsg: "Missing Campaign Id",
-      });
-    }
-    let message = await campaignService.getCampaignById(req.body.id);
-    return res.status(200).json(message);
+    await campaignService.updateStatus(req, res);
   } catch (error) {
-    return res.status(404).json({ error });
+    next(error);
   }
 };
-
 module.exports = {
   handleGetAllCampaign,
   handleCreateNewCampaign,
-  handleDeleteCampaign,
-  handleUpdateCampaign,
-  handleGetCampaignById,
+  updateCampaign,
+  deleteCampaignV2,
 };
