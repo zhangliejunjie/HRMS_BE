@@ -13,6 +13,6 @@ router.get("/campaign", handleGetAllCampaign);
 router.post("/campaign-add", handleCreateNewCampaign);
 router.delete("/campaign-delete", handleDeleteCampaign);
 router.patch("/campaign-update", handleUpdateCampaign);
-router.get("/campaign-by-id", handleGetCampaignById);
+router.post("/campaign-by-id", handleGetCampaignById);
 
 module.exports = router;

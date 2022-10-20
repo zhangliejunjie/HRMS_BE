@@ -12,5 +12,5 @@ const router = express.Router();
 router.get("/job", handleGetAllJob);
 router.post("/job-add", handleCreateNewJob);
 router.delete("/job-delete", handleDeleteJob);
-router.get("/job-by-campaign", handleGetJobsByCampaignId);
+router.post("/job-by-campaign", handleGetJobsByCampaignId);
 module.exports = router;

@@ -37,6 +37,7 @@ const handleUpdateCampaign = async (req, res) => {
 
 const handleGetCampaignById = async (req, res) => {
   try {
+    console.log(req.body);
     if (!req.body.id) {
       return res.status(404).json({
         errCode: 1,
