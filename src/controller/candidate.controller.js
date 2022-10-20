@@ -42,7 +42,7 @@ const candidateController = {
   },
   async changeCandidateStatus(req, res, next) {
     try {
-      const candidateChange = await candidateStatusChange();
+      const candidateChange = await candidateStatusChange(req);
       res.send(candidateChange);
     } catch (error) {
       next(error);
