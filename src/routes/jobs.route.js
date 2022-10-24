@@ -14,6 +14,6 @@ router.get("/", handleGetAllJob);
 router.post("/add", handleCreateNewJob);
 router.patch("/delete/:id", handleDeleteJob);
 router.patch("/update", handleUpdateJob);
-router.post("/by-id", handleGetJobsByCampaignId);
+router.post("/by-campaign", handleGetJobsByCampaignId);
 
 module.exports = router;

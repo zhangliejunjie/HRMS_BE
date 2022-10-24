@@ -84,7 +84,7 @@ const updateStatus = async (req, res) => {
 const getCampaignById = (campaignId) => {
   return new Promise(async (resolve, reject) => {
     try {
-      let campaign = await Campaigns.findOne({
+      let campaign = await campaignRepository.findOne({
         where: { id: campaignId },
       });
       if (!campaign) {

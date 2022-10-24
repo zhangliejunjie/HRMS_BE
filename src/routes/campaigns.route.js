@@ -14,6 +14,6 @@ router.post("/add", handleCreateNewCampaign);
 router.patch("/update", updateCampaign);
 //delete nhung ma la update status == 'Finished'
 router.patch("/delete/:id", deleteCampaignV2);
-router.post("/by-id", handleGetCampaignById);
+router.get("/:id", handleGetCampaignById);
 
 module.exports = router;
