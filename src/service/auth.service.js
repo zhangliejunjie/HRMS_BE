@@ -1,14 +1,17 @@
+
 require("dotenv").config();
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const httpStatus = require("http-status");
 const { ApiError } = require("../middleware/apiError");
 const membersRepository = require("../repository/members.repository");
+var nodemailer = require("nodemailer");
 const hashPassword = async (password) => {
   const salt = await bcrypt.genSalt(10);
   const hashedPass = await bcrypt.hash(password, salt);
   return hashedPass;
 };
+
 
 const createNewMember = async (req, res) => {
   try {
@@ -35,7 +38,7 @@ const createNewMember = async (req, res) => {
     }
     //send email verify cho nguoi dung
     //Phai bat less secure app
-    await membersRepository.sendMail(newMember)
+    await membersRepository.sendMail(newMember.email, 'Code to verify account', 'your verify code is: ' + newMember.verified_code)
     return newMember;
 
 
@@ -96,9 +99,87 @@ const signInWithEmailPassword = async (email, password) => {
   }
 };
 
+
+//-----reset password------------------------
+
+
+const forgotPass = async (data) => {
+  const email = data.email;
+  try {
+    if (!email) {
+      throw new ApiError(httpStatus.NOT_FOUND, "Please enter your email")
+
+    }
+    const oldUser = await membersRepository.getMemberByEmail(
+      email
+    );
+
+    if (!oldUser) {
+      throw new ApiError(httpStatus.NOT_FOUND, "Mày là ai ???");
+    }
+    const secret = process.env.ACCESS_TOKEN_SECRET + oldUser.password;
+    const token = jwt.sign({ email: oldUser.email, id: oldUser.id }, secret, {
+      expiresIn: "5m",
+    });
+    const link = `http://localhost:8000/api/member-auth/reset-password/${oldUser.id}/${token}`;
+
+    await membersRepository.sendMail(oldUser.email, "Password reset", "Reset Link expired in 5 minutes: " + link);
+    console.log("Link expired in 5 minutes: " + link);
+    return email;
+
+  } catch (error) {
+    throw error
+  }
+
+};
+
+const resetPass = async (req, res) => {
+  const { id, token } = req.params;
+  console.log(req.params);
+  const oldUser = await membersRepository.getMemberById(id);
+  if (!oldUser) {
+    throw new ApiError(httpStatus.NOT_FOUND, "Người dùng không tồn tại");
+  }
+  const secret = process.env.ACCESS_TOKEN_SECRET + oldUser.password;
+  try {
+    const verify = jwt.verify(token, secret);
+    return res.json({ email: verify.email, status: "Xác thực" });
+  } catch (error) {
+    console.log(error);
+    throw new ApiError(httpStatus.UNAUTHORIZED, "Không xác thực");
+  }
+}
+
+const setNewPassword = async (req, res) => {
+  const { id, token } = req.params;
+  const { password } = req.body;
+
+  const oldUser = await membersRepository.getMemberById(id);
+  if (!oldUser) {
+    throw new ApiError(httpStatus.NOT_FOUND, "Người dùng không tồn tại");
+  }
+  const secret = process.env.ACCESS_TOKEN_SECRET + oldUser.password;
+  try {
+    const verify = jwt.verify(token, secret);
+    const newHashPassword = await hashPassword(password);
+
+    //==============================update password=======================
+
+    const updatePassword = await membersRepository.updatePass(newHashPassword, { id: oldUser.id })
+    res.send("Thay đổi password thành công")
+    res.json({ email: verify.email, status: "Xác thực" });
+  } catch (error) {
+    // console.log(error);
+    throw error;
+  }
+}
+
 module.exports = {
   createNewMember,
   genAuthToken,
   signInWithEmailPassword,
   veriCode,
+  forgotPass,
+  resetPass,
+  setNewPassword
 };

@@ -54,7 +54,6 @@ const deleteJob = (jobID) => {
   });
 };
 
-<<<<<<< HEAD
 const getJobsByCampaignId = (campaignId) => {
   const getJobsByCampaignIdQuery =
     "SELECT J.id, J.name, J.description, J.salary, J.quantity, J.experience, J.isRemote, J.start_date, J.end_date FROM hrms.jobs AS J WHERE J.Campaign_id = ?";
@@ -73,7 +72,6 @@ const getJobsByCampaignId = (campaignId) => {
     }
   });
 };
-=======
 const updateJob = async (data) => {
   try {
     const job = await jobRepository.getJobsById(data.id);
@@ -86,15 +84,11 @@ const updateJob = async (data) => {
     throw error;
   }
 }
->>>>>>> origin/dat
 
 module.exports = {
   getAllJob,
   createNewJob,
   deleteJob,
-<<<<<<< HEAD
   getJobsByCampaignId,
-=======
   updateJob,
->>>>>>> origin/dat
 };

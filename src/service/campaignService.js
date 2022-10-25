@@ -105,9 +105,6 @@ module.exports = {
   getAllCampaign,
   createNewCampaign,
   updateCampaign,
-<<<<<<< HEAD
   getCampaignById,
-=======
   updateStatus,
->>>>>>> origin/dat
 };
