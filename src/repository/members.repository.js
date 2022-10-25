@@ -72,7 +72,7 @@ const showAllMember = async () => {
   return memberList;
 };
 
-const sendMail = async (newMember) => {
+const sendMail = async (email, subject, text) => {
   var nodemailer = require("nodemailer");
 
   var transporter = nodemailer.createTransport({
@@ -86,9 +86,9 @@ const sendMail = async (newMember) => {
   // process.env.MY_PASSWORD
   var mailOptions = {
     from: process.env.MY_EMAIL,
-    to: newMember.email,
-    subject: "Code to verify account",
-    text: `your verify code is: ${newMember.verified_code}`,
+    to: email,
+    subject: subject,
+    text: text,
   };
 
   transporter.sendMail(mailOptions, function (error, info) {
@@ -97,6 +97,12 @@ const sendMail = async (newMember) => {
     } else {
       console.log("Email sent: " + info.response);
     }
+  });
+};
+
+const updatePass = async (pass, where) => {
+  await Members.update(pass, {
+    where: where,
   });
 };
 
@@ -110,4 +116,5 @@ module.exports = {
   updateStatus,
   getCodeByEmail,
   sendMail,
+  updatePass,
 };

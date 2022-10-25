@@ -3,7 +3,11 @@ import {
   genAuthToken,
   signInWithEmailPassword,
   veriCode,
+  forgotPass,
+  resetPass,
+  setNewPassword
 } from "../service/auth.service";
+
 const authController = {
   async register(req, res, next) {
     try {
@@ -26,9 +30,9 @@ const authController = {
     try {
       const ve = await veriCode(req, res);
       if (ve == 1) {
-        return res.send("Verify code successfully")
+        return res.json("Verify code successfully")
       }
-      return res.send("Verify code failed")
+      return res.json("Verify code failed")
     } catch (error) {
       next(error);
     }
@@ -50,6 +54,38 @@ const authController = {
   async isauth(req, res, next) {
     res.json(req.currentUser);
   },
+
+
+
+  //-----reset password------------------------
+
+
+  async forgotPassword(req, res, next) {
+    try {
+      const forgetPass = await forgotPass(req.body)
+      res.send(forgetPass)
+    } catch (error) {
+      next(error);
+    }
+  },
+
+  async resetPassword(req, res, next) {
+    try {
+      const resetPasss = await resetPass(req, res)
+      return res.seng(resetPasss)
+    } catch (error) {
+      next(error);
+
+    }
+  },
+  async setNewPassword(req, res, next) {
+    try {
+      const setNewPasswordd = await setNewPassword(req, res)
+    } catch (error) {
+      next(error);
+    }
+  }
 };
+
 
 module.exports = authController;

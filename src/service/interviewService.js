@@ -11,6 +11,17 @@ const getAllInterviews = async () => {
     }
 }
 
+const createNewInterview = async (data) => {
+    try {
+        const newInterview = await interviewRepository.createInterview(data);
+        console.log(newInterview);
+        return newInterview;
+    } catch (error) {
+        throw error;
+    }
+}
+
 module.exports = {
     getAllInterviews,
+    createNewInterview
 }
