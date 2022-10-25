@@ -1,5 +1,6 @@
 const httpStatus = require("http-status");
 const { ApiError } = require("../middleware/apiError");
+import { sequelize } from "../models/index";
 const {
   getMemberByEmail,
   showAllMember,
@@ -29,11 +30,15 @@ const memberController = {
   async getAllMember(req, res) {
     try {
       const allMember = await showAllMember();
+      // const [results] = await sequelize.query("select * from Members");
+      // const allMember = results;
       res.send(allMember);
       if (!allMember) {
         throw new ApiError("Member khong ton tai");
       }
-    } catch (error) {}
+    } catch (error) {
+      console.log(error);
+    }
   },
 };
 

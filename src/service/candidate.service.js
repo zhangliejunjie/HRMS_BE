@@ -91,7 +91,7 @@ const getListCandidateByMemberID = async (req, res) => {
 const getAllCandidateByStaffID = async (req, res) => {
   try {
     const [results] = await sequelize.query(
-      `select c.id, c.resume_url, c.phone, c.applied_status, j.name as job_name, M.fullname as member_name, M.avatar as member_avatar from CandidateDetails c inner join Jobs J on c.Job_id = J.id inner join Staffs S on c.HRStaff_id = S.id inner join Members M on c.Member_id = M.id where S.id = ?`,
+      `select c.id, c.resume_url, c.phone, c.applied_status, j.name as job_name, M.fullname as member_name, M.avatar as member_avatar, M.id as member_id from CandidateDetails c inner join Jobs J on c.Job_id = J.id inner join Staffs S on c.HRStaff_id = S.id inner join Members M on c.Member_id = M.id where S.id = ?`,
       {
         replacements: [`${req.body.id}`],
       }
@@ -107,19 +107,33 @@ const getAllCandidateByStaffID = async (req, res) => {
     throw error;
   }
 };
-
+//
 const candidateStatusChange = async (req, res) => {
   try {
+    const [res] = await sequelize.query(
+      `select * from CandidateDetails where Member_id = ? and applied_status = 'Approve'`,
+      {
+        replacements: [`${req.body.member_id}`],
+      }
+    );
+    if (res.length > 0 && req.body.status === "Approve") {
+      throw new ApiError(
+        httpStatus.BAD_REQUEST,
+        "This Member has already been approved for another job"
+      );
+    }
+    console.log(res);
     const [results] = await sequelize.query(
       `update CandidateDetails set applied_status = ? where id = ?`,
       {
         replacements: [`${req.body.status}`, `${req.body.id}`],
       }
     );
+
     if (results.length === 0) {
       throw new ApiError(httpStatus.BAD_REQUEST, "Error with applied status");
     }
-    console.log(results);
+    // console.log(results);
     return results;
   } catch (error) {
     throw error;

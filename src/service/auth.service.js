@@ -4,6 +4,7 @@ const jwt = require("jsonwebtoken");
 const httpStatus = require("http-status");
 const { ApiError } = require("../middleware/apiError");
 const membersRepository = require("../repository/members.repository");
+
 const hashPassword = async (password) => {
   const salt = await bcrypt.genSalt(10);
   const hashedPass = await bcrypt.hash(password, salt);
@@ -35,17 +36,15 @@ const createNewMember = async (req, res) => {
     }
     //send email verify cho nguoi dung
     //Phai bat less secure app
-    await membersRepository.sendMail(newMember)
+    await membersRepository.sendMail(newMember);
     return newMember;
-
-
   } catch (error) {
     throw error;
   }
 };
 const veriCode = async (req, res) => {
   try {
-    const memberEmail = req.body.email
+    const memberEmail = req.body.email;
     console.log(memberEmail);
     let getCode = await membersRepository.getCodeByEmail(memberEmail);
     console.log(getCode.verified_code);
@@ -58,7 +57,7 @@ const veriCode = async (req, res) => {
   } catch (error) {
     throw error;
   }
-}
+};
 
 const genAuthToken = async (user) => {
   const userObj = {
