@@ -49,7 +49,6 @@ const getJobsByCampaignId = async (campaignId) => {
     type: QueryTypes.SELECT,
     plain: false,
   });
-  console.log(data);
   return data;
 };
 

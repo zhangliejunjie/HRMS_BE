@@ -30,9 +30,9 @@ module.exports = {
         allowNull: false,
         type: Sequelize.INTEGER,
       },
-      date: {
+      week: {
         allowNull: false,
-        type: Sequelize.date,
+        type: Sequelize.INTEGER,
       },
       status: {
         allowNull: false,
@@ -40,11 +40,11 @@ module.exports = {
         defaultValue: interviewStatusDefault,
       },
       mark: {
-        allowNull: false,
+        allowNull: true,
         type: Sequelize.INTEGER,
       },
       comment: {
-        allowNull: false,
+        allowNull: true,
         type: Sequelize.TEXT,
       },
       Interviewer_id: {

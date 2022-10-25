@@ -25,4 +25,18 @@ const getCandidatesNotInterview = async () => {
   });
 };
 
-module.exports = { getInterviews, getAllRooms, getCandidatesNotInterview };
+const getNumCandidatesByRoomWeek = async (week) => {
+  const query =
+    "SELECT i.slot,  count(*) as num_candidate FROM hrms.interviews as i where i.room = 1 and week(i.date) = ? group by i.slot";
+  return await sequelize.query(query, {
+    replacements: [week],
+    type: QueryTypes.SELECT,
+  });
+};
+
+module.exports = {
+  getInterviews,
+  getAllRooms,
+  getCandidatesNotInterview,
+  getNumCandidatesByRoomWeek,
+};

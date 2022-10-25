@@ -28,8 +28,21 @@ const handleGetCandidatesNotInterview = async (req, res, next) => {
   }
 };
 
+const handleGetNumCandidatesByRoomWeek = async (req, res, next) => {
+  try {
+    console.log(req.body.week);
+    const week = req.body.week;
+    const getNumCandidatesByRoomWeek =
+      await interviewService.getNumCandidatesByRoomWeek(week);
+    res.json(getNumCandidatesByRoomWeek);
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = {
   handleGetAllInterview,
   handleGetAllRooms,
   handleGetCandidatesNotInterview,
+  handleGetNumCandidatesByRoomWeek,
 };
