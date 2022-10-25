@@ -1,5 +1,5 @@
 import { ApiError } from "../middleware/apiError";
-
+import { sendMail } from "../repository/members.repository";
 import { showAllStaff } from "../repository/staffs.repository";
 import {
   createNewCandidateDetails,
@@ -7,6 +7,9 @@ import {
 } from "../repository/candidates.repository";
 import httpStatus from "http-status";
 import db, { sequelize } from "../models/index";
+
+require("dotenv").config();
+
 const createNewCandidate = async (req, res) => {
   try {
     const staffList = await showAllStaff();
@@ -122,7 +125,6 @@ const candidateStatusChange = async (req, res) => {
         "This Member has already been approved for another job"
       );
     }
-    console.log(res);
     const [results] = await sequelize.query(
       `update CandidateDetails set applied_status = ? where id = ?`,
       {
@@ -133,7 +135,7 @@ const candidateStatusChange = async (req, res) => {
     if (results.length === 0) {
       throw new ApiError(httpStatus.BAD_REQUEST, "Error with applied status");
     }
-    // console.log(results);
+    // sendMail
     return results;
   } catch (error) {
     throw error;

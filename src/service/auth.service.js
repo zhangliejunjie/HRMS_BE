@@ -5,6 +5,7 @@ const httpStatus = require("http-status");
 const { ApiError } = require("../middleware/apiError");
 const membersRepository = require("../repository/members.repository");
 var nodemailer = require("nodemailer");
+
 const hashPassword = async (password) => {
   const salt = await bcrypt.genSalt(10);
   const hashedPass = await bcrypt.hash(password, salt);
