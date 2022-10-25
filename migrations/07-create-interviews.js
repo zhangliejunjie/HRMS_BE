@@ -30,6 +30,10 @@ module.exports = {
         allowNull: false,
         type: Sequelize.INTEGER,
       },
+      date: {
+        allowNull: false,
+        type: Sequelize.date,
+      },
       status: {
         allowNull: false,
         type: Sequelize.ENUM(interviewStatus),
