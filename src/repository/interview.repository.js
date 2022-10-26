@@ -25,7 +25,6 @@ const getCandidatesNotInterview = async () => {
   });
 };
 
-<<<<<<< HEAD
 const getNumCandidatesByRoomWeek = async (week) => {
   const query =
     "SELECT i.slot,  count(*) as num_candidate FROM hrms.interviews as i where i.room = 1 and week(i.date) = ? group by i.slot";
@@ -34,11 +33,6 @@ const getNumCandidatesByRoomWeek = async (week) => {
     type: QueryTypes.SELECT,
   });
 };
-=======
-
-
-module.exports = { getInterviews }
->>>>>>> dev
 
 module.exports = {
   getInterviews,
