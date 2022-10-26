@@ -1,5 +1,6 @@
 const httpStatus = require("http-status");
 const { ApiError } = require("../middleware/apiError");
+import { sequelize } from "../models/index";
 const {
   getMemberByEmail,
   showAllMember,
@@ -33,7 +34,7 @@ const memberController = {
       if (!allMember) {
         throw new ApiError("Member khong ton tai");
       }
-    } catch (error) { }
+    } catch (error) {}
   },
 };
 

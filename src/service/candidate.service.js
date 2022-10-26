@@ -1,12 +1,15 @@
 import { ApiError } from "../middleware/apiError";
-
 import { showAllStaff } from "../repository/staffs.repository";
 import {
   createNewCandidateDetails,
-  getCandidateDetailsByMemberID,
+  // getCandidateDetailsByMemberID,
+  getSpecificCandidateById,
 } from "../repository/candidates.repository";
 import httpStatus from "http-status";
 import db, { sequelize } from "../models/index";
+import { mailSending } from "../utils/mailSending";
+require("dotenv").config();
+
 const createNewCandidate = async (req, res) => {
   try {
     const staffList = await showAllStaff();
@@ -48,10 +51,10 @@ const createNewCandidate = async (req, res) => {
     if (!candidateDetail) {
       throw new ApiError(httpStatus.BAD_REQUEST, "ERROR cant create candidate");
     }
-    console.log(candidateDetail);
+    // console.log(candidateDetail);
     return candidateDetail;
   } catch (error) {
-    console.log(error);
+    // console.log(error);
     throw error;
   }
 };
@@ -74,7 +77,7 @@ const getListCandidateByMemberID = async (req, res) => {
       }
     );
     // const candidateByMember = await getCandidateDetailsByMemberID(memberID);
-    console.log(results);
+    // console.log(results);
 
     if (results.length === 0) {
       throw new ApiError(
@@ -91,7 +94,7 @@ const getListCandidateByMemberID = async (req, res) => {
 const getAllCandidateByStaffID = async (req, res) => {
   try {
     const [results] = await sequelize.query(
-      `select c.id, c.resume_url, c.phone, c.applied_status, j.name as job_name, M.fullname as member_name, M.avatar as member_avatar from CandidateDetails c inner join Jobs J on c.Job_id = J.id inner join Staffs S on c.HRStaff_id = S.id inner join Members M on c.Member_id = M.id where S.id = ?`,
+      `select c.id, c.resume_url, c.phone, c.applied_status, j.name as job_name, M.fullname as member_name, M.avatar as member_avatar, M.id as member_id from CandidateDetails c inner join Jobs J on c.Job_id = J.id inner join Staffs S on c.HRStaff_id = S.id inner join Members M on c.Member_id = M.id where S.id = ?`,
       {
         replacements: [`${req.body.id}`],
       }
@@ -107,19 +110,47 @@ const getAllCandidateByStaffID = async (req, res) => {
     throw error;
   }
 };
-
+//
 const candidateStatusChange = async (req, res) => {
   try {
+    const [res] = await sequelize.query(
+      `select * from CandidateDetails where Member_id = ? and applied_status = 'Approve'`,
+      {
+        replacements: [`${req.body.member_id}`],
+      }
+    );
+    if (res.length > 0 && req.body.status === "Approve") {
+      throw new ApiError(
+        httpStatus.BAD_REQUEST,
+        "This Member has already been approved for another job"
+      );
+    }
     const [results] = await sequelize.query(
       `update CandidateDetails set applied_status = ? where id = ?`,
       {
         replacements: [`${req.body.status}`, `${req.body.id}`],
       }
     );
+
     if (results.length === 0) {
       throw new ApiError(httpStatus.BAD_REQUEST, "Error with applied status");
     }
-    console.log(results);
+    // sendMail
+    const candidate = await getSpecificCandidateById(req.body.id);
+    console.log(candidate);
+
+    const cvResult =
+      req.body.status === "Approve"
+        ? "\nCongratulations on passing the resume round, HR will contact you as soon as possible to continue for the interview round."
+        : "\nWe're sorry to inform you that your resume has been rejected, hope to see you next time";
+    mailSending(
+      candidate.member_email,
+      `Resume result about ${candidate.job_name}`,
+      `
+        ${cvResult}
+        Best, FCode eCruitment
+      `
+    ).then((res) => console.log(`send mail successfully`));
     return results;
   } catch (error) {
     throw error;

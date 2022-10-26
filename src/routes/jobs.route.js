@@ -5,6 +5,7 @@ import {
   handleCreateNewJob,
   handleDeleteJob,
   handleUpdateJob,
+  handleGetJobsByCampaignId,
 } from "../controller/job.controller.js";
 
 const router = express.Router();
@@ -13,5 +14,6 @@ router.get("/", handleGetAllJob);
 router.post("/add", handleCreateNewJob);
 router.patch("/delete/:id", handleDeleteJob);
 router.patch("/update", handleUpdateJob);
+router.post("/by-id", handleGetJobsByCampaignId);
 
 module.exports = router;

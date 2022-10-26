@@ -1,7 +1,7 @@
 import { QueryTypes } from "sequelize";
 import db, { sequelize } from "../models/index.js";
 const Jobs = db.Jobs;
-const jobRepository = require("../repository/jobs.repository")
+const jobRepository = require("../repository/jobs.repository");
 const getAllJob = () => {
   return new Promise(async (resolve, reject) => {
     try {
@@ -42,7 +42,7 @@ const deleteJob = (jobID) => {
           errMsg: "Job not found",
         });
       }
-      await jobRepository.updateStatus({ id: jobID })
+      await jobRepository.updateStatus({ id: jobID });
 
       resolve({
         errCode: 0,
@@ -78,12 +78,12 @@ const updateJob = async (data) => {
     console.log(job);
 
     if (job) {
-      await jobRepository.update(data, { id: data.id })
+      await jobRepository.update(data, { id: data.id });
     }
   } catch (error) {
     throw error;
   }
-}
+};
 
 module.exports = {
   getAllJob,

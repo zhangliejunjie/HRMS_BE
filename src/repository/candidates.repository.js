@@ -1,3 +1,4 @@
+const { sequelize } = require("../models");
 const db = require("../models");
 // db column name = CandidateDetails
 const findOne = async (where) => {
@@ -53,6 +54,15 @@ const showAllCandidateDetails = async () => {
   candidateDetailList = await db.CandidateDetails.findAll({ raw: true });
   return candidateDetailList;
 };
+const getSpecificCandidateById = async (candidateID) => {
+  const [result] = await sequelize.query(
+    `select CandidateDetails.id, CandidateDetails.identity_number, CandidateDetails.resume_url, CandidateDetails.phone, CandidateDetails.applied_status, CandidateDetails.dob, CandidateDetails.address, CandidateDetails.Job_id, CandidateDetails.HRStaff_id, CandidateDetails.Member_id, M.email as member_email, M.fullname as member_fullname, J.name as job_name from CandidateDetails inner join Members M on CandidateDetails.Member_id = M.id inner join Jobs J on J.id = CandidateDetails.Job_id where CandidateDetails.id = ?`,
+    {
+      replacements: [`${candidateID}`],
+    }
+  );
+  return result[0];
+};
 module.exports = {
   findOne,
   createNewCandidateDetails,
@@ -61,4 +71,5 @@ module.exports = {
   getCandidateDetailsById,
   update,
   showAllCandidateDetails,
+  getSpecificCandidateById,
 };

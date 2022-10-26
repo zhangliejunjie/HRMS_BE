@@ -1,4 +1,3 @@
-
 require("dotenv").config();
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
@@ -7,12 +6,12 @@ const { ApiError } = require("../middleware/apiError");
 const membersRepository = require("../repository/members.repository");
 var nodemailer = require("nodemailer");
 const { response } = require("express");
+
 const hashPassword = async (password) => {
   const salt = await bcrypt.genSalt(10);
   const hashedPass = await bcrypt.hash(password, salt);
   return hashedPass;
 };
-
 
 const createNewMember = async (req, res) => {
   try {
@@ -39,17 +38,19 @@ const createNewMember = async (req, res) => {
     }
     //send email verify cho nguoi dung
     //Phai bat less secure app
-    await membersRepository.sendMail(newMember.email, 'Code to verify account', 'your verify code is: ' + newMember.verified_code)
+    await membersRepository.sendMail(
+      newMember.email,
+      "Code to verify account",
+      "your verify code is: " + newMember.verified_code
+    );
     return newMember;
-
-
   } catch (error) {
     throw error;
   }
 };
 const veriCode = async (req, res) => {
   try {
-    const memberEmail = req.body.email
+    const memberEmail = req.body.email;
     console.log(memberEmail);
     let getCode = await membersRepository.getCodeByEmail(memberEmail);
     console.log(getCode.verified_code);
@@ -62,7 +63,7 @@ const veriCode = async (req, res) => {
   } catch (error) {
     throw error;
   }
-}
+};
 
 const genAuthToken = async (user) => {
   const userObj = {
@@ -100,20 +101,15 @@ const signInWithEmailPassword = async (email, password) => {
   }
 };
 
-
 //-----reset password------------------------
-
 
 const forgotPass = async (data, res) => {
   const email = data.email;
   try {
     if (!email) {
-      throw new ApiError(httpStatus.NOT_FOUND, "Please enter your email")
-
+      throw new ApiError(httpStatus.NOT_FOUND, "Please enter your email");
     }
-    const oldUser = await membersRepository.getMemberByEmail(
-      email
-    );
+    const oldUser = await membersRepository.getMemberByEmail(email);
 
     if (!oldUser) {
       throw new ApiError(httpStatus.NOT_FOUND, "Người dùng không tồn tại");
@@ -126,17 +122,18 @@ const forgotPass = async (data, res) => {
     console.log(start);
     const link = `127.0.0.1:5173/reset-password/${oldUser.id}/${start}`;
 
-    await membersRepository.sendMail(oldUser.email, "Password reset", "Reset Link expired in 5 minutes: " + link);
+    await membersRepository.sendMail(
+      oldUser.email,
+      "Password reset",
+      "Reset Link expired in 5 minutes: " + link
+    );
     console.log("Link expired in 5 minutes: " + link);
 
     // res.json("pasword reset link send to your account");
-
-
   } catch (error) {
-    console.log(error)
-    throw error
+    console.log(error);
+    throw error;
   }
-
 };
 
 const resetPass = async (req, res) => {
@@ -150,38 +147,38 @@ const resetPass = async (req, res) => {
     const millis = Date.now() - start;
     if (Math.floor(millis / 1000) > 300) {
       return res.status(400).json({ message: "Link hết hạn" });
-
     } else {
       return res.json({ message: "xác thực" });
-
     }
   } catch (error) {
     console.log(error);
     throw new ApiError(httpStatus.UNAUTHORIZED, "Link hết hạn");
   }
-}
+};
 
 const setNewPassword = async (req, res) => {
   const { id } = req.params;
   const { password } = req.body;
-  console.log(password)
+  console.log(password);
   const oldUser = await membersRepository.getMemberById(id);
   if (!oldUser) {
     throw new ApiError(httpStatus.NOT_FOUND, "Người dùng không tồn tại");
   }
   try {
     const newHashPassword = await hashPassword(password);
-    console.log(newHashPassword)
+    console.log(newHashPassword);
     //==============================update password=======================
 
-    const updatePassword = await membersRepository.update({ password: newHashPassword }, { id: oldUser.id })
-    return res.json({ message: "Thay đổi password thành công" })
-
+    const updatePassword = await membersRepository.update(
+      { password: newHashPassword },
+      { id: oldUser.id }
+    );
+    return res.json({ message: "Thay đổi password thành công" });
   } catch (error) {
     // console.log(error);
     throw error;
   }
-}
+};
 
 module.exports = {
   createNewMember,
@@ -190,5 +187,5 @@ module.exports = {
   veriCode,
   forgotPass,
   resetPass,
-  setNewPassword
+  setNewPassword,
 };

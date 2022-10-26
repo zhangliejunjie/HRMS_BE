@@ -50,7 +50,7 @@ module.exports = {
       verified_code: {
         allowNull: true,
         type: Sequelize.STRING(4),
-      }
+      },
     });
   },
   down: async (queryInterface, Sequelize) => {
