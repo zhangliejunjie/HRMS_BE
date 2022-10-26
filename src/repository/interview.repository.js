@@ -27,11 +27,38 @@ const getCandidatesNotInterview = async () => {
 
 const getNumCandidatesByRoomWeek = async (week) => {
   const query =
-    "SELECT i.slot,  count(*) as num_candidate FROM hrms.interviews as i where i.room = 1 and week(i.date) = ? group by i.slot";
-  return await sequelize.query(query, {
-    replacements: [week],
-    type: QueryTypes.SELECT,
-  });
+    "SELECT i.slot,  count(*) as num_candidates FROM hrms.interviews as i WHERE i.room = ? AND i.week = ? GROUP BY i.slot";
+
+  // gererate result
+  const result = [];
+
+  for (let room = 1; room <= 9; room++) {
+    const data = await sequelize.query(query, {
+      replacements: [room, week],
+      type: QueryTypes.SELECT,
+    });
+    // create 24 slots
+    const roomArr = Array(24).fill(0);
+    // use slot + 1 because slot in interview table started from 1 to 24
+    const newArr = roomArr.map((value, slot) => updateRoom(data, slot + 1));
+
+    const resultData = {
+      name: `room ${room}`,
+      data: newArr,
+    };
+    result.push(resultData);
+  }
+
+  function updateRoom(data, slot) {
+    for (let i = 0; i < data.length; i++) {
+      if (data[i].slot === slot) {
+        return data[i].num_candidates;
+      }
+    }
+    return 0;
+  }
+
+  return result;
 };
 
 module.exports = {

@@ -99,20 +99,17 @@ const sendMail = async (email, subject, text) => {
   });
 };
 
-<<<<<<< HEAD
 // const updatePass = async (pass, where) => {
 //   console.log(where)
 //   await Members.update(pass, {
 //     where: where
 //   })
 // }
-=======
 const updatePass = async (pass, where) => {
   await Members.update(pass, {
     where: where,
   });
 };
->>>>>>> dev
 
 module.exports = {
   findOne,
@@ -124,9 +121,6 @@ module.exports = {
   updateStatus,
   getCodeByEmail,
   sendMail,
-<<<<<<< HEAD
   // updatePass
-=======
   updatePass,
->>>>>>> dev
 };

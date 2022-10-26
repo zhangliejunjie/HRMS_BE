@@ -30,7 +30,6 @@ const handleGetCandidatesNotInterview = async (req, res, next) => {
 
 const handleGetNumCandidatesByRoomWeek = async (req, res, next) => {
   try {
-    console.log(req.body.week);
     const week = req.body.week;
     const getNumCandidatesByRoomWeek =
       await interviewService.getNumCandidatesByRoomWeek(week);
