@@ -63,7 +63,7 @@ const authController = {
   async forgotPassword(req, res, next) {
     try {
       const forgetPass = await forgotPass(req.body)
-      res.send(forgetPass)
+      return res.json({ message: "send link ok" })
     } catch (error) {
       next(error);
     }
@@ -72,7 +72,7 @@ const authController = {
   async resetPassword(req, res, next) {
     try {
       const resetPasss = await resetPass(req, res)
-      return res.seng(resetPasss)
+      return res.json(resetPasss)
     } catch (error) {
       next(error);
 
