@@ -38,9 +38,25 @@ const getNumCandidatesByRoomWeek = async (week) => {
   }
 };
 
+const createNewInterview = async (data) => {
+    try {
+        const newInterview = await interviewRepository.createInterview(data);
+        console.log(newInterview);
+        return newInterview;
+    } catch (error) {
+        throw error;
+    }
+}
+
 module.exports = {
+<<<<<<< HEAD
   getAllInterviews,
   getAllRooms,
   getCandidatesNotInterview,
   getNumCandidatesByRoomWeek,
 };
+=======
+    getAllInterviews,
+    createNewInterview
+}
+>>>>>>> dev
