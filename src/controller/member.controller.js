@@ -13,7 +13,7 @@ const memberController = {
       if (!member) {
         throw new ApiError(httpStatus.NOT_FOUND, "Member Not Found");
       }
-      res.json(member);
+      return res.json(member);
     } catch (error) {
       next(error);
     }
@@ -21,7 +21,7 @@ const memberController = {
   async updateProfile(req, res, next) {
     try {
       const updatedMember = await updateMemberProfile(req);
-      res.json(updatedMember);
+      return res.json(updatedMember);
     } catch (error) {
       next(error);
     }
@@ -29,11 +29,11 @@ const memberController = {
   async getAllMember(req, res) {
     try {
       const allMember = await showAllMember();
-      res.send(allMember);
+      return res.send(allMember);
       if (!allMember) {
         throw new ApiError("Member khong ton tai");
       }
-    } catch (error) {}
+    } catch (error) { }
   },
 };
 

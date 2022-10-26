@@ -38,7 +38,7 @@ const staffAuth = {
     }
   },
   async isauth(req, res, next) {
-    res.json(req.currentUser);
+    return res.json(req.currentUser);
   },
 };
 

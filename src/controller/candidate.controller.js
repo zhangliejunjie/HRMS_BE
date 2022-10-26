@@ -11,7 +11,7 @@ const candidateController = {
   async createCandidate(req, res, next) {
     try {
       const candidate = await createNewCandidate(req, res);
-      res.send(candidate);
+      return res.send(candidate);
     } catch (error) {
       next(error);
     }
@@ -19,7 +19,7 @@ const candidateController = {
   async getCandidateByMember(req, res, next) {
     try {
       const candidateByMemberID = await getListCandidateByMemberID(req);
-      res.send(candidateByMemberID);
+      return res.send(candidateByMemberID);
     } catch (error) {
       next(error);
     }
@@ -27,7 +27,7 @@ const candidateController = {
   async getAllCandidate(req, res, next) {
     try {
       const candidateList = await getListCandidate();
-      res.send(candidateList);
+      return res.send(candidateList);
     } catch (error) {
       next(error);
     }
@@ -35,7 +35,7 @@ const candidateController = {
   async getCandidateByStaff(req, res, next) {
     try {
       const candidateList = await getAllCandidateByStaffID(req, res);
-      res.send(candidateList);
+      return res.send(candidateList);
     } catch (error) {
       next(error);
     }
@@ -43,7 +43,7 @@ const candidateController = {
   async changeCandidateStatus(req, res, next) {
     try {
       const candidateChange = await candidateStatusChange(req);
-      res.send(candidateChange);
+      return res.send(candidateChange);
     } catch (error) {
       next(error);
     }

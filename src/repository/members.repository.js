@@ -102,11 +102,12 @@ const sendMail = async (email, subject, text) => {
   });
 };
 
-const updatePass = async (pass, where) => {
-  await Members.update(pass, {
-    where: where
-  })
-}
+// const updatePass = async (pass, where) => {
+//   console.log(where)
+//   await Members.update(pass, {
+//     where: where
+//   })
+// }
 
 module.exports = {
   findOne,
@@ -118,5 +119,5 @@ module.exports = {
   updateStatus,
   getCodeByEmail,
   sendMail,
-  updatePass
+  // updatePass
 };
