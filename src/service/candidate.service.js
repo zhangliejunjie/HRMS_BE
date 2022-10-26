@@ -1,13 +1,13 @@
 import { ApiError } from "../middleware/apiError";
-import { sendMail } from "../repository/members.repository";
 import { showAllStaff } from "../repository/staffs.repository";
 import {
   createNewCandidateDetails,
-  getCandidateDetailsByMemberID,
+  // getCandidateDetailsByMemberID,
+  getSpecificCandidateById,
 } from "../repository/candidates.repository";
 import httpStatus from "http-status";
 import db, { sequelize } from "../models/index";
-
+import { mailSending } from "../utils/mailSending";
 require("dotenv").config();
 
 const createNewCandidate = async (req, res) => {
@@ -51,10 +51,10 @@ const createNewCandidate = async (req, res) => {
     if (!candidateDetail) {
       throw new ApiError(httpStatus.BAD_REQUEST, "ERROR cant create candidate");
     }
-    console.log(candidateDetail);
+    // console.log(candidateDetail);
     return candidateDetail;
   } catch (error) {
-    console.log(error);
+    // console.log(error);
     throw error;
   }
 };
@@ -77,7 +77,7 @@ const getListCandidateByMemberID = async (req, res) => {
       }
     );
     // const candidateByMember = await getCandidateDetailsByMemberID(memberID);
-    console.log(results);
+    // console.log(results);
 
     if (results.length === 0) {
       throw new ApiError(
@@ -136,6 +136,21 @@ const candidateStatusChange = async (req, res) => {
       throw new ApiError(httpStatus.BAD_REQUEST, "Error with applied status");
     }
     // sendMail
+    const candidate = await getSpecificCandidateById(req.body.id);
+    console.log(candidate);
+
+    const cvResult =
+      req.body.status === "Approve"
+        ? "\nCongratulations on passing the resume round, HR will contact you as soon as possible to continue for the interview round."
+        : "\nWe're sorry to inform you that your resume has been rejected, hope to see you next time";
+    mailSending(
+      candidate.member_email,
+      `Resume result about ${candidate.job_name}`,
+      `
+        ${cvResult}
+        Best, FCode eCruitment
+      `
+    ).then((res) => console.log(`send mail successfully`));
     return results;
   } catch (error) {
     throw error;

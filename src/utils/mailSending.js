@@ -11,7 +11,7 @@ let transporter = nodemailer.createTransport({
   },
 });
 
-const registerEmail = async (userEmail, subject, text) => {
+export const mailSending = async (userEmail, subject, text) => {
   try {
     let mailGenerator = new Mailgen({
       theme: "cerberus",
@@ -43,7 +43,4 @@ const registerEmail = async (userEmail, subject, text) => {
   } catch (error) {
     throw error;
   }
-};
-module.exports = {
-  registerEmail,
 };
