@@ -36,8 +36,12 @@ const update = async (newObj, where) => {
   });
 };
 const showAllStaff = async () => {
-  let staffList = [];
-  staffList = await db.Staffs.findAll({ raw: true });
+  const query = "SELECT * FROM hrms.staffs";
+  // staffList = await db.Staffs.findAll({ raw: true });
+  const staffList = await sequelize.query(query, {
+    type: QueryTypes.SELECT,
+  });
+  console.log("bbbb");
   return staffList;
 };
 

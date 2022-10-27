@@ -4,6 +4,7 @@ import {
   createNewCandidateDetails,
   // getCandidateDetailsByMemberID,
   getSpecificCandidateById,
+  updateCandidateProfile,
 } from "../repository/candidates.repository";
 import httpStatus from "http-status";
 import db, { sequelize } from "../models/index";
@@ -182,6 +183,16 @@ const getAllCandidateDetailWithStaffIDMemberIDJobID = async () => {
     throw error;
   }
 };
+
+const updateCandidateProfileStatus = async (candidateId, appliedResult) => {
+  try {
+    const result = await updateCandidateProfile(candidateId, appliedResult);
+    return result;
+  } catch (error) {
+    throw error;
+  }
+};
+
 module.exports = {
   createNewCandidate,
   getListCandidate,
@@ -189,4 +200,5 @@ module.exports = {
   candidateStatusChange,
   getAllCandidateByStaffID,
   getAllCandidateDetailWithStaffIDMemberIDJobID,
+  updateCandidateProfileStatus,
 };
