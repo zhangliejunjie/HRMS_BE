@@ -39,23 +39,6 @@ module.exports = {
         type: Sequelize.ENUM(interviewStatus),
         defaultValue: interviewStatusDefault,
       },
-      mark: {
-        allowNull: true,
-        type: Sequelize.INTEGER,
-      },
-      comment: {
-        allowNull: true,
-        type: Sequelize.TEXT,
-      },
-      Interviewer_id: {
-        allowNull: false,
-        type: Sequelize.STRING(36),
-        defaultValue: Sequelize.UUIDV4,
-        references: {
-          model: "Staffs",
-          key: "id",
-        },
-      },
       CandidateDetail_id: {
         allowNull: false,
         type: Sequelize.STRING(36),
