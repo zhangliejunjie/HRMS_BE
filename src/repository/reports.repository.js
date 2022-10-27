@@ -27,8 +27,41 @@ WHERE R.interviewer_id = ?`;
     replacements: [interviewerId],
   });
 };
-
+const getAllReportsByInterviewerByStatus = async (interviewerId) => {
+  const queryPending = `SELECT R.id, R.mark, R.comment, R.status, I.room, I.slot, I.week, J.name as job_name, C.phone, C.resume_url, M.fullname
+FROM hrms.reports as R
+INNER JOIN hrms.interviews as I
+ON I.id = R.Interview_id
+INNER JOIN hrms.candidatedetails as C
+ON I.CandidateDetail_id = C.id
+INNER JOIN hrms.members as M
+ON C.Member_id = M.id
+INNER JOIN hrms.jobs as J
+on J.id = C.Job_id
+WHERE R.interviewer_id = ? AND R.status = 'Pending'`;
+  const queryDone = `SELECT R.id, R.mark, R.comment, R.status, I.room, I.slot, I.week, J.name as job_name, C.phone, C.resume_url, M.fullname
+FROM hrms.reports as R
+INNER JOIN hrms.interviews as I
+ON I.id = R.Interview_id
+INNER JOIN hrms.candidatedetails as C
+ON I.CandidateDetail_id = C.id
+INNER JOIN hrms.members as M
+ON C.Member_id = M.id
+INNER JOIN hrms.jobs as J
+on J.id = C.Job_id
+WHERE R.interviewer_id = ? AND R.status = 'Done'`;
+  const resPending = sequelize.query(queryPending, {
+    type: QueryTypes.SELECT,
+    replacements: [interviewerId],
+  });
+  const resDone = sequelize.query(queryDone, {
+    type: QueryTypes.SELECT,
+    replacements: [interviewerId],
+  });
+  return Promise.all([resPending, resDone]);
+};
 module.exports = {
   getAllReports,
   getAllReportsByInterviewer,
+  getAllReportsByInterviewerByStatus,
 };

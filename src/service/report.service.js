@@ -15,9 +15,10 @@ const getAllReports = async () => {
 
 const getAllReportsByInterviewer = async (interviewerId) => {
   try {
-    const reports = await reportRepository.getAllReportsByInterviewer(
+    const reports = await reportRepository.getAllReportsByInterviewerByStatus(
       interviewerId
     );
+    console.log(reports);
     return reports;
   } catch (error) {
     throw error;

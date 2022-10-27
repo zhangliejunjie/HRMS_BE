@@ -12,11 +12,14 @@ const handleGetAllReports = async (req, res, next) => {
 const handleGetAllReportsByInterviewer = async (req, res, next) => {
   try {
     const interviewerId = req.body.interviewerId;
-    console.log("aaaa");
+    // console.log("aaaa");
     const reports = await reportService.getAllReportsByInterviewer(
       interviewerId
     );
-    res.json(reports);
+    res.json({
+      report_pending: reports[0],
+      report_done: reports[1],
+    });
   } catch (error) {
     next(error);
   }
