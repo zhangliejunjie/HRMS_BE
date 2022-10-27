@@ -4,7 +4,7 @@ const Reports = db.Reports;
 
 const getAllReports = async () => {
   // const query = "SELECT * FROM hrms.reports";
-  const query = `SELECT R.id, AVG(R.mark), R.comment, J.name as job_name, C.identity_number, C.resume_url, M.fullname
+  const query = `SELECT R.id, AVG(R.mark) as avg_mark, R.comment, J.name as job_name, C.identity_number, C.resume_url, M.fullname
 FROM hrms.reports as R
 INNER JOIN hrms.interviews as I
 ON I.id = R.Interview_id
