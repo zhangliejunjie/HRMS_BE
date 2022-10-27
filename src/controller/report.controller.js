@@ -37,8 +37,27 @@ const handleUpdateInterviewers = async (req, res, next) => {
   }
 };
 
+const handleUpdateMark = async (req, res, next) => {
+  try {
+    const interviewerId = req.body.interviewerId;
+    const mark = req.body.mark;
+    const interviewId = req.body.interviewId;
+    const comment = req.body.comment;
+    const result = await reportService.updateMark(
+      interviewId,
+      interviewerId,
+      mark,
+      comment
+    );
+    return res.json(result);
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = {
   handleGetAllReports,
   handleGetAllReportsByInterviewer,
   handleUpdateInterviewers,
+  handleUpdateMark,
 };

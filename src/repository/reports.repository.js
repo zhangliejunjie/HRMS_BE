@@ -40,15 +40,29 @@ WHERE R.interviewer_id = ?`;
 };
 
 const updateInterviewers = async (interviewId, interviewers) => {
-  const query = ``;
-  return await sequelize.query(query, {
-    type: QueryTypes.INSERT,
-    replacements: [],
+  // const query = ``;
+  // return await sequelize.query(query, {
+  //   type: QueryTypes.INSERT,
+  //   replacements: [],
+  // });
+  const data = [...Array(interviewers.length)].map((value) => {});
+  return await Reports.bulkCreate([]);
+};
+
+const updateMark = async (interviewId, interviewerId, mark, comment) => {
+  const query = `UPDATE hrms.reports
+  SET mark = ?, comment = ?
+  WHERE interview_id = ? AND interviewer_id = ?`;
+  const result = await sequelize.query(query, {
+    type: QueryTypes.UPDATE,
+    replacements: [mark, comment, interviewId, interviewerId],
   });
+  return result;
 };
 
 module.exports = {
   getAllReports,
   getAllReportsByInterviewer,
   updateInterviewers,
+  updateMark,
 };

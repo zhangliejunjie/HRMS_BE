@@ -36,8 +36,23 @@ const updateInterviewers = async (interviewId, interviewers) => {
   }
 };
 
+const updateMark = async (interviewId, interviewerId, mark, comment) => {
+  try {
+    const result = await reportRepository.updateMark(
+      interviewId,
+      interviewerId,
+      mark,
+      comment
+    );
+    return result;
+  } catch (error) {
+    throw error;
+  }
+};
+
 module.exports = {
   getAllReports,
   getAllReportsByInterviewer,
   updateInterviewers,
+  updateMark,
 };
