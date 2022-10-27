@@ -28,9 +28,9 @@ const handleGetAllReportsByInterviewer = async (req, res, next) => {
 const handleUpdateInterviewers = async (req, res, next) => {
   try {
     const interviewers = req.body.interviewersId;
-    const interviewId = req.body.interviewId;
+    const candidateId = req.body.candidateId;
     const result = await reportService.updateInterviewers(
-      interviewId,
+      candidateId,
       interviewers
     );
     return res.json(result);

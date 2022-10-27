@@ -73,12 +73,17 @@ WHERE R.interviewer_id = ? AND R.status = 'Done'`;
   return Promise.all([resPending, resDone]);
 };
 
-const updateInterviewers = async (interviewId, interviewers) => {
-  // const query = ``;
-  // return await sequelize.query(query, {
-  //   type: QueryTypes.INSERT,
-  //   replacements: [],
-  // });
+const updateInterviewers = async (candidateId, interviewers) => {
+  // get interviewId from candidateId
+  const interviewResult = await sequelize.query(
+    "SELECT id FROM hrms.interviews WHERE CandidateDetail_id = ?",
+    {
+      type: QueryTypes.SELECT,
+      replacements: [candidateId],
+    }
+  );
+  const interviewId = interviewResult[0].id;
+
   const query = `INSERT INTO hrms.reports (id, interview_id, interviewer_id, status)
   VALUES (?, ?, ?, default)`;
   const data = interviewers.map((value) => ({
