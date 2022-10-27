@@ -4,6 +4,12 @@ import { sequelize } from "../models/index.js";
 
 const Interviews = db.Interviews;
 
+const updateInterviews = async (newObj, where) => {
+  return await Interviews.update(newObj, {
+    where: where,
+  });
+};
+
 const getInterviews = async (where) => {
   return await Interviews.findAll({
     where: where,
@@ -39,4 +45,5 @@ module.exports = {
   getAllRooms,
   getCandidatesNotInterview,
   getNumCandidatesByRoomWeek,
+  updateInterviews,
 };

@@ -12,5 +12,6 @@ router.get("/", handleGetAllInterview);
 router.get("/room", handleGetAllRooms);
 router.get("/not-interview", handleGetCandidatesNotInterview);
 router.post("/by-room-week", handleGetNumCandidatesByRoomWeek);
+router.patch("/update");
 
 module.exports = router;

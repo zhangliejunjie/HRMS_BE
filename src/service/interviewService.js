@@ -48,9 +48,17 @@ const createNewInterview = async (data) => {
   }
 };
 
+const updateInterviewByID = async (req, res) => {
+  try {
+  } catch (error) {
+    throw error;
+  }
+};
+
 module.exports = {
   getAllInterviews,
   getAllRooms,
   getCandidatesNotInterview,
   getNumCandidatesByRoomWeek,
+  updateInterviewByID,
 };
