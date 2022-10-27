@@ -1,4 +1,4 @@
 module.exports = {
-  interviewStatus: ["Processing", "Waiting", "Done", "Cancelled", "Hidden"],
+  interviewStatus: ["Waiting", "Done", "Absent", "Hidden"],
   interviewStatusDefault: "Waiting",
 };

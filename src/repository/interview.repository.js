@@ -5,6 +5,7 @@ import { sequelize } from "../models/index.js";
 const Interviews = db.Interviews;
 
 const getInterviews = async (where) => {
+  console.log("aaaa");
   return await Interviews.findAll({
     where: where,
     raw: true,
@@ -61,9 +62,35 @@ const getNumCandidatesByRoomWeek = async (week) => {
   return result;
 };
 
+const getAllCandidates = async () => {
+  const query =
+    "SELECT c.id, c.resume_url, c.phone, c.address, case when c.id in (select i.candidatedetail_id from hrms.interviews as i) then 'YES' else 'NO' end as booking_status FROM hrms.candidatedetails as c WHERE applied_status = 'Approve'";
+  return await sequelize.query(query, {
+    type: QueryTypes.SELECT,
+  });
+};
+
+const createNewInterview = async (data) => {
+  console.log(data);
+  return await Interviews.create({
+    CandidateDetail_id: data.candidateId,
+    room: data.room,
+    slot: data.slot,
+    week: data.week,
+  });
+  // const query =
+  //   "INSERT INTO hrms.interviews (id, room, slot, week, status, CandidateDetail_id) VALUES (DEFAULT, ?, ?, ?, DEFAULT, ?)";
+  // return await sequelize.query(query, {
+  //   type: QueryTypes.INSERT,
+  //   replacements: [data.room, data.slot, data.week, data.candidateId],
+  // });
+};
+
 module.exports = {
   getInterviews,
   getAllRooms,
   getCandidatesNotInterview,
   getNumCandidatesByRoomWeek,
+  getAllCandidates,
+  createNewInterview,
 };
