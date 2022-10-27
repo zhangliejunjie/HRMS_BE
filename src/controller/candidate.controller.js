@@ -1,10 +1,13 @@
 // import { showAllCandidateDetails } from "../repository/candidates.repository";
+import { request } from "express";
 import {
   createNewCandidate,
   getListCandidate,
   getListCandidateByMemberID,
   candidateStatusChange,
   getAllCandidateByStaffID,
+  getAllCandidateDetailWithStaffIDMemberIDJobID,
+  updateCandidateProfileStatus,
 } from "../service/candidate.service";
 
 const candidateController = {
@@ -44,6 +47,31 @@ const candidateController = {
     try {
       const candidateChange = await candidateStatusChange(req);
       return res.send(candidateChange);
+    } catch (error) {
+      next(error);
+    }
+  },
+
+  async getAllCandidateDetails(req, res, next) {
+    try {
+      const candidateInformation =
+        await getAllCandidateDetailWithStaffIDMemberIDJobID();
+      return res.send(candidateInformation);
+    } catch (error) {
+      next(error);
+    }
+  },
+
+  async handleUpdateCandidateProfile(req, res, next) {
+    try {
+      console.log(req.body);
+      const candidateId = req.body.candidateId;
+      const appliedResult = req.body.result;
+      const result = await updateCandidateProfileStatus(
+        candidateId,
+        appliedResult
+      );
+      return res.json(result);
     } catch (error) {
       next(error);
     }

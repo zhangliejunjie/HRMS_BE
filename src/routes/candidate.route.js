@@ -10,4 +10,9 @@ router.get("/all", candidateController.getAllCandidate);
 router.post("/memberID", candidateController.getCandidateByMember);
 router.post("/staffID", candidateController.getCandidateByStaff);
 router.patch("/changeStatus", candidateController.changeCandidateStatus);
+
+//get all candidates detail with job name member name  staff name
+router.get("/allV2", candidateController.getAllCandidateDetails);
+router.patch("/profile", candidateController.handleUpdateCandidateProfile);
+
 module.exports = router;

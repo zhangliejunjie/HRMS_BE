@@ -69,8 +69,14 @@ const getNumCandidatesByRoomWeek = async (week) => {
 };
 
 const getAllCandidates = async () => {
-  const query =
-    "SELECT c.id, c.resume_url, c.phone, c.address, case when c.id in (select i.candidatedetail_id from hrms.interviews as i) then 'YES' else 'NO' end as booking_status FROM hrms.candidatedetails as c WHERE applied_status = 'Approve'";
+  const query = `SELECT 
+          c.id, c.resume_url, c.phone, c.address, 
+          case 
+            when c.id in (select i.candidatedetail_id from hrms.interviews as i) then 'YES' 
+            else 'NO' 
+          end as booking_status 
+    FROM hrms.candidatedetails as c 
+    WHERE applied_status = 'Approve'`;
   return await sequelize.query(query, {
     type: QueryTypes.SELECT,
   });
