@@ -1,4 +1,5 @@
-const db = require("../models");
+import { QueryTypes } from "sequelize";
+import db, { sequelize } from "../models/index";
 const findOne = async (where) => {
   return (await db.Staffs.findOne({ where: where }))?.dataValues;
 };
@@ -39,6 +40,13 @@ const showAllStaff = async () => {
   staffList = await db.Staffs.findAll({ raw: true });
   return staffList;
 };
+
+const getAllInterviewers = async () => {
+  const query = "SELECT * FROM hrms.staffs WHERE role = 'Interviewer' ";
+  return await sequelize.query(query, {
+    type: QueryTypes.SELECT,
+  });
+};
 module.exports = {
   findOne,
   createNewStaff,
@@ -46,4 +54,5 @@ module.exports = {
   getStaffById,
   update,
   showAllStaff,
+  getAllInterviewers,
 };
