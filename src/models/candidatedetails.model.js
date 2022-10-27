@@ -12,7 +12,7 @@ module.exports = (sequelize, DataTypes) => {
       CandidateDetails.belongsTo(models.Members, { foreignKey: "Member_id" });
       CandidateDetails.belongsTo(models.Staffs, { foreignKey: "HRStaff_id" });
       CandidateDetails.belongsTo(models.Jobs, { foreignKey: "Job_id" });
-      CandidateDetails.hasMany(models.Interviews, {
+      CandidateDetails.hasOne(models.Interviews, {
         foreignKey: "CandidateDetail_id",
       });
     }
