@@ -7,6 +7,7 @@ router.get("/profile", auth, staffController.profile);
 router.patch("/profile", auth, staffController.updateProfile);
 router.get("/all", staffController.getAllStaff);
 router.get("/all-interviewers", staffController.handleGetAllInterviewers);
+router.patch("/delete/:id", staffController.deleteStaff);
 
 //   .get(auth, memberController.profile)
 //   .patch(auth, memberController.updateProfile);

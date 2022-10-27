@@ -47,6 +47,14 @@ const getAllInterviewers = async () => {
     type: QueryTypes.SELECT,
   });
 };
+const updateStatus = async (where) => {
+  return await db.Staffs.update(
+    { status: "Inactive" },
+    {
+      where: where,
+    }
+  );
+};
 module.exports = {
   findOne,
   createNewStaff,
@@ -55,4 +63,5 @@ module.exports = {
   update,
   showAllStaff,
   getAllInterviewers,
+  updateStatus,
 };

@@ -1,10 +1,12 @@
 // import { showAllCandidateDetails } from "../repository/candidates.repository";
+import { request } from "express";
 import {
   createNewCandidate,
   getListCandidate,
   getListCandidateByMemberID,
   candidateStatusChange,
   getAllCandidateByStaffID,
+  getAllCandidateDetailWithStaffIDMemberIDJobID
 } from "../service/candidate.service";
 
 const candidateController = {
@@ -48,5 +50,15 @@ const candidateController = {
       next(error);
     }
   },
+
+  async getAllCandidateDetails(req, res, next) {
+    try {
+      const candidateInformation = await getAllCandidateDetailWithStaffIDMemberIDJobID()
+      return res.send(candidateInformation)
+    } catch (error) {
+      next(error);
+
+    }
+  }
 };
 module.exports = candidateController;

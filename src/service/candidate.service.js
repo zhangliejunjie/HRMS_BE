@@ -156,10 +156,36 @@ const candidateStatusChange = async (req, res) => {
     throw error;
   }
 };
+
+const getAllCandidateDetailWithStaffIDMemberIDJobID = async () => {
+  const query = `SELECT 
+    CD.id, CD.identity_number, CD.resume_url, CD.phone, CD.applied_status, CD.dob, CD.address, J.name as job, S.fullname as hr_staff, M.fullname as member,
+    case 
+      when CD.id in (select i.candidatedetail_id from hrms.interviews as i) then 'YES' 
+      else 'NO' 
+    end as booking_status 
+  FROM hrms.candidatedetails CD 
+  INNER JOIN hrms.jobs J 
+  ON CD.Job_id = J.id 
+  INNER JOIN hrms.members M 
+  ON CD.Member_id = M.id 
+  INNER JOIN hrms.staffs S 
+  ON CD.HRStaff_id = S.id 
+  WHERE S.role = 'HR Staff'`;
+  try {
+    let candidateList = [];
+    const [results] = await sequelize.query(query);
+    candidateList = results;
+    return candidateList;
+  } catch (error) {
+    throw error;
+  }
+};
 module.exports = {
   createNewCandidate,
   getListCandidate,
   getListCandidateByMemberID,
   candidateStatusChange,
   getAllCandidateByStaffID,
+  getAllCandidateDetailWithStaffIDMemberIDJobID,
 };

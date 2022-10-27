@@ -30,7 +30,6 @@ const staffController = {
   async getAllStaff(req, res) {
     try {
       const allStaff = await showAllStaff();
-      return res.send(allStaff);
       if (!allStaff) {
         throw new ApiError("Staff khong ton tai");
       }
@@ -41,6 +40,14 @@ const staffController = {
     try {
       const allInterviewers = await getAllInterviewers();
       return res.json(allInterviewers);
+    } catch (error) {
+      next(error);
+    }
+  },
+  async deleteStaff(req, res, next) {
+    try {
+      const updateStatusStaffToHidden = await updateStaffStatusToHidden(req);
+      return res.json({ message: "Delete successfully" });
     } catch (error) {
       next(error);
     }
