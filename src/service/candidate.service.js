@@ -156,10 +156,23 @@ const candidateStatusChange = async (req, res) => {
     throw error;
   }
 };
+
+
+const getAllCandidateDetailWithStaffIDMemberIDJobID = async () => {
+  try {
+    let candidateList = [];
+    const [results] = await sequelize.query("SELECT CD.id, CD.identity_number, CD.resume_url, CD.phone, CD.applied_status, CD.dob, CD.address, J.name as job, S.fullname as hr_staff, M.fullname as member FROM hrms.candidatedetails CD INNER JOIN hrms.jobs J ON CD.Job_id = J.id INNER JOIN hrms.members M ON CD.Member_id = M.id INNER JOIN hrms.staffs S ON CD.HRStaff_id = S.id where S.role = 'HR Staff'");
+    candidateList = results;
+    return candidateList;
+  } catch (error) {
+    throw error;
+  }
+};
 module.exports = {
   createNewCandidate,
   getListCandidate,
   getListCandidateByMemberID,
   candidateStatusChange,
   getAllCandidateByStaffID,
+  getAllCandidateDetailWithStaffIDMemberIDJobID
 };
