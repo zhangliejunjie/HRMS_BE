@@ -30,7 +30,6 @@ const handleGetCandidatesNotInterview = async (req, res, next) => {
 
 const handleGetNumCandidatesByRoomWeek = async (req, res, next) => {
   try {
-    console.log(req.body.week);
     const week = req.body.week;
     const getNumCandidatesByRoomWeek =
       await interviewService.getNumCandidatesByRoomWeek(week);
@@ -45,10 +44,33 @@ const updateInterview = async (req, res, next) => {
     console.log(req.body);
   } catch (error) {}
 };
+
+const handleGetAllCandidates = async (req, res, next) => {
+  try {
+    const getAllCandidates = await interviewService.getAllCandidates();
+    res.json(getAllCandidates);
+  } catch (error) {
+    next(error);
+  }
+};
+
+const handleCreateNewInterview = async (req, res, next) => {
+  try {
+    const data = req.body;
+    console.log(data);
+    const createNewInterview = await interviewService.createNewInterview(data);
+    res.json(createNewInterview);
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = {
   handleGetAllInterview,
   handleGetAllRooms,
   handleGetCandidatesNotInterview,
   handleGetNumCandidatesByRoomWeek,
   updateInterview,
+  handleGetAllCandidates,
+  handleCreateNewInterview,
 };

@@ -11,7 +11,7 @@ module.exports = (sequelize, DataTypes) => {
       Interviews.belongsTo(models.CandidateDetails, {
         foreignKey: "CandidateDetail_id",
       });
-      Interviews.belongsTo(models.Staffs, { foreignKey: "Interviewer_id" });
+      Interviews.hasMany(models.Reports, { foreignKey: "Interview_id" });
     }
   }
   Interviews.init(
@@ -20,39 +20,24 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
         primaryKey: true,
         type: DataTypes.STRING(6),
+        defaultValue: DataTypes.UUIDV4,
       },
       room: {
         allowNull: false,
         type: DataTypes.STRING(20),
       },
-      start_time: {
+      slot: {
         allowNull: false,
-        type: DataTypes.DATE,
+        type: DataTypes.INTEGER,
       },
-      end_time: {
+      week: {
         allowNull: false,
-        type: DataTypes.DATE,
+        type: DataTypes.INTEGER,
       },
       status: {
         allowNull: false,
         type: DataTypes.ENUM(interviewStatus),
         defaultValue: interviewStatusDefault,
-      },
-      mark: {
-        allowNull: false,
-        type: DataTypes.INTEGER,
-      },
-      comment: {
-        allowNull: false,
-        type: DataTypes.TEXT,
-      },
-      Interviewer_id: {
-        allowNull: false,
-        type: DataTypes.STRING(6),
-        references: {
-          model: "Staffs",
-          key: "id",
-        },
       },
       CandidateDetail_id: {
         allowNull: false,

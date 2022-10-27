@@ -105,6 +105,11 @@ const sendMail = async (email, subject, text) => {
 //     where: where
 //   })
 // }
+const updatePass = async (pass, where) => {
+  await Members.update(pass, {
+    where: where,
+  });
+};
 
 module.exports = {
   findOne,
@@ -117,4 +122,5 @@ module.exports = {
   getCodeByEmail,
   sendMail,
   // updatePass
+  updatePass,
 };
