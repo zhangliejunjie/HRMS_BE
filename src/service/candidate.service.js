@@ -171,7 +171,8 @@ const getAllCandidateDetailWithStaffIDMemberIDJobID = async () => {
   ON CD.Member_id = M.id 
   INNER JOIN hrms.staffs S 
   ON CD.HRStaff_id = S.id 
-  WHERE S.role = 'HR Staff'`;
+  WHERE S.role = 'HR Staff'
+      AND CD.applied_status = 'Approve'`;
   try {
     let candidateList = [];
     const [results] = await sequelize.query(query);
