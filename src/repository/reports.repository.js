@@ -1,6 +1,7 @@
 import { QueryTypes } from "sequelize";
 import db, { sequelize } from "../models/index";
 const Reports = db.Reports;
+const { v4: uuidv4 } = require("uuid");
 
 const getAllReports = async () => {
   // const query = "SELECT * FROM hrms.reports";
@@ -78,8 +79,22 @@ const updateInterviewers = async (interviewId, interviewers) => {
   //   type: QueryTypes.INSERT,
   //   replacements: [],
   // });
-  const data = [...Array(interviewers.length)].map((value) => {});
-  return await Reports.bulkCreate([]);
+  const query = `INSERT INTO hrms.reports (id, interview_id, interviewer_id, status)
+  VALUES (?, ?, ?, default)`;
+  const data = interviewers.map((value) => ({
+    id: uuidv4(),
+    interview_id: interviewId,
+    interviewer_id: value,
+  }));
+  console.log(data);
+  for (let i = 0; i < data.length; i++) {
+    await sequelize.query(query, {
+      type: QueryTypes.INSERT,
+      replacements: [data[i].id, data[i].interview_id, data[i].interviewer_id],
+    });
+  }
+  return data;
+  // return await Reports.bulkCreate(data);
 };
 
 const updateMark = async (interviewId, interviewerId, mark, comment) => {
