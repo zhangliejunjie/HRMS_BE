@@ -24,7 +24,20 @@ const getAllReportsByInterviewer = async (interviewerId) => {
   }
 };
 
+const updateInterviewers = async (interviewId, interviewers) => {
+  try {
+    const result = await reportRepository.updateInterviewers(
+      interviewId,
+      interviewers
+    );
+    return result;
+  } catch (error) {
+    throw error;
+  }
+};
+
 module.exports = {
   getAllReports,
   getAllReportsByInterviewer,
+  updateInterviewers,
 };

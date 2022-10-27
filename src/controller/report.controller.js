@@ -22,7 +22,23 @@ const handleGetAllReportsByInterviewer = async (req, res, next) => {
   }
 };
 
+const handleUpdateInterviewers = async (req, res, next) => {
+  try {
+    const interviewers = req.body.interviewers;
+    const interviewId = req.body.interviewId;
+    const result = await reportService.updateInterviewers(
+      interviewId,
+      interviewers
+    );
+    console.log(interviewers);
+    return res.json(result);
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = {
   handleGetAllReports,
   handleGetAllReportsByInterviewer,
+  handleUpdateInterviewers,
 };
