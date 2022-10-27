@@ -39,6 +39,16 @@ const showAllStaff = async () => {
   staffList = await db.Staffs.findAll({ raw: true });
   return staffList;
 };
+
+const updateStatus = async (where) => {
+  return (
+
+    await db.Staffs.update({ status: "Inactive" }, {
+      where: where,
+    }
+    )
+  )
+};
 module.exports = {
   findOne,
   createNewStaff,
@@ -46,4 +56,5 @@ module.exports = {
   getStaffById,
   update,
   showAllStaff,
+  updateStatus
 };

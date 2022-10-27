@@ -2,3 +2,4 @@
 database.json
 config/config.json
 src/dbconnect.js
+node_modules
