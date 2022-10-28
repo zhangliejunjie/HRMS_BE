@@ -1,7 +1,11 @@
 const httpStatus = require("http-status");
 import { ApiError } from "../middleware/apiError";
-import { getStaffByEmail, showAllStaff } from "../repository/staffs.repository";
-import { updateStaffProfile, updateStaffStatusToHidden } from "../service/staff.service";
+import {
+  getStaffByEmail,
+  showAllStaff,
+  getAllInterviewers,
+} from "../repository/staffs.repository";
+import { updateStaffProfile } from "../service/staff.service";
 const staffController = {
   // #TODO: xiu nua authen roi chinh parameter o getStaffByEmail()
   async updateProfile(req, res, next) {
@@ -29,9 +33,16 @@ const staffController = {
       if (!allStaff) {
         throw new ApiError("Staff khong ton tai");
       }
-      return res.send(allStaff);
-
     } catch (error) { }
+  },
+
+  async handleGetAllInterviewers(req, res, error) {
+    try {
+      const allInterviewers = await getAllInterviewers();
+      return res.json(allInterviewers);
+    } catch (error) {
+      next(error);
+    }
   },
   async deleteStaff(req, res, next) {
     try {

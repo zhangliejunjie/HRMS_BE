@@ -1,4 +1,10 @@
 "use strict";
+
+const {
+  reportStatus,
+  reportStatusDefault,
+} = require("../src/constant/reportStatus.enum");
+
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     await queryInterface.createTable("Reports", {
@@ -33,6 +39,11 @@ module.exports = {
       comment: {
         allowNull: true,
         type: Sequelize.TEXT,
+      },
+      status: {
+        allowNull: false,
+        type: Sequelize.ENUM(reportStatus),
+        defaultValue: reportStatusDefault,
       },
     });
   },
