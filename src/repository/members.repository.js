@@ -18,6 +18,7 @@ const createNewMember = async (user) => {
 };
 
 const getMemberByEmail = async (email) => {
+  console.log(email);
   return (
     await Members.findOne({
       where: {
