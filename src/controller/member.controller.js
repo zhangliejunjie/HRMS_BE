@@ -30,11 +30,14 @@ const memberController = {
   async getAllMember(req, res) {
     try {
       const allMember = await showAllMember();
-      return res.send(allMember);
+      console.log(allMember);
       if (!allMember) {
         throw new ApiError("Member khong ton tai");
       }
-    } catch (error) {}
+      return res.send(allMember);
+    } catch (error) {
+      throw error;
+    }
   },
 };
 

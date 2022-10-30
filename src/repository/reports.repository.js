@@ -22,7 +22,7 @@ GROUP BY R.Interview_id`;
 };
 
 const getAllReportsByInterviewer = async (interviewerId) => {
-  const query = `SELECT R.id, R.mark, R.comment, R.status, I.room, I.slot, I.week, J.name as job_name, C.phone, C.resume_url, M.fullname
+  const query = `SELECT R.id, R.interview_id, R.mark, R.comment, R.status, I.room, I.slot, I.week, J.name as job_name, C.phone, C.resume_url, M.fullname
 FROM hrms.reports as R
 INNER JOIN hrms.interviews as I
 ON I.id = R.Interview_id
@@ -39,7 +39,7 @@ WHERE R.interviewer_id = ?`;
   });
 };
 const getAllReportsByInterviewerByStatus = async (interviewerId) => {
-  const queryPending = `SELECT R.id, R.mark, R.comment, R.status, I.room, I.slot, I.week, J.name as job_name, C.phone, C.resume_url, M.fullname
+  const queryPending = `SELECT R.id, R.interview_id, R.mark, R.comment, R.status, I.room, I.slot, I.week, J.name as job_name, C.phone, C.resume_url, M.fullname
 FROM hrms.reports as R
 INNER JOIN hrms.interviews as I
 ON I.id = R.Interview_id

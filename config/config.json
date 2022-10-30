@@ -1,7 +1,7 @@
 {
   "development": {
     "username": "root",
-    "password": "Vpho@342002",
+    "password": "12072002",
     "database": "hrms",
     "host": "localhost",
     "dialect": "mysql",
@@ -9,7 +9,7 @@
   },
   "test": {
     "username": "root",
-    "password": "Vpho@342002",
+    "password": "12072002",
     "database": "hrms",
     "host": "localhost",
     "dialect": "mysql",
@@ -17,7 +17,7 @@
   },
   "production": {
     "username": "root",
-    "password": "Vpho@342002",
+    "password": "12072002",
     "database": "hrms",
     "host": "localhost",
     "dialect": "mysql",
