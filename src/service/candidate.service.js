@@ -184,9 +184,9 @@ const getAllCandidateDetailWithStaffIDMemberIDJobID = async () => {
   }
 };
 
-const updateCandidateProfileStatus = async (candidateId, appliedResult) => {
+const updateCandidateProfileStatus = async (reportId, appliedResult) => {
   try {
-    const result = await updateCandidateProfile(candidateId, appliedResult);
+    const result = await updateCandidateProfile(reportId, appliedResult);
     return result;
   } catch (error) {
     throw error;
