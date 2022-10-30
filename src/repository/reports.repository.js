@@ -5,7 +5,7 @@ const { v4: uuidv4 } = require("uuid");
 
 const getAllReports = async () => {
   // const query = "SELECT * FROM hrms.reports";
-  const query = `SELECT R.id, AVG(R.mark) as avg_mark, R.comment, J.name as job_name, C.identity_number, C.resume_url, M.fullname
+  const query = `SELECT R.id, AVG(R.mark) as avg_mark, R.comment, J.name as job_name, C.identity_number, C.resume_url, M.fullname, M.is_employee
 FROM hrms.reports as R
 INNER JOIN hrms.interviews as I
 ON I.id = R.Interview_id
@@ -23,7 +23,7 @@ GROUP BY R.Interview_id`;
 };
 
 const getAllReportsByInterviewer = async (interviewerId) => {
-  const query = `SELECT R.id, R.mark, R.comment, R.status, I.room, I.slot, I.week, J.name as job_name, C.phone, C.resume_url, M.fullname
+  const query = `SELECT R.id, R.mark, R.comment, R.status, I.room, I.slot, I.week, J.name as job_name, C.phone, C.resume_url, M.fullname, M.is_employee
 FROM hrms.reports as R
 INNER JOIN hrms.interviews as I
 ON I.id = R.Interview_id
