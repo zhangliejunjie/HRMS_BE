@@ -1,4 +1,4 @@
 module.exports = {
   memberStatus: ["Not yet", "Approve", "Reject"],
-  memberStatusDefault: "Not Yet",
+  memberStatusDefault: "Not yet",
 };
