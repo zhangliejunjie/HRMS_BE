@@ -47,6 +47,11 @@ const createNewInterview = async (data) => {
   }
 };
 
+const updateInterviewByID = async (req, res) => {
+  try {
+  } catch (err) {}
+};
+
 const getAllCandidates = async () => {
   try {
     const candidates = await interviewRepository.getAllCandidates();
@@ -61,6 +66,7 @@ module.exports = {
   getAllRooms,
   getCandidatesNotInterview,
   getNumCandidatesByRoomWeek,
+  updateInterviewByID,
   getAllCandidates,
   createNewInterview,
 };

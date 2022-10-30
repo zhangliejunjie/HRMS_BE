@@ -56,8 +56,13 @@ module.exports = (sequelize, DataTypes) => {
       },
       verified_code: {
         allowNull: true,
-        type: DataTypes.STRING(4)
-      }
+        type: DataTypes.STRING(4),
+      },
+      is_employee: {
+        allowNull: false,
+        type: DataTypes.BOOLEAN,
+        defaultValue: false,
+      },
     },
     {
       sequelize,

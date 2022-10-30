@@ -4,6 +4,12 @@ import { sequelize } from "../models/index.js";
 
 const Interviews = db.Interviews;
 
+const updateInterviews = async (newObj, where) => {
+  return await Interviews.update(newObj, {
+    where: where,
+  });
+};
+
 const getInterviews = async (where) => {
   console.log("aaaa");
   return await Interviews.findAll({
@@ -63,8 +69,14 @@ const getNumCandidatesByRoomWeek = async (week) => {
 };
 
 const getAllCandidates = async () => {
-  const query =
-    "SELECT c.id, c.resume_url, c.phone, c.address, case when c.id in (select i.candidatedetail_id from hrms.interviews as i) then 'YES' else 'NO' end as booking_status FROM hrms.candidatedetails as c WHERE applied_status = 'Approve'";
+  const query = `SELECT 
+          c.id, c.resume_url, c.phone, c.address, 
+          case 
+            when c.id in (select i.candidatedetail_id from hrms.interviews as i) then 'YES' 
+            else 'NO' 
+          end as booking_status 
+    FROM hrms.candidatedetails as c 
+    WHERE applied_status = 'Approve'`;
   return await sequelize.query(query, {
     type: QueryTypes.SELECT,
   });
@@ -91,6 +103,7 @@ module.exports = {
   getAllRooms,
   getCandidatesNotInterview,
   getNumCandidatesByRoomWeek,
+  updateInterviews,
   getAllCandidates,
   createNewInterview,
 };

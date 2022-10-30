@@ -15,9 +15,10 @@ const getAllReports = async () => {
 
 const getAllReportsByInterviewer = async (interviewerId) => {
   try {
-    const reports = await reportRepository.getAllReportsByInterviewer(
+    const reports = await reportRepository.getAllReportsByInterviewerByStatus(
       interviewerId
     );
+    console.log(reports);
     return reports;
   } catch (error) {
     throw error;
@@ -36,8 +37,23 @@ const updateInterviewers = async (interviewId, interviewers) => {
   }
 };
 
+const updateMark = async (candidateId, interviewerId, mark, comment) => {
+  try {
+    const result = await reportRepository.updateMark(
+      candidateId,
+      interviewerId,
+      mark,
+      comment
+    );
+    return result;
+  } catch (error) {
+    throw error;
+  }
+};
+
 module.exports = {
   getAllReports,
   getAllReportsByInterviewer,
   updateInterviewers,
+  updateMark,
 };

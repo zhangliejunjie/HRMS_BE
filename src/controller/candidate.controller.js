@@ -6,7 +6,8 @@ import {
   getListCandidateByMemberID,
   candidateStatusChange,
   getAllCandidateByStaffID,
-  getAllCandidateDetailWithStaffIDMemberIDJobID
+  getAllCandidateDetailWithStaffIDMemberIDJobID,
+  updateCandidateProfileStatus,
 } from "../service/candidate.service";
 
 const candidateController = {
@@ -53,12 +54,27 @@ const candidateController = {
 
   async getAllCandidateDetails(req, res, next) {
     try {
-      const candidateInformation = await getAllCandidateDetailWithStaffIDMemberIDJobID()
-      return res.send(candidateInformation)
+      const candidateInformation =
+        await getAllCandidateDetailWithStaffIDMemberIDJobID();
+      return res.send(candidateInformation);
     } catch (error) {
       next(error);
-
     }
-  }
+  },
+
+  async handleUpdateCandidateProfile(req, res, next) {
+    try {
+      console.log(req.body);
+      const reportId = req.body.candidateId;
+      const appliedResult = req.body.result;
+      const result = await updateCandidateProfileStatus(
+        reportId,
+        appliedResult
+      );
+      return res.json(result);
+    } catch (error) {
+      next(error);
+    }
+  },
 };
 module.exports = candidateController;

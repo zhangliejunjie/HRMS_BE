@@ -51,6 +51,11 @@ module.exports = {
         allowNull: true,
         type: Sequelize.STRING(4),
       },
+      is_employee: {
+        allowNull: false,
+        type: Sequelize.BOOLEAN,
+        defaultValue: false,
+      },
     });
   },
   down: async (queryInterface, Sequelize) => {

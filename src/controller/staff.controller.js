@@ -33,6 +33,7 @@ const staffController = {
       if (!allStaff) {
         throw new ApiError("Staff khong ton tai");
       }
+      return res.json(allStaff);
     } catch (error) { }
   },
 
@@ -51,9 +52,7 @@ const staffController = {
     } catch (error) {
       next(error);
     }
-  }
-
+  },
 };
-
 
 module.exports = staffController;

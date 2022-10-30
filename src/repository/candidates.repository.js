@@ -1,3 +1,4 @@
+const { QueryTypes } = require("sequelize");
 const { sequelize } = require("../models");
 const db = require("../models");
 // db column name = CandidateDetails
@@ -56,13 +57,40 @@ const showAllCandidateDetails = async () => {
 };
 const getSpecificCandidateById = async (candidateID) => {
   const [result] = await sequelize.query(
-    `select CandidateDetails.id, CandidateDetails.identity_number, CandidateDetails.resume_url, CandidateDetails.phone, CandidateDetails.applied_status, CandidateDetails.dob, CandidateDetails.address, CandidateDetails.Job_id, CandidateDetails.HRStaff_id, CandidateDetails.Member_id, M.email as member_email, M.fullname as member_fullname, J.name as job_name from CandidateDetails inner join Members M on CandidateDetails.Member_id = M.id inner join Jobs J on J.id = CandidateDetails.Job_id where CandidateDetails.id = ?`,
+    `select 
+        C.id, C.identity_number, C.resume_url, C.phone, C.applied_status, C.dob, C.address, C.Job_id, C.HRStaff_id, C.Member_id, M.email as member_email, M.fullname as member_fullname, J.name as job_name
+    from CandidateDetails AS C
+    inner join Members M 
+    on C.Member_id = M.id 
+    inner join Jobs J 
+    on J.id = C.Job_id 
+    where C.id = ?`,
     {
       replacements: [`${candidateID}`],
     }
   );
   return result[0];
 };
+
+const updateCandidateProfile = async (reportId, appliedResult) => {
+  console.log("aaaa");
+  const query = `UPDATE hrms.reports as R
+  INNER JOIN hrms.interviews as I
+  ON R.interview_id = I.id
+  INNER JOIN hrms.candidatedetails as C
+  ON C.id = I.CandidateDetail_id
+  INNER JOIN hrms.members as M
+  ON C.Member_id = M.id
+  SET M.is_employee = true  
+  WHERE R.id = ?`;
+  if (appliedResult === "reject") return null;
+  const result = await sequelize.query(query, {
+    type: QueryTypes.UPDATE,
+    replacements: [reportId],
+  });
+  return result;
+};
+
 module.exports = {
   findOne,
   createNewCandidateDetails,
@@ -72,4 +100,5 @@ module.exports = {
   update,
   showAllCandidateDetails,
   getSpecificCandidateById,
+  updateCandidateProfile,
 };

@@ -38,6 +38,12 @@ const handleGetNumCandidatesByRoomWeek = async (req, res, next) => {
     next(error);
   }
 };
+const updateInterview = async (req, res, next) => {
+  try {
+    // interviewService.updateInterviewByID()
+    console.log(req.body);
+  } catch (error) {}
+};
 
 const handleGetAllCandidates = async (req, res, next) => {
   try {
@@ -64,6 +70,7 @@ module.exports = {
   handleGetAllRooms,
   handleGetCandidatesNotInterview,
   handleGetNumCandidatesByRoomWeek,
+  updateInterview,
   handleGetAllCandidates,
   handleCreateNewInterview,
 };
