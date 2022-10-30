@@ -37,10 +37,10 @@ const updateInterviewers = async (interviewId, interviewers) => {
   }
 };
 
-const updateMark = async (interviewId, interviewerId, mark, comment) => {
+const updateMark = async (candidateId, interviewerId, mark, comment) => {
   try {
     const result = await reportRepository.updateMark(
-      interviewId,
+      candidateId,
       interviewerId,
       mark,
       comment

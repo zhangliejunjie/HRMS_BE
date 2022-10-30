@@ -1,6 +1,10 @@
 "use strict";
 
 const {
+  memberStatus,
+  memberStatusDefault,
+} = require("../src/constant/memberStatus.enum");
+const {
   userStatus,
   userStatusDefault,
 } = require("../src/constant/userStatus.enum");
@@ -53,8 +57,8 @@ module.exports = {
       },
       is_employee: {
         allowNull: false,
-        type: Sequelize.BOOLEAN(),
-        defaultValue: false,
+        type: Sequelize.ENUM(memberStatus),
+        defaultValue: memberStatusDefault,
       },
     });
   },

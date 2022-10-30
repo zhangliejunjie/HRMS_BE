@@ -65,10 +65,10 @@ const candidateController = {
   async handleUpdateCandidateProfile(req, res, next) {
     try {
       console.log(req.body);
-      const candidateId = req.body.candidateId;
+      const reportId = req.body.reportId;
       const appliedResult = req.body.result;
       const result = await updateCandidateProfileStatus(
-        candidateId,
+        reportId,
         appliedResult
       );
       return res.json(result);

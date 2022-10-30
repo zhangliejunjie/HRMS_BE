@@ -45,19 +45,20 @@ const showAllStaff = async () => {
   return staffList;
 };
 
+const updateStatus = async (where) => {
+  return (
+
+    await db.Staffs.update({ status: "Inactive" }, {
+      where: where,
+    }
+    )
+  )
+}
 const getAllInterviewers = async () => {
   const query = "SELECT * FROM hrms.staffs WHERE role = 'Interviewer' ";
   return await sequelize.query(query, {
     type: QueryTypes.SELECT,
   });
-};
-const updateStatus = async (where) => {
-  return await db.Staffs.update(
-    { status: "Inactive" },
-    {
-      where: where,
-    }
-  );
 };
 module.exports = {
   findOne,
@@ -66,6 +67,6 @@ module.exports = {
   getStaffById,
   update,
   showAllStaff,
-  getAllInterviewers,
   updateStatus,
+  getAllInterviewers,
 };

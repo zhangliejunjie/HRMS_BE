@@ -33,8 +33,8 @@ const staffController = {
       if (!allStaff) {
         throw new ApiError("Staff khong ton tai");
       }
-      return res.josn(allStaff);
-    } catch (error) {}
+      return res.json(allStaff);
+    } catch (error) { }
   },
 
   async handleGetAllInterviewers(req, res, error) {
