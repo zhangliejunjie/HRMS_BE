@@ -73,16 +73,14 @@ const getSpecificCandidateById = async (candidateID) => {
 };
 
 const updateCandidateProfile = async (candidateID, appliedResult) => {
-  console.log("aaaa");
   const query = `UPDATE hrms.candidatedetails as C
 INNER JOIN hrms.members as M
 ON C.Member_id = M.id
-SET M.is_employee = true
+SET M.is_employee = ?
 WHERE C.id = ?`;
-  if (appliedResult === "reject") return null;
   const result = await sequelize.query(query, {
     type: QueryTypes.UPDATE,
-    replacements: [candidateID],
+    replacements: [appliedResult, candidateID],
   });
   return result;
 };
