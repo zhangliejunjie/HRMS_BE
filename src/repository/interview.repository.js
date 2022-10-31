@@ -114,6 +114,28 @@ WHERE I.week = ? AND I.room = ? AND I.slot = ?`;
   });
 };
 
+const getInterviewByCandidateId = async (candidateId) => {
+  const query = `SELECT * 
+  FROM hrms.interviews as I 
+  WHERE I.candidatedetail_id = ?`;
+  const data = await sequelize.query(query, {
+    type: QueryTypes.SELECT,
+    replacements: [candidateId],
+  });
+  return data;
+};
+
+const updateInterviewByID = async (candidateId, week, room, slot) => {
+  const query = `update hrms.interviews 
+  set week = ?, room = ?, slot = ? 
+  where candidatedetail_id = ?`;
+  const data = await sequelize.query(query, {
+    type: QueryTypes.UPDATE,
+    replacements: [week, room, slot, candidateId],
+  });
+  return data;
+};
+
 module.exports = {
   getInterviews,
   getAllRooms,
@@ -123,4 +145,6 @@ module.exports = {
   getAllCandidates,
   createNewInterview,
   getListCandidatesBySlot,
+  getInterviewByCandidateId,
+  updateInterviewByID,
 };
