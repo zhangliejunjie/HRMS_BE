@@ -1,3 +1,5 @@
+const { QueryTypes } = require("sequelize");
+const { sequelize } = require("../models");
 const db = require("../models");
 // db column name = CandidateDetails
 const findOne = async (where) => {
@@ -8,7 +10,7 @@ const createNewCandidateDetails = async (obj) => {
   //   id: "b32c8efc-381c-4ff8-b82e-ea3b38a50298",
   //   ...obj,
   // };
-  console.log(obj)
+  // console.log(obj)
   const candidate = await db.CandidateDetails.create({
     ...obj,
   });
@@ -53,6 +55,40 @@ const showAllCandidateDetails = async () => {
   candidateDetailList = await db.CandidateDetails.findAll({ raw: true });
   return candidateDetailList;
 };
+const getSpecificCandidateById = async (candidateID) => {
+  const [result] = await sequelize.query(
+    `select 
+        C.id, C.identity_number, C.resume_url, C.phone, C.applied_status, C.dob, C.address, C.Job_id, C.HRStaff_id, C.Member_id, M.email as member_email, M.fullname as member_fullname, J.name as job_name
+    from CandidateDetails AS C
+    inner join Members M 
+    on C.Member_id = M.id 
+    inner join Jobs J 
+    on J.id = C.Job_id 
+    where C.id = ?`,
+    {
+      replacements: [`${candidateID}`],
+    }
+  );
+  return result[0];
+};
+
+const updateCandidateProfile = async (reportId, appliedResult) => {
+  const query = `UPDATE hrms.reports as R
+  INNER JOIN hrms.interviews as I
+  ON R.interview_id = I.id
+  INNER JOIN hrms.candidatedetails as C
+  ON C.id = I.CandidateDetail_id
+  INNER JOIN hrms.members as M
+  ON C.Member_id = M.id
+  SET M.is_employee = ?  
+  WHERE R.id = ?`;
+  const result = await sequelize.query(query, {
+    type: QueryTypes.UPDATE,
+    replacements: [appliedResult, reportId],
+  });
+  return result;
+};
+
 module.exports = {
   findOne,
   createNewCandidateDetails,
@@ -61,4 +97,6 @@ module.exports = {
   getCandidateDetailsById,
   update,
   showAllCandidateDetails,
+  getSpecificCandidateById,
+  updateCandidateProfile,
 };

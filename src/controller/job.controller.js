@@ -39,9 +39,21 @@ const handleUpdateJob = async (req, res, next) => {
   }
 };
 
+const handleGetJobsByCampaignId = async (req, res, next) => {
+  try {
+    const data = req.body;
+    console.log(data.campaignId);
+    const jobs = await jobService.getJobsByCampaignId(data.campaignId);
+    return res.json({ jobs });
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = {
   handleGetAllJob,
   handleCreateNewJob,
   handleDeleteJob,
   handleUpdateJob,
+  handleGetJobsByCampaignId,
 };

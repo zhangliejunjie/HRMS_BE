@@ -1,13 +1,17 @@
 const httpStatus = require("http-status");
 import { ApiError } from "../middleware/apiError";
-import { getStaffByEmail, showAllStaff } from "../repository/staffs.repository";
+import {
+  getStaffByEmail,
+  showAllStaff,
+  getAllInterviewers,
+} from "../repository/staffs.repository";
 import { updateStaffProfile } from "../service/staff.service";
 const staffController = {
   // #TODO: xiu nua authen roi chinh parameter o getStaffByEmail()
   async updateProfile(req, res, next) {
     try {
       const updatedStaff = await updateStaffProfile(req);
-      res.json(updatedStaff);
+      return res.json(updatedStaff);
     } catch (error) {
       next(error);
     }
@@ -18,7 +22,7 @@ const staffController = {
       if (!staff) {
         throw new ApiError(httpStatus.NOT_FOUND, "Staff Not Found");
       }
-      res.json(staff);
+      return res.json(staff);
     } catch (error) {
       next(error);
     }
@@ -26,11 +30,28 @@ const staffController = {
   async getAllStaff(req, res) {
     try {
       const allStaff = await showAllStaff();
-      res.send(allStaff);
       if (!allStaff) {
         throw new ApiError("Staff khong ton tai");
       }
-    } catch (error) {}
+      return res.json(allStaff);
+    } catch (error) { }
+  },
+
+  async handleGetAllInterviewers(req, res, error) {
+    try {
+      const allInterviewers = await getAllInterviewers();
+      return res.json(allInterviewers);
+    } catch (error) {
+      next(error);
+    }
+  },
+  async deleteStaff(req, res, next) {
+    try {
+      const updateStatusStaffToHidden = await updateStaffStatusToHidden(req);
+      return res.json({ message: "Delete successfully" });
+    } catch (error) {
+      next(error);
+    }
   },
 };
 

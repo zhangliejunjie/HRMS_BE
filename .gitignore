@@ -1,4 +1,13 @@
+<<<<<<< HEAD
+<<<<<<< HEAD
 node_modules
+=======
+# node_modules
+>>>>>>> hoa
+=======
+node_modules
+>>>>>>> hoa
 database.json
 config/config.json
 src/dbconnect.js
+node_modules

@@ -1,4 +1,5 @@
 const campaignService = require("../service/campaignService");
+const campaignRepository = require("../repository/campaign.repository");
 
 const handleGetAllCampaign = async (req, res) => {
   let campaigns = await campaignService.getAllCampaign();
@@ -29,9 +30,20 @@ const deleteCampaignV2 = async (req, res, next) => {
     next(error);
   }
 };
+
+const handleGetCampaignById = async (req, res, next) => {
+  try {
+    const id = req.params.id;
+    let campaign = await campaignRepository.getCampaignById(id);
+    return res.json({ campaign });
+  } catch (error) {
+    next(error);
+  }
+};
 module.exports = {
   handleGetAllCampaign,
   handleCreateNewCampaign,
   updateCampaign,
   deleteCampaignV2,
+  handleGetCampaignById,
 };

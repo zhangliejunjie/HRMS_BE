@@ -3,7 +3,6 @@ const db = require("../models");
 import { sequelize } from "../models/index.js";
 require("dotenv").config();
 
-
 const Members = db.Members;
 const findOne = async (where) => {
   return (await Members.findOne({ where: where }))?.dataValues;
@@ -19,10 +18,23 @@ const createNewMember = async (user) => {
 };
 
 const getMemberByEmail = async (email) => {
+  console.log(email);
   return (
     await Members.findOne({
       where: {
         email: email,
+      },
+    })
+  )?.dataValues;
+};
+
+const getMemberByEmailActive = async (email) => {
+  console.log(email);
+  return (
+    await Members.findOne({
+      where: {
+        email: email,
+        status: "Active",
       },
     })
   )?.dataValues;
@@ -33,7 +45,7 @@ const getCodeByEmail = (email) => {
       const [results, metadata] = await sequelize.query(
         `select verified_code from members where email = '${email}'`,
         {
-          type: QueryTypes.SELECT
+          type: QueryTypes.SELECT,
         }
       );
       console.log(results);
@@ -42,15 +54,14 @@ const getCodeByEmail = (email) => {
       reject(error);
     }
   });
-}
+};
 const updateStatus = async (where) => {
-  return (
-
-    await Members.update({ status: "Active" }, {
+  return await Members.update(
+    { status: "Active" },
+    {
       where: where,
     }
-    )
-  )
+  );
 };
 
 const getMemberById = async (memberID) => {
@@ -70,38 +81,48 @@ const update = async (newObj, where) => {
 const showAllMember = async () => {
   let memberList = [];
   memberList = await Members.findAll({ raw: true });
+  console.log(memberList);
   return memberList;
 };
 
-
-const sendMail = async (newMember) => {
-  var nodemailer = require('nodemailer');
+const sendMail = async (email, subject, text) => {
+  var nodemailer = require("nodemailer");
 
   var transporter = nodemailer.createTransport({
-    service: 'gmail',
+    service: "gmail",
     auth: {
       user: process.env.MY_EMAIL,
-      pass: process.env.MY_PASSWORD
-    }
+      pass: process.env.MY_PASSWORD,
+    },
   });
-  // process.env.MY_EMAIL
-  // process.env.MY_PASSWORD
+
   var mailOptions = {
     from: process.env.MY_EMAIL,
-    to: newMember.email,
-    subject: 'Code to verify account',
-    text: `your verify code is: ${newMember.verified_code}`,
+    to: email,
+    subject: subject,
+    text: text,
   };
 
   transporter.sendMail(mailOptions, function (error, info) {
     if (error) {
       console.log(error);
     } else {
-      console.log('Email sent: ' + info.response);
+      console.log("Email sent: " + info.response);
     }
   });
-}
+};
 
+// const updatePass = async (pass, where) => {
+//   console.log(where)
+//   await Members.update(pass, {
+//     where: where
+//   })
+// }
+const updatePass = async (pass, where) => {
+  await Members.update(pass, {
+    where: where,
+  });
+};
 
 module.exports = {
   findOne,
@@ -113,4 +134,7 @@ module.exports = {
   updateStatus,
   getCodeByEmail,
   sendMail,
+  // updatePass
+  updatePass,
+  getMemberByEmailActive,
 };

@@ -1,6 +1,10 @@
 "use strict";
 
 const {
+  memberStatus,
+  memberStatusDefault,
+} = require("../src/constant/memberStatus.enum");
+const {
   userStatus,
   userStatusDefault,
 } = require("../src/constant/userStatus.enum");
@@ -50,7 +54,12 @@ module.exports = {
       verified_code: {
         allowNull: true,
         type: Sequelize.STRING(4),
-      }
+      },
+      is_employee: {
+        allowNull: false,
+        type: Sequelize.ENUM(memberStatus),
+        defaultValue: memberStatusDefault,
+      },
     });
   },
   down: async (queryInterface, Sequelize) => {

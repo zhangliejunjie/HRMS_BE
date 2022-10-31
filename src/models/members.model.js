@@ -5,6 +5,10 @@ const {
   userStatusDefault,
 } = require("../constant/userStatus.enum.js");
 const { v4: uuidv4 } = require("uuid");
+const {
+  memberStatus,
+  memberStatusDefault,
+} = require("../constant/memberStatus.enum.js");
 
 module.exports = (sequelize, DataTypes) => {
   class Members extends Model {
@@ -56,8 +60,13 @@ module.exports = (sequelize, DataTypes) => {
       },
       verified_code: {
         allowNull: true,
-        type: DataTypes.STRING(4)
-      }
+        type: DataTypes.STRING(4),
+      },
+      is_employee: {
+        allowNull: false,
+        type: DataTypes.ENUM(memberStatus),
+        defaultValue: memberStatusDefault,
+      },
     },
     {
       sequelize,

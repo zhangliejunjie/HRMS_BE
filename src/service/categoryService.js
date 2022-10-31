@@ -7,7 +7,7 @@ const getAllCategory = () => {
     try {
       const where = { status: ['Active', 'Inactive'] }
       const category = await categoriesRepository.findAllCate(where);
-      console.log(category)
+      // console.log(category)
       resolve(category);
     } catch (error) {
       reject(error);
