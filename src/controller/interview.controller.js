@@ -65,6 +65,52 @@ const handleCreateNewInterview = async (req, res, next) => {
   }
 };
 
+const handleGetListCandidatesBySlot = async (req, res, next) => {
+  try {
+    const slot = req.body.slot;
+    const room = req.body.room;
+    const week = req.body.week;
+    const candidateList = await interviewService.getListCandidatesBySlot(
+      week,
+      room,
+      slot
+    );
+    res.json(candidateList);
+  } catch (error) {
+    next(error);
+  }
+};
+
+const handleGetInterviewByCandidateId = async (req, res, next) => {
+  try {
+    const candidateId = req.body.candidateId;
+    const result = await interviewService.getInterviewByCandidateId(
+      candidateId
+    );
+    res.json(result);
+  } catch (error) {
+    next(error);
+  }
+};
+
+const handleUpdateInterviewByCampaignId = async (req, res, next) => {
+  try {
+    const week = req.body.week;
+    const room = req.body.room;
+    const slot = req.body.slot;
+    const candidateId = req.body.candidateId;
+    const result = interviewService.updateInterviewByID(
+      candidateId,
+      week,
+      room,
+      slot
+    );
+    res.json(result);
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = {
   handleGetAllInterview,
   handleGetAllRooms,
@@ -73,4 +119,7 @@ module.exports = {
   updateInterview,
   handleGetAllCandidates,
   handleCreateNewInterview,
+  handleGetListCandidatesBySlot,
+  handleGetInterviewByCandidateId,
+  handleUpdateInterviewByCampaignId,
 };
