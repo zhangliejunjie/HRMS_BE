@@ -8,6 +8,7 @@ const {
   handleGetNumCandidatesByRoomWeek,
   handleGetAllCandidates,
   handleCreateNewInterview,
+  handleGetListCandidatesBySlot,
 } = require("../controller/interview.controller");
 
 router.get("/", handleGetAllInterview);
@@ -17,5 +18,6 @@ router.post("/by-room-week", handleGetNumCandidatesByRoomWeek);
 // router.patch("/update");
 router.get("/all-candidates", handleGetAllCandidates);
 router.post("/", handleCreateNewInterview);
+router.post("/candidates-by-slot", handleGetListCandidatesBySlot);
 
 module.exports = router;

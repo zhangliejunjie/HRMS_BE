@@ -65,6 +65,22 @@ const handleCreateNewInterview = async (req, res, next) => {
   }
 };
 
+const handleGetListCandidatesBySlot = async (req, res, next) => {
+  try {
+    const slot = req.body.slot;
+    const room = req.body.room;
+    const week = req.body.week;
+    const candidateList = await interviewService.getListCandidatesBySlot(
+      week,
+      room,
+      slot
+    );
+    res.json(candidateList);
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = {
   handleGetAllInterview,
   handleGetAllRooms,
@@ -73,4 +89,5 @@ module.exports = {
   updateInterview,
   handleGetAllCandidates,
   handleCreateNewInterview,
+  handleGetListCandidatesBySlot,
 };

@@ -61,6 +61,19 @@ const getAllCandidates = async () => {
   }
 };
 
+const getListCandidatesBySlot = async (week, room, slot) => {
+  try {
+    const candidates = await interviewRepository.getListCandidatesBySlot(
+      week,
+      room,
+      slot
+    );
+    return candidates;
+  } catch (error) {
+    throw error;
+  }
+};
+
 module.exports = {
   getAllInterviews,
   getAllRooms,
@@ -69,4 +82,5 @@ module.exports = {
   updateInterviewByID,
   getAllCandidates,
   createNewInterview,
+  getListCandidatesBySlot,
 };
