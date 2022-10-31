@@ -1,3 +1,5 @@
+import httpStatus from "http-status";
+import { ApiError } from "../middleware/apiError";
 import { QueryTypes } from "sequelize";
 import db, { sequelize } from "../models/index.js";
 const Reports = db.Reports;
@@ -45,6 +47,9 @@ const updateMark = async (candidateId, interviewerId, mark, comment) => {
       mark,
       comment
     );
+    if (result[1] == 0) {
+      throw new ApiError(httpStatus.BAD_REQUEST, "Error, Cant update");
+    }
     return result;
   } catch (error) {
     throw error;

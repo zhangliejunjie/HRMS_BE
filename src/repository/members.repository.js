@@ -18,10 +18,23 @@ const createNewMember = async (user) => {
 };
 
 const getMemberByEmail = async (email) => {
+  console.log(email);
   return (
     await Members.findOne({
       where: {
         email: email,
+      },
+    })
+  )?.dataValues;
+};
+
+const getMemberByEmailActive = async (email) => {
+  console.log(email);
+  return (
+    await Members.findOne({
+      where: {
+        email: email,
+        status: "Active",
       },
     })
   )?.dataValues;
@@ -123,4 +136,5 @@ module.exports = {
   sendMail,
   // updatePass
   updatePass,
+  getMemberByEmailActive,
 };

@@ -34,8 +34,7 @@ const memberController = {
         throw new ApiError("Member khong ton tai");
       }
       return res.send(allMember);
-
-    } catch (error) { }
+    } catch (error) {}
   },
 };
 

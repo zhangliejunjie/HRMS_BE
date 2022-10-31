@@ -1,5 +1,6 @@
+const httpStatus = require("http-status");
 const reportService = require("../service/report.service");
-
+import { ApiError } from "../middleware/apiError";
 const handleGetAllReports = async (req, res, next) => {
   try {
     const reports = await reportService.getAllReports();
@@ -45,13 +46,19 @@ const handleUpdateMark = async (req, res, next) => {
     const mark = req.body.mark;
     const interviewId = req.body.interviewId;
     const comment = req.body.comment;
+    if (Number(mark) > 10 || Number(mark) < 0 || mark == null) {
+      throw new ApiError(httpStatus.BAD_REQUEST, "Mark can be from 0 to 10");
+    }
+    if (comment.length === 0 || comment == null) {
+      throw new ApiError(httpStatus.BAD_REQUEST, "Comment must be provide");
+    }
     const result = await reportService.updateMark(
       interviewId,
       interviewerId,
       mark,
       comment
     );
-    return res.json(result);
+    return res.send(result);
   } catch (error) {
     next(error);
   }

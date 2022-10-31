@@ -16,9 +16,11 @@ ON C.Member_id = M.id
 INNER JOIN hrms.jobs as J
 ON J.id = C.Job_id
 GROUP BY R.Interview_id`;
+
   const result = await sequelize.query(query, {
     type: QueryTypes.SELECT,
   });
+
   return result;
 };
 
@@ -40,7 +42,7 @@ WHERE R.interviewer_id = ?`;
   });
 };
 const getAllReportsByInterviewerByStatus = async (interviewerId) => {
-  const queryPending = `SELECT R.id, R.mark, R.comment, R.status, I.room, I.slot, I.week, J.name as job_name, C.phone, C.resume_url, M.fullname
+  const queryPending = `SELECT R.id, R.interview_id, R.mark, R.comment, R.status, I.room, I.slot, I.week, J.name as job_name, C.phone, C.resume_url, M.fullname
 FROM hrms.reports as R
 INNER JOIN hrms.interviews as I
 ON I.id = R.Interview_id
@@ -91,7 +93,7 @@ const updateInterviewers = async (candidateId, interviewers) => {
     interview_id: interviewId,
     interviewer_id: value,
   }));
-  console.log(data);
+
   for (let i = 0; i < data.length; i++) {
     await sequelize.query(query, {
       type: QueryTypes.INSERT,
@@ -104,12 +106,13 @@ const updateInterviewers = async (candidateId, interviewers) => {
 
 const updateMark = async (interviewId, interviewerId, mark, comment) => {
   const query = `UPDATE hrms.reports
-  SET mark = ?, comment = ?
-  WHERE interview_id = ? AND interviewer_id = ?`;
+  SET mark = ?, comment = ?, status ='Done'
+  WHERE interview_id = ? AND interviewer_id = ? `;
   const result = await sequelize.query(query, {
     type: QueryTypes.UPDATE,
     replacements: [mark, comment, interviewId, interviewerId],
   });
+  console.log(result);
   return result;
 };
 
