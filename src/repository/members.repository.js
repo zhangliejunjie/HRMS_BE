@@ -27,6 +27,18 @@ const getMemberByEmail = async (email) => {
     })
   )?.dataValues;
 };
+
+const getMemberByEmailActive = async (email) => {
+  console.log(email);
+  return (
+    await Members.findOne({
+      where: {
+        email: email,
+        status: "Active",
+      },
+    })
+  )?.dataValues;
+};
 const getCodeByEmail = (email) => {
   return new Promise(async (resolve, reject) => {
     try {
@@ -124,4 +136,5 @@ module.exports = {
   sendMail,
   // updatePass
   updatePass,
+  getMemberByEmailActive,
 };

@@ -16,9 +16,11 @@ ON C.Member_id = M.id
 INNER JOIN hrms.jobs as J
 ON J.id = C.Job_id
 GROUP BY R.Interview_id`;
+
   const result = await sequelize.query(query, {
     type: QueryTypes.SELECT,
   });
+
   return result;
 };
 
@@ -91,7 +93,7 @@ const updateInterviewers = async (candidateId, interviewers) => {
     interview_id: interviewId,
     interviewer_id: value,
   }));
-  console.log(data);
+
   for (let i = 0; i < data.length; i++) {
     await sequelize.query(query, {
       type: QueryTypes.INSERT,
@@ -104,12 +106,13 @@ const updateInterviewers = async (candidateId, interviewers) => {
 
 const updateMark = async (interviewId, interviewerId, mark, comment) => {
   const query = `UPDATE hrms.reports
-  SET mark = ?, comment = ?
-  WHERE interview_id = ? AND interviewer_id = ?`;
+  SET mark = ?, comment = ?, status ='Done'
+  WHERE interview_id = ? AND interviewer_id = ? `;
   const result = await sequelize.query(query, {
     type: QueryTypes.UPDATE,
     replacements: [mark, comment, interviewId, interviewerId],
   });
+  console.log(result);
   return result;
 };
 

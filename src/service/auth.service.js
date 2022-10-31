@@ -85,7 +85,7 @@ const comparePassword = async (candidatePassword, hashPassword) => {
 const signInWithEmailPassword = async (email, password) => {
   try {
     // check email
-    const member = await membersRepository.getMemberByEmail(email);
+    const member = await membersRepository.getMemberByEmailActive(email);
     if (!member) {
       throw new ApiError(httpStatus.UNAUTHORIZED, "Sorry Bad Email");
     }
