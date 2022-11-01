@@ -56,9 +56,19 @@ const updateMark = async (candidateId, interviewerId, mark, comment) => {
   }
 };
 
+const getReportByMember = async (memberID) => {
+  try {
+    const report = await reportRepository.getReportByMemberID(memberID);
+    return report;
+  } catch (error) {
+    throw error;
+  }
+};
+
 module.exports = {
   getAllReports,
   getAllReportsByInterviewer,
   updateInterviewers,
   updateMark,
+  getReportByMember,
 };

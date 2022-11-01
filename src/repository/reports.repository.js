@@ -115,11 +115,19 @@ const updateMark = async (interviewId, interviewerId, mark, comment) => {
   console.log(result);
   return result;
 };
-
+const getReportByMemberID = async (memberID) => {
+  const reportQuery = `select CandidateDetail_id as candidate_id, applied_status, room, slot, week, R.status as status, J.name as job_title from CandidateDetails inner join Interviews I on CandidateDetails.id = I.CandidateDetail_id join Reports R on I.id = R.Interview_id join Jobs J on J.id = CandidateDetails.Job_id where CandidateDetail_id = ?`;
+  const result = await sequelize.query(reportQuery, {
+    type: QueryTypes.SELECT,
+    replacements: [memberID],
+  });
+  return result;
+};
 module.exports = {
   getAllReports,
   getAllReportsByInterviewer,
   getAllReportsByInterviewerByStatus,
   updateInterviewers,
   updateMark,
+  getReportByMemberID,
 };

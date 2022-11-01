@@ -9,6 +9,7 @@ const jobRoute = require("./jobs.route.js");
 const candidateRoute = require("./candidate.route");
 const interviewRoute = require("./interview.route");
 const reportRoute = require("./report.route");
+const zoomRoute = require("./zoom.route");
 const router = express.Router();
 
 const routesIndex = [
@@ -51,6 +52,10 @@ const routesIndex = [
   {
     path: "/report",
     route: reportRoute,
+  },
+  {
+    path: "/meeting",
+    route: zoomRoute,
   },
 ];
 
