@@ -12,6 +12,9 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: "CandidateDetail_id",
       });
       Interviews.hasMany(models.Reports, { foreignKey: "Interview_id" });
+      Interviews.belongsTo(models.Rooms, {
+        foreignKey: "room",
+      });
     }
   }
   Interviews.init(
@@ -25,6 +28,10 @@ module.exports = (sequelize, DataTypes) => {
       room: {
         allowNull: false,
         type: DataTypes.STRING(20),
+        references: {
+          model: "Rooms",
+          key: "id",
+        },
       },
       slot: {
         allowNull: false,
