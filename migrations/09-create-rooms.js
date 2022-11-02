@@ -5,20 +5,11 @@ const {
   roomStatus,
   roomStatusDefault,
   roomTypeDefault,
-} = require("../src/constant/room.enum.js");
+} = require("../src/constant/room.enum");
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     await queryInterface.createTable("Rooms", {
-      interview_id: {
-        allowNull: false,
-        type: Sequelize.STRING(36),
-        defaultValue: Sequelize.UUIDV4,
-        references: {
-          model: "Interviews",
-          key: "id",
-        },
-      },
       id: {
         allowNull: false,
         autoIncrement: true,
