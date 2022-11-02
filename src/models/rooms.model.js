@@ -4,7 +4,7 @@ const {
   roomType,
   roomStatus,
   roomStatusDefault,
-} = require("../src/constant/room.enum");
+} = require("../constant/room.enum");
 module.exports = (sequelize, DataTypes) => {
   class Rooms extends Model {
     /**
@@ -19,6 +19,15 @@ module.exports = (sequelize, DataTypes) => {
   }
   Rooms.init(
     {
+      interview_id: {
+        allowNull: false,
+        type: DataTypes.STRING(36),
+        defaultValue: DataTypes.UUIDV4,
+        references: {
+          model: "Interviews",
+          key: "id",
+        },
+      },
       id: {
         allowNull: false,
         autoIncrement: true,

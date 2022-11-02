@@ -4,11 +4,21 @@ const {
   roomType,
   roomStatus,
   roomStatusDefault,
-} = require("../src/constant/room.enum");
+  roomTypeDefault,
+} = require("../src/constant/room.enum.js");
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     await queryInterface.createTable("Rooms", {
+      interview_id: {
+        allowNull: false,
+        type: Sequelize.STRING(36),
+        defaultValue: Sequelize.UUIDV4,
+        references: {
+          model: "Interviews",
+          key: "id",
+        },
+      },
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -38,6 +48,7 @@ module.exports = {
       type: {
         allowNull: false,
         type: Sequelize.ENUM(roomType),
+        default: roomTypeDefault,
       },
       status: {
         allowNull: false,
