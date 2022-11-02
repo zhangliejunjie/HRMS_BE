@@ -39,6 +39,17 @@ const handleUpdateInterviewers = async (req, res, next) => {
     next(error);
   }
 };
+const getReportByMemberID = async (req, res, next) => {
+  try {
+    console.log(req.body.member_id);
+    const reportByMember = await reportService.getReportByMember(
+      req.body.member_id
+    );
+    res.send(reportByMember);
+  } catch (error) {
+    next(error);
+  }
+};
 
 const handleUpdateMark = async (req, res, next) => {
   try {
@@ -69,4 +80,5 @@ module.exports = {
   handleGetAllReportsByInterviewer,
   handleUpdateInterviewers,
   handleUpdateMark,
+  getReportByMemberID,
 };
