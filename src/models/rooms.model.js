@@ -4,7 +4,7 @@ const {
   roomType,
   roomStatus,
   roomStatusDefault,
-} = require("../src/constant/room.enum");
+} = require("../constant/room.enum");
 module.exports = (sequelize, DataTypes) => {
   class Rooms extends Model {
     /**
@@ -57,6 +57,9 @@ module.exports = (sequelize, DataTypes) => {
     },
     {
       sequelize,
+      timestamps: false,
+      createdAt: false,
+      updatedAt: false,
       modelName: "Rooms",
     }
   );
