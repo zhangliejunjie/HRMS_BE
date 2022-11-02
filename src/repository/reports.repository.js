@@ -25,7 +25,9 @@ GROUP BY R.Interview_id`;
 };
 
 const getAllReportsByInterviewer = async (interviewerId) => {
-  const query = `SELECT R.id, R.mark, R.comment, R.status, I.room, I.slot, I.week, J.name as job_name, C.phone, C.resume_url, M.fullname, M.is_employee
+  const query = `SELECT R.id, R.mark, R.comment, R.status, I.room, I.slot, 
+  I.week, J.name as job_name, C.phone, C.resume_url, M.fullname, M.is_employee,
+  RO.zoom_id, RO.start_url, RO.join_url, RO.pwd, RO.type, RO.status
 FROM hrms.reports as R
 INNER JOIN hrms.interviews as I
 ON I.id = R.Interview_id
@@ -35,6 +37,8 @@ INNER JOIN hrms.members as M
 ON C.Member_id = M.id
 INNER JOIN hrms.jobs as J
 ON J.id = C.Job_id
+INNER JOIN hrms.rooms AS RO
+ON RO.id = I.room
 WHERE R.interviewer_id = ?`;
   return await sequelize.query(query, {
     type: QueryTypes.SELECT,
@@ -42,7 +46,9 @@ WHERE R.interviewer_id = ?`;
   });
 };
 const getAllReportsByInterviewerByStatus = async (interviewerId) => {
-  const queryPending = `SELECT R.id, R.interview_id, R.mark, R.comment, R.status, I.room, I.slot, I.week, J.name as job_name, C.phone, C.resume_url, M.fullname
+  const queryPending = `SELECT R.id, R.interview_id, R.mark, R.comment, R.status, 
+  I.room, I.slot, I.week, J.name as job_name, C.phone, C.resume_url, M.fullname,
+  RO.zoom_id, RO.start_url, RO.join_url, RO.pwd, RO.type, RO.status
 FROM hrms.reports as R
 INNER JOIN hrms.interviews as I
 ON I.id = R.Interview_id
@@ -52,8 +58,12 @@ INNER JOIN hrms.members as M
 ON C.Member_id = M.id
 INNER JOIN hrms.jobs as J
 on J.id = C.Job_id
+INNER JOIN hrms.rooms AS RO
+ON RO.id = I.room
 WHERE R.interviewer_id = ? AND R.status = 'Pending'`;
-  const queryDone = `SELECT R.id, R.mark, R.comment, R.status, I.room, I.slot, I.week, J.name as job_name, C.phone, C.resume_url, M.fullname
+  const queryDone = `SELECT R.id, R.mark, R.comment, R.status, 
+  I.room, I.slot, I.week, J.name as job_name, C.phone, C.resume_url, M.fullname,
+  RO.zoom_id, RO.start_url, RO.join_url, RO.pwd, RO.type, RO.status
 FROM hrms.reports as R
 INNER JOIN hrms.interviews as I
 ON I.id = R.Interview_id
@@ -63,6 +73,8 @@ INNER JOIN hrms.members as M
 ON C.Member_id = M.id
 INNER JOIN hrms.jobs as J
 on J.id = C.Job_id
+INNER JOIN hrms.rooms AS RO
+ON RO.id = I.room
 WHERE R.interviewer_id = ? AND R.status = 'Done'`;
   const resPending = sequelize.query(queryPending, {
     type: QueryTypes.SELECT,
