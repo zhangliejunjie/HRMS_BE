@@ -4,6 +4,7 @@ const {
   roomType,
   roomStatus,
   roomStatusDefault,
+  roomTypeDefault,
 } = require("../constant/room.enum");
 module.exports = (sequelize, DataTypes) => {
   class Rooms extends Model {
@@ -48,6 +49,7 @@ module.exports = (sequelize, DataTypes) => {
       type: {
         allowNull: false,
         type: DataTypes.ENUM(roomType),
+        defaultValue: roomTypeDefault,
       },
       status: {
         allowNull: false,

@@ -4,6 +4,7 @@ const {
   roomType,
   roomStatus,
   roomStatusDefault,
+  roomTypeDefault,
 } = require("../src/constant/room.enum");
 
 module.exports = {
@@ -38,6 +39,7 @@ module.exports = {
       type: {
         allowNull: false,
         type: Sequelize.ENUM(roomType),
+        default: roomTypeDefault,
       },
       status: {
         allowNull: false,
