@@ -13,13 +13,16 @@ const handleGetAllReports = async (req, res, next) => {
 const handleGetAllReportsByInterviewer = async (req, res, next) => {
   try {
     const interviewerId = req.body.interviewerId;
-    // console.log("aaaa");
+    // console.log(interviewerId);
     const reports = await reportService.getAllReportsByInterviewer(
       interviewerId
     );
+    const report_pending = [...reports[0], ...reports[1]];
     res.json({
-      report_pending: reports[0],
-      report_done: reports[1],
+      report_pending_offline: reports[0],
+      report_pending_online: reports[1],
+      report_pending,
+      report_done: reports[2],
     });
   } catch (error) {
     next(error);

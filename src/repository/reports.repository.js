@@ -4,7 +4,6 @@ const Reports = db.Reports;
 const { v4: uuidv4 } = require("uuid");
 
 const getAllReports = async () => {
-  
   // const query = "SELECT * FROM hrms.reports";
   const query = `SELECT R.id, AVG(R.mark) as avg_mark, R.comment, J.name as job_name, C.identity_number, C.resume_url, M.fullname, M.is_employee
 FROM hrms.reports as R
@@ -47,9 +46,8 @@ WHERE R.interviewer_id = ?`;
   });
 };
 const getAllReportsByInterviewerByStatus = async (interviewerId) => {
-  const queryPending = `SELECT R.id, R.interview_id, R.mark, R.comment, R.status, 
-  I.room, I.slot, I.week, J.name as job_name, C.phone, C.resume_url, M.fullname,
-  RO.zoom_id, RO.start_url, RO.join_url, RO.pwd, RO.type, RO.status
+  const queryPendingOffline = `SELECT R.id, R.interview_id, R.mark, R.comment, R.status,
+  I.room, I.slot, I.type as interview_type, I.week, J.name as job_name, C.phone, C.resume_url, M.fullname,M.email as email, M.avatar as avatar
 FROM hrms.reports as R
 INNER JOIN hrms.interviews as I
 ON I.id = R.Interview_id
@@ -59,12 +57,22 @@ INNER JOIN hrms.members as M
 ON C.Member_id = M.id
 INNER JOIN hrms.jobs as J
 on J.id = C.Job_id
-INNER JOIN hrms.rooms AS RO
-ON RO.id = I.room
-WHERE R.interviewer_id = ? AND R.status = 'Pending'`;
+WHERE R.interviewer_id = ? AND R.status = 'Pending' AND I.type = 'Offline'`;
+  const queryPendingOnline = `SELECT R.id, R.interview_id, R.mark, R.comment, R.status,
+  I.room, I.slot, I.week, I.type as interview_type, J.name as job_name, C.phone, C.resume_url, M.fullname, M.email as email, M.avatar as avatar,
+       R2.join_url, R2.topic
+FROM hrms.reports as R
+INNER JOIN hrms.interviews as I
+ON I.id = R.Interview_id
+INNER JOIN hrms.candidatedetails as C
+ON I.CandidateDetail_id = C.id
+INNER JOIN hrms.members as M
+ON C.Member_id = M.id
+INNER JOIN hrms.jobs as J
+on J.id = C.Job_id inner join Rooms R2 on I.id = R2.Interview_id
+WHERE R.interviewer_id = ? AND R.status = 'Pending' AND I.type = 'Online'`;
   const queryDone = `SELECT R.id, R.mark, R.comment, R.status, 
-  I.room, I.slot, I.week, J.name as job_name, C.phone, C.resume_url, M.fullname,
-  RO.zoom_id, RO.start_url, RO.join_url, RO.pwd, RO.type, RO.status
+  I.room, I.slot, I.week, J.name as job_name, C.phone, C.resume_url, M.fullname
 FROM hrms.reports as R
 INNER JOIN hrms.interviews as I
 ON I.id = R.Interview_id
@@ -74,10 +82,12 @@ INNER JOIN hrms.members as M
 ON C.Member_id = M.id
 INNER JOIN hrms.jobs as J
 on J.id = C.Job_id
-INNER JOIN hrms.rooms AS RO
-ON RO.id = I.room
 WHERE R.interviewer_id = ? AND R.status = 'Done'`;
-  const resPending = sequelize.query(queryPending, {
+  const resPendingOffline = sequelize.query(queryPendingOffline, {
+    type: QueryTypes.SELECT,
+    replacements: [interviewerId],
+  });
+  const resPendingOnline = sequelize.query(queryPendingOnline, {
     type: QueryTypes.SELECT,
     replacements: [interviewerId],
   });
@@ -85,7 +95,7 @@ WHERE R.interviewer_id = ? AND R.status = 'Done'`;
     type: QueryTypes.SELECT,
     replacements: [interviewerId],
   });
-  return Promise.all([resPending, resDone]);
+  return Promise.all([resPendingOffline, resPendingOnline, resDone]);
 };
 
 const updateInterviewers = async (candidateId, interviewers) => {

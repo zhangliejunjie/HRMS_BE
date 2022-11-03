@@ -2,7 +2,6 @@ import httpStatus from "http-status";
 import { ApiError } from "../middleware/apiError";
 import { QueryTypes } from "sequelize";
 import db, { sequelize } from "../models/index.js";
-const Reports = db.Reports;
 const reportRepository = require("../repository/reports.repository");
 
 const getAllReports = async () => {

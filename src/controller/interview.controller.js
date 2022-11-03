@@ -57,7 +57,7 @@ const handleGetAllCandidates = async (req, res, next) => {
 const handleCreateNewInterview = async (req, res, next) => {
   try {
     const data = req.body;
-    console.log(data);
+    // console.log("create interview" + data);
     const createNewInterview = await interviewService.createNewInterview(data);
     res.json(createNewInterview);
   } catch (error) {

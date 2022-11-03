@@ -3,6 +3,8 @@
 const {
   interviewStatus,
   interviewStatusDefault,
+  interviewType,
+  interviewTypeDefault,
 } = require("../src/constant/interviewStatus.enum.js");
 
 module.exports = {
@@ -17,6 +19,11 @@ module.exports = {
       room: {
         allowNull: false,
         type: Sequelize.INTEGER,
+      },
+      type: {
+        allowNull: false,
+        type: Sequelize.ENUM(interviewType),
+        defaultValue: interviewTypeDefault,
       },
       // start_time: {
       //   allowNull: false,

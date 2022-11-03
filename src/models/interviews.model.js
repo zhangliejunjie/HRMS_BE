@@ -3,6 +3,8 @@ const { Model } = require("sequelize");
 const {
   interviewStatus,
   interviewStatusDefault,
+  interviewType,
+  interviewTypeDefault,
 } = require("../constant/interviewStatus.enum.js");
 module.exports = (sequelize, DataTypes) => {
   class Interviews extends Model {
@@ -32,6 +34,11 @@ module.exports = (sequelize, DataTypes) => {
           model: "Rooms",
           key: "id",
         },
+      },
+      type: {
+        allowNull: false,
+        type: DataTypes.ENUM(interviewType),
+        defaultValue: interviewTypeDefault,
       },
       slot: {
         allowNull: false,

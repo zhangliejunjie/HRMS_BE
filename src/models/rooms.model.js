@@ -15,11 +15,20 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      Rooms.hasMany(models.Interviews, { foreignKey: "room" });
+      Rooms.belongsTo(models.Interviews, { foreignKey: "Interview_id" });
     }
   }
   Rooms.init(
     {
+      Interview_id: {
+        allowNull: false,
+        type: DataTypes.UUID,
+        defaultValue: DataTypes.STRING(36),
+        references: {
+          model: "Interviews",
+          key: "id",
+        },
+      },
       id: {
         allowNull: false,
         autoIncrement: true,
