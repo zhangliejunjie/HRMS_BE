@@ -10,15 +10,6 @@ const {
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     await queryInterface.createTable("Rooms", {
-      Interview_id: {
-        allowNull: false,
-        type: Sequelize.STRING(36),
-        defaultValue: Sequelize.UUIDV4,
-        references: {
-          model: "Interviews",
-          key: "id",
-        },
-      },
       id: {
         allowNull: false,
         autoIncrement: true,
