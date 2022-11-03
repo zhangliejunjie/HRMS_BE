@@ -139,11 +139,18 @@ const updateMark = async (interviewId, interviewerId, mark, comment) => {
   return result;
 };
 const getReportByMemberID = async (memberID) => {
-  const reportQuery = `select CandidateDetail_id as candidate_id, applied_status, room, slot, week, R.status as status, J.name as job_title from CandidateDetails inner join Interviews I on CandidateDetails.id = I.CandidateDetail_id join Reports R on I.id = R.Interview_id join Jobs J on J.id = CandidateDetails.Job_id where CandidateDetail_id = ?`;
-  const result = await sequelize.query(reportQuery, {
+  const reportQuery = `select CandidateDetail_id as candidate_id, I.type, applied_status, room, slot, week, R.status as status, J.name as job_title from CandidateDetails inner join Interviews I on CandidateDetails.id = I.CandidateDetail_id join Reports R on I.id = R.Interview_id join Jobs J on J.id = CandidateDetails.Job_id where CandidateDetail_id = ?`;
+  const reportOnlineQuery = `select CandidateDetail_id as candidate_id, I.type, applied_status, room, slot, week, R.status as status, J.name as job_title, R2.join_url, R2.pwd from CandidateDetails inner join Interviews I on CandidateDetails.id = I.CandidateDetail_id join Reports R on I.id = R.Interview_id join Jobs J on J.id = CandidateDetails.Job_id inner join Rooms R2 on I.id = R2.Interview_id where CandidateDetail_id = ?`;
+  let result = await sequelize.query(reportQuery, {
     type: QueryTypes.SELECT,
     replacements: [memberID],
   });
+  if (result[0].type === "Online") {
+    result = await sequelize.query(reportOnlineQuery, {
+      type: QueryTypes.SELECT,
+      replacements: [memberID],
+    });
+  }
   return result;
 };
 module.exports = {
