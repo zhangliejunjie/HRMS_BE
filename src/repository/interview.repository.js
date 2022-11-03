@@ -83,13 +83,14 @@ const getAllCandidates = async () => {
 };
 
 const createNewInterview = async (data) => {
-  console.log(data);
-  return await Interviews.create({
+  const res = await Interviews.create({
     CandidateDetail_id: data.candidateId,
+    type: data.type,
     room: data.room,
     slot: data.slot,
     week: data.week,
   });
+  return res.dataValues;
   // const query =
   //   "INSERT INTO hrms.interviews (id, room, slot, week, status, CandidateDetail_id) VALUES (DEFAULT, ?, ?, ?, DEFAULT, ?)";
   // return await sequelize.query(query, {
