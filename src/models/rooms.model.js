@@ -20,6 +20,15 @@ module.exports = (sequelize, DataTypes) => {
   }
   Rooms.init(
     {
+      Interview_id: {
+        allowNull: false,
+        type: DataTypes.UUID,
+        defaultValue: DataTypes.STRING(36),
+        references: {
+          model: "Interviews",
+          key: "id",
+        },
+      },
       id: {
         allowNull: false,
         autoIncrement: true,
