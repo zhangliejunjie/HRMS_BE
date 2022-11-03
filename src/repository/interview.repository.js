@@ -38,8 +38,16 @@ const getNumCandidatesByRoomWeek = async (week) => {
 
   // gererate result
   const result = [];
+  const getNumRoomsQuery = `SELECT MAX(i.room) AS numRooms
+  FROM hrms.interviews AS i`;
 
-  for (let room = 1; room <= 9; room++) {
+  const data = await sequelize.query(getNumRoomsQuery, {
+    type: QueryTypes.SELECT,
+  });
+
+  const numRooms = data[0].numRooms;
+
+  for (let room = 1; room <= numRooms; room++) {
     const data = await sequelize.query(query, {
       replacements: [room, week],
       type: QueryTypes.SELECT,
@@ -100,7 +108,19 @@ const createNewInterview = async (data) => {
 };
 
 const getListCandidatesBySlot = async (week, room, slot) => {
-  const query = `SELECT M.fullname, J.name, M.email, M.address, M.phone
+  const onlineQuery = `SELECT M.fullname, J.name, M.email, M.address, M.phone, RO.start_url
+FROM hrms.interviews as I
+INNER JOIN hrms.candidatedetails as C
+ON I.candidatedetail_id = C.id
+INNER JOIN hrms.members as M
+ON C.member_id = M.id
+INNER JOIN hrms.jobs as J
+ON C.Job_id = J.id
+INNER JOIN hrms.rooms AS RO
+ON I.id = RO.interview_id
+WHERE I.week = ? AND I.room = ? AND I.slot = ?`;
+
+  const offlineQuery = `SELECT M.fullname, J.name, M.email, M.address, M.phone
 FROM hrms.interviews as I
 INNER JOIN hrms.candidatedetails as C
 ON I.candidatedetail_id = C.id
@@ -109,7 +129,7 @@ ON C.member_id = M.id
 INNER JOIN hrms.jobs as J
 ON C.Job_id = J.id
 WHERE I.week = ? AND I.room = ? AND I.slot = ?`;
-  return await sequelize.query(query, {
+  return await sequelize.query(room == 9 ? onlineQuery : offlineQuery, {
     type: QueryTypes.SELECT,
     replacements: [week, room, slot],
   });
