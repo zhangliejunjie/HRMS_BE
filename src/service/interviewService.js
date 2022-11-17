@@ -56,13 +56,9 @@ const getAllCandidates = async () => {
   }
 };
 
-const getListCandidatesBySlot = async (week, room, slot) => {
+const getListCandidatesBySlot = async (data) => {
   try {
-    const candidates = await interviewRepository.getListCandidatesBySlot(
-      week,
-      room,
-      slot
-    );
+    const candidates = await interviewRepository.getListCandidatesBySlot(data);
     return candidates;
   } catch (error) {
     throw error;
@@ -80,14 +76,15 @@ const getInterviewByCandidateId = async (candidateId) => {
   }
 };
 
-const updateInterviewByID = async (candidateId, week, room, slot) => {
+const updateInterviewByID = async (candidateId, date, room, slot) => {
   try {
     const result = await interviewRepository.updateInterviewByID(
       candidateId,
-      week,
+      date,
       room,
       slot
     );
+    return result;
   } catch (error) {
     throw error;
   }
@@ -103,5 +100,4 @@ module.exports = {
   createNewInterview,
   getListCandidatesBySlot,
   getInterviewByCandidateId,
-  updateInterviewByID,
 };

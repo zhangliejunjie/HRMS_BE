@@ -67,14 +67,8 @@ const handleCreateNewInterview = async (req, res, next) => {
 
 const handleGetListCandidatesBySlot = async (req, res, next) => {
   try {
-    const slot = req.body.slot;
-    const room = req.body.room;
-    const week = req.body.week;
-    const candidateList = await interviewService.getListCandidatesBySlot(
-      week,
-      room,
-      slot
-    );
+    const data = req.body;
+    const candidateList = await interviewService.getListCandidatesBySlot(data);
     res.json(candidateList);
   } catch (error) {
     next(error);
@@ -95,13 +89,13 @@ const handleGetInterviewByCandidateId = async (req, res, next) => {
 
 const handleUpdateInterviewByCampaignId = async (req, res, next) => {
   try {
-    const week = req.body.week;
+    const date = req.body.date;
     const room = req.body.room;
     const slot = req.body.slot;
     const candidateId = req.body.candidateId;
     const result = interviewService.updateInterviewByID(
       candidateId,
-      week,
+      date,
       room,
       slot
     );

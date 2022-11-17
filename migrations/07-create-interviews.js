@@ -37,9 +37,9 @@ module.exports = {
         allowNull: false,
         type: Sequelize.INTEGER,
       },
-      week: {
+      date: {
         allowNull: false,
-        type: Sequelize.INTEGER,
+        type: Sequelize.DATE,
       },
       status: {
         allowNull: false,

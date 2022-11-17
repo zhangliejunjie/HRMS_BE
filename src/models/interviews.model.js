@@ -44,9 +44,9 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
         type: DataTypes.INTEGER,
       },
-      week: {
+      date: {
         allowNull: false,
-        type: DataTypes.INTEGER,
+        type: DataTypes.DATE,
       },
       status: {
         allowNull: false,
