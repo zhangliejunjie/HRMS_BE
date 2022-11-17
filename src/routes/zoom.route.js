@@ -20,7 +20,7 @@ router.get("/createMeeting", (req, res) => {
     method: "POST",
     uri: "https://api.zoom.us/v2/users/" + email + "/meetings",
     body: {
-      topic: "Zoom Meeting Using Node JS", //meeting title
+      topic: req.body.topic, //meeting title
       type: 1,
       settings: {
         host_video: "true",

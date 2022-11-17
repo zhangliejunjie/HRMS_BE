@@ -60,16 +60,6 @@ module.exports = {
         type: Sequelize.ENUM(memberStatus),
         defaultValue: memberStatusDefault,
       },
-      other_resume: {
-        allowNull: true,
-        type: Sequelize.TEXT,
-        get() {
-          return this.getDataValue("other_resume").split(";");
-        },
-        set(val) {
-          this.setDataValue("other_resume", val.join(";"));
-        },
-      },
     });
   },
   down: async (queryInterface, Sequelize) => {
